@@ -1,15 +1,16 @@
 import requestClient from 'services/requestClient'
 
-type OtpResponse = {
+export type OtpResponse = {
   data: {
+    phone: string
     hash: string
   }
 }
 
 export type LoginResponseType = {
   data: {
-    access: string
-    refresh: string
+    accessToken: string
+    refreshToken: string
   }
 }
 
@@ -19,9 +20,18 @@ export default class LoginService {
       phone,
     })
   }
-  static sendOtp(otp: string, hash: string): Promise<LoginResponseType> {
+  static sendOtp({
+    otp,
+    hash,
+    phone,
+  }: {
+    otp: string
+    hash: string
+    phone: string
+  }): Promise<LoginResponseType> {
     return requestClient.post('/users/verify/', {
       otp,
+      phone,
       hash,
     })
   }

@@ -13,7 +13,7 @@ export interface PageLoginProps {
 }
 
 export const loginUser = (response: LoginResponseType) => {
-  setToken(response?.data.access, response?.data.refresh)
+  setToken(response?.data.accessToken, response?.data.refreshToken)
   window.location.pathname = '/'
 }
 
@@ -22,14 +22,21 @@ const Otp: FC<PageLoginProps> = ({ className = '' }: PageLoginProps) => {
   const [errors, setErrors] = useState({ phone: '' })
   const [isDisabled, setIsDisabled] = useState(false)
 
-  const { state: locationState } = useLocation<{ hash: string }>()
+  const { state: locationState } = useLocation<{
+    hash: string
+    phone: string
+  }>()
 
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (Object.values(errors).join('') !== '') setErrors({ phone: '' })
 
     setIsDisabled(true)
-    const response = await LoginService.sendOtp(phone, locationState.hash)
+    const response = await LoginService.sendOtp({
+      phone: locationState.phone,
+      hash: locationState.hash,
+      otp: phone,
+    })
       .catch(error => {
         if (error.response.status === 500) {
           toast.error('Incorrect OTP')
@@ -38,7 +45,7 @@ const Otp: FC<PageLoginProps> = ({ className = '' }: PageLoginProps) => {
       })
       .finally(() => setIsDisabled(false))
 
-    if (response?.data?.access) {
+    if (response?.data?.accessToken) {
       loginUser(response)
     }
   }

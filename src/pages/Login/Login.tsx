@@ -2,19 +2,13 @@ import React, { FC, FormEvent, useState } from 'react'
 
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 
-import LoginService, { LoginResponseType } from 'services/login'
-import { setToken } from 'utils/tokenHandlers'
+import LoginService from 'services/login'
 import toast from 'react-hot-toast'
 import InputWithHelper from 'components/shared/InputWithHelper'
 import { useHistory } from 'react-router'
 
 export interface PageLoginProps {
   className?: string
-}
-
-export const loginUser = (response: LoginResponseType) => {
-  setToken(response?.data.access, response?.data.refresh)
-  window.location.pathname = '/'
 }
 
 const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
@@ -34,6 +28,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
         .then(response =>
           history.push('/otp', {
             hash: response.data.hash,
+            phone: phone,
           }),
         )
         .catch(error => {
