@@ -2,6 +2,7 @@ import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
+import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 //
 import 'react-dates/initialize'
 import 'react-dates/lib/css/_datepicker.css'
@@ -39,3 +40,4 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals()
+serviceWorkerRegistration.register()

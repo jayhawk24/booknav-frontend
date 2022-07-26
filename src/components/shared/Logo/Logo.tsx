@@ -15,7 +15,6 @@ const Logo: React.FC<LogoProps> = ({ className = '' }) => {
       className={`ttnc-logo inline-block text-primary-6000 ${className}`}
     >
       <LogoSVG />
-      <h1>Book Boats</h1>
     </Link>
   )
 }
