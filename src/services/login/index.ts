@@ -8,10 +8,9 @@ export type LoginResponseType = {
 }
 
 export default class LoginService {
-  static login(email: string, password: string): Promise<LoginResponseType> {
-    return requestClient.post('/api/system-users/token/login/', {
-      email,
-      password,
+  static login(phone: string): Promise<LoginResponseType> {
+    return requestClient.post('/users/otp/', {
+      phone,
     })
   }
 }

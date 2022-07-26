@@ -1,7 +1,6 @@
 import { lazy } from 'react'
 
 const Login = lazy(() => import('pages/Login'))
-const Register = lazy(() => import('pages/Register'))
 
 const ForgotPass = lazy(() => import('pages/ForgotPass'))
 const Logout = lazy(() => import('pages/Logout'))
@@ -17,11 +16,6 @@ export const nonProtectedRoutes = [
   {
     path: '/logout',
     component: Logout,
-    exact: true,
-  },
-  {
-    path: '/register',
-    component: Register,
     exact: true,
   },
   {
