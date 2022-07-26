@@ -2,7 +2,9 @@ import axios from 'axios'
 import { clearAllTokens, getToken, setToken } from 'utils/tokenHandlers'
 
 const requestClient = axios.create({
-  baseURL: 'http://127.0.0.1:8000',
+  baseURL: process.env.REACT_APP_BACKEND_DEV_API_URL
+    ? 'http://' + process.env.REACT_APP_BACKEND_DEV_API_URL
+    : 'https://' + process.env.REACT_APP_BACKEND_API_URL,
   headers: {
     Authorization: `${localStorage.getItem('access')}`,
   },
