@@ -1,6 +1,7 @@
-import { Popover, Transition } from '@headlessui/react'
-import Input from 'components/shared/Input/Input'
 import React, { Fragment } from 'react'
+import { Popover, Transition } from '@headlessui/react'
+
+import Input from 'components/shared/Input/Input'
 
 const SearchDropdown = () => {
   const inputRef = React.createRef<HTMLInputElement>()

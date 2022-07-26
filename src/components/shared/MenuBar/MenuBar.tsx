@@ -1,13 +1,13 @@
-import React, { useState, Fragment, useEffect } from 'react'
+import React, { useState, Fragment } from 'react'
 import { Transition, Dialog } from '@headlessui/react'
 import NavMobile from 'components/shared/Navigation/NavMobile'
 
 const MenuBar: React.FC = () => {
   const [isVisable, setIsVisable] = useState(false)
 
-  useEffect(() => {
-    setIsVisable(false)
-  }, [window.location.pathname])
+  // useEffect(() => {
+  //   setIsVisable(false)
+  // }, [window.location.pathname])
 
   const handleOpenMenu = () => setIsVisable(true)
   const handleCloseMenu = () => setIsVisable(false)

@@ -5,12 +5,14 @@ import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import SocialsList from 'components/shared/SocialList/SocialList'
 import SwitchDarkMode from 'components/shared/SwitchDarkMode/SwitchDarkMode'
 import { NavItemType } from './NavTypes'
+import useUser from 'hooks/useUser'
 
 export interface NavMobileProps {
   data?: NavItemType[]
   onClickClose?: () => void
 }
 const NavMobile: React.FC<NavMobileProps> = ({ onClickClose }) => {
+  const { data: user } = useUser()
   return (
     <div className="overflow-y-auto w-full max-w-sm h-screen py-2 transition transform shadow-lg ring-1 dark:ring-neutral-700 bg-white dark:bg-neutral-900 divide-y-2 divide-neutral-100 dark:divide-neutral-800">
       <div className="py-6 px-5">
@@ -33,9 +35,11 @@ const NavMobile: React.FC<NavMobileProps> = ({ onClickClose }) => {
         </span>
       </div>
       <div className="flex items-center justify-between py-6 px-5 space-x-4">
-        <a href="/#" target="_blank" rel="noopener noreferrer">
-          <ButtonPrimary>Get Template</ButtonPrimary>
-        </a>
+        {user ? (
+          <ButtonPrimary href="/add-listing/1">List your Yacht</ButtonPrimary>
+        ) : (
+          <ButtonPrimary href="/login">Login / Sign Up</ButtonPrimary>
+        )}
       </div>
     </div>
   )
