@@ -6,7 +6,7 @@ import LoginService, { LoginResponseType } from 'services/login'
 import { setToken } from 'utils/tokenHandlers'
 import toast from 'react-hot-toast'
 import InputWithHelper from 'components/shared/InputWithHelper'
-import { useHistory } from 'react-router'
+import { useLocation } from 'react-router'
 
 export interface PageLoginProps {
   className?: string
@@ -17,45 +17,37 @@ export const loginUser = (response: LoginResponseType) => {
   window.location.pathname = '/'
 }
 
-const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
+const Otp: FC<PageLoginProps> = ({ className = '' }: PageLoginProps) => {
   const [phone, setPhone] = useState('')
   const [errors, setErrors] = useState({ phone: '' })
   const [isDisabled, setIsDisabled] = useState(false)
 
-  const history = useHistory()
+  const { state: locationState } = useLocation<{ hash: string }>()
 
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (Object.values(errors).join('') !== '') setErrors({ phone: '' })
 
     setIsDisabled(true)
-    toast.promise(
-      LoginService.login(phone)
-        .then(response =>
-          history.push('/otp', {
-            hash: response.data.hash,
-          }),
-        )
-        .catch(error => {
-          if (error.response.status === 500) {
-            toast.error('No active account found with the given credentials')
-          }
-          setErrors(error.response.data)
-        })
-        .finally(() => setIsDisabled(false)),
-      {
-        loading: 'Sending OTP...',
-        success: 'OTP sent successfully',
-        error: 'Error sending OTP',
-      },
-    )
+    const response = await LoginService.sendOtp(phone, locationState.hash)
+      .catch(error => {
+        if (error.response.status === 500) {
+          toast.error('Incorrect OTP')
+        }
+        setErrors(error.response.data)
+      })
+      .finally(() => setIsDisabled(false))
+
+    if (response?.data?.access) {
+      loginUser(response)
+    }
   }
 
   return (
     <div className={`nc-PageLogin ${className}`} data-nc-id="PageLogin">
       <div className="container mb-24 lg:mb-32">
         <h2 className="my-20 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 dark:text-neutral-100 justify-center">
-          Login
+          Enter OTP
         </h2>
         <div className="max-w-md mx-auto space-y-6">
           <form
@@ -66,7 +58,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
           >
             <label className="block">
               <span className="text-neutral-800 dark:text-neutral-200">
-                Phone
+                OTP
               </span>
               <InputWithHelper
                 type="number"
@@ -88,4 +80,4 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
   )
 }
 
-export default PageLogin
+export default Otp
