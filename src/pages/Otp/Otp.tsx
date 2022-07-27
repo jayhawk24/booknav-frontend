@@ -1,11 +1,9 @@
 import React, { FC, FormEvent, useState } from 'react'
-
+import AuthCode from 'react-auth-code-input'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
-
 import LoginService, { LoginResponseType } from 'services/login'
 import { setToken } from 'utils/tokenHandlers'
 import toast from 'react-hot-toast'
-import InputWithHelper from 'components/shared/InputWithHelper'
 import { useLocation } from 'react-router'
 
 export interface PageLoginProps {
@@ -18,8 +16,8 @@ export const loginUser = (response: LoginResponseType) => {
 }
 
 const Otp: FC<PageLoginProps> = ({ className = '' }: PageLoginProps) => {
-  const [phone, setPhone] = useState('')
-  const [errors, setErrors] = useState({ phone: '' })
+  const [otp, setOtp] = useState('')
+  const [errors, setErrors] = useState({ otp: '' })
   const [isDisabled, setIsDisabled] = useState(false)
 
   const { state: locationState } = useLocation<{
@@ -29,18 +27,16 @@ const Otp: FC<PageLoginProps> = ({ className = '' }: PageLoginProps) => {
 
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (Object.values(errors).join('') !== '') setErrors({ phone: '' })
+    if (Object.values(errors).join('') !== '') setErrors({ otp: '' })
 
     setIsDisabled(true)
     const response = await LoginService.sendOtp({
       phone: locationState.phone,
       hash: locationState.hash,
-      otp: phone,
+      otp,
     })
       .catch(error => {
-        if (error.response.status === 500) {
-          toast.error('Incorrect OTP')
-        }
+        toast.error('Incorrect OTP')
         setErrors(error.response.data)
       })
       .finally(() => setIsDisabled(false))
@@ -52,9 +48,9 @@ const Otp: FC<PageLoginProps> = ({ className = '' }: PageLoginProps) => {
 
   return (
     <div className={`nc-PageLogin ${className}`} data-nc-id="PageLogin">
-      <div className="container mb-24 lg:mb-32">
+      <div className="container h-full">
         <h2 className="my-20 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 dark:text-neutral-100 justify-center">
-          Enter OTP
+          Verification Code
         </h2>
         <div className="max-w-md mx-auto space-y-6">
           <form
@@ -67,14 +63,10 @@ const Otp: FC<PageLoginProps> = ({ className = '' }: PageLoginProps) => {
               <span className="text-neutral-800 dark:text-neutral-200">
                 OTP
               </span>
-              <InputWithHelper
-                type="number"
-                placeholder="1234567890"
-                className="mt-1"
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  setPhone(event.target.value)
-                }
-                helperText={errors.phone}
+              <AuthCode
+                containerClassName="grid grid-cols-6 gap-2 mt-5"
+                onChange={code => setOtp(code)}
+                inputClassName={`block text-center w-full border-neutral-200 focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 bg-white dark:border-neutral-700 dark:focus:ring-primary-6000 dark:focus:ring-opacity-25 dark:bg-neutral-900 rounded-2xl text-sm font-normal h-11 px-4 py-3`}
               />
             </label>
             <ButtonPrimary type="submit" disabled={isDisabled}>

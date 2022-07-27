@@ -24,10 +24,10 @@ const Listings: FC = () => {
         <div className="flex justify-between">
           <div>
             <h2 className="text-2xl font-semibold">
-              {user?.name.split(' ')[0]}&apos;s listings
+              {user?.title.split(' ')[0]}&apos;s listings
             </h2>
             <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
-              {user?.name.split(' ')[0]}&apos;s listings are very rich.
+              {user?.title.split(' ')[0]}&apos;s listings are very rich.
             </span>
           </div>
           <ButtonSecondary href="/add-listing/1">New Boat</ButtonSecondary>

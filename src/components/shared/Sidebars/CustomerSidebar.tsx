@@ -35,5 +35,5 @@ export const CustomerSidebar = () => {
     },
   ]
 
-  return <SidebarContainer title={user?.name} links={links} />
+  return <SidebarContainer title={user?.title} links={links} />
 }

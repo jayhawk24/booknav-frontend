@@ -9,7 +9,7 @@ import {
 } from '@heroicons/react/outline'
 import { Fragment } from 'react'
 import Avatar from 'components/shared/Avatar'
-import useUser, { logoutUser } from 'hooks/useUser'
+import { logoutUser } from 'hooks/useUser'
 import { NavLink } from 'react-router-dom'
 
 const solutions = [
@@ -50,16 +50,6 @@ const solutionsFoot = [
 ]
 
 export default function AvatarDropdown() {
-  const { data: user } = useUser()
-
-  user?.groups.includes('Yacht Owner') &&
-    solutions.length < 5 &&
-    solutions.push({
-      name: 'Listings',
-      href: '/listings',
-      icon: HomeIcon,
-    })
-
   return (
     <div className="AvatarDropdown">
       <Popover className="relative">

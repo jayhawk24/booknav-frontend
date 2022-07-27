@@ -46,14 +46,16 @@ function MainRouter() {
 
   return (
     <BrowserRouter>
-      <Header />
-      <Switch>
-        {isLogin && protectedRoutes}
-        {isLogin && redirects}
-        {!isLogin && nonProtectedRoutes}
-        {!isLogin && <Redirect exact from="/" to="/login" />}
-        <Route key={0} component={Page404} />
-      </Switch>
+      <div style={{ height: 'calc(100vh)' }}>
+        <Header />
+        <Switch>
+          {isLogin && protectedRoutes}
+          {isLogin && redirects}
+          {!isLogin && nonProtectedRoutes}
+          {!isLogin && <Redirect exact from="/" to="/login" />}
+          <Route key={0} component={Page404} />
+        </Switch>
+      </div>
       <Footer />
     </BrowserRouter>
   )

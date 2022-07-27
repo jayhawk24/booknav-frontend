@@ -26,5 +26,5 @@ export const OwnerSidebar = () => {
     { name: 'Profile', pathname: '/account/profile' },
   ]
 
-  return <SidebarContainer title={user?.name} links={links} />
+  return <SidebarContainer title={user?.title} links={links} />
 }

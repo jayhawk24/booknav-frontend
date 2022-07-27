@@ -4,28 +4,14 @@ import { clearAllTokens } from 'utils/tokenHandlers'
 
 export type UserType = {
   id: number
-  last_login: string | null
-  created_at: string
-  modified_at: string
-  name: string
-  email: string
-  mobile_number: MobileType | null
-  is_mobile_number_verified: boolean
-  is_email_verified: boolean
-  is_active: boolean
-  groups: string[]
-  picture: string | null
-  country: string | null
-  city: string | null
-}
-
-type MobileType = {
-  national_number: string
-  country_code: string
+  phone: string
+  email?: string
+  title: string
+  picture?: string
 }
 
 const getUser = async (): Promise<UserType> => {
-  const { data } = await requestClient.get('/api/system-users/view-profile/')
+  const { data } = await requestClient.get('/users/me/')
   return data
 }
 
