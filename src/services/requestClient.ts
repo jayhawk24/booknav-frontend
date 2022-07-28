@@ -32,20 +32,17 @@ requestClient.interceptors.response.use(
   async function (error) {
     const originalRequest = error.config
 
-    if (error.response?.data?.code === 'token_not_valid') {
-      if (error.response?.data.detail === 'Token is invalid or expired') {
+    if (error.response?.status === 401) {
+      if (error.response?.data?.message === 'Refresh token expired') {
         //refresh token expired
         clearAllTokens()
         return
       }
       originalRequest._retry = true
-      const response = await requestClient.post(
-        '/api/system-users/token/refresh/',
-        {
-          refresh: getToken('refresh'),
-        },
-      )
-      setToken(response.data.access)
+      const response = await requestClient.post('/users/refresh/', {
+        refresh: getToken('refresh'),
+      })
+      setToken(response.data.accessToken)
       return requestClient(originalRequest)
     }
 

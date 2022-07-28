@@ -4,7 +4,7 @@ import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import LoginService, { LoginResponseType } from 'services/login'
 import { setToken } from 'utils/tokenHandlers'
 import toast from 'react-hot-toast'
-import { useHistory, useLocation } from 'react-router'
+import { useLocation } from 'react-router'
 import { ReactComponent as OtpSvg } from '../../images/undraw_forgot_password_re_hxwm.svg'
 
 export interface PageLoginProps {
@@ -29,7 +29,6 @@ const Otp: FC<PageLoginProps> = ({ className = '' }: PageLoginProps) => {
     [],
   )
 
-  const history = useHistory()
   const { state: locationState } = useLocation<{
     hash: string
     phone: string

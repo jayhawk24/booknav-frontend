@@ -58,7 +58,7 @@ export default function AvatarDropdown() {
             <Popover.Button
               className={`inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
             >
-              <Avatar sizeClass="w-8 h-8 sm:w-9 sm:h-9" />
+              <Avatar radius="rounded-xl" sizeClass="w-10 h-10 sm:w-9 sm:h-9" />
             </Popover.Button>
             <Transition
               as={Fragment}

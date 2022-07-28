@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
-import Logo from 'components/shared/Logo/Logo'
+// import Logo from 'components/shared/Logo/Logo'
 import SwitchDarkMode from 'components/shared/SwitchDarkMode/SwitchDarkMode'
 import SearchDropdown from './SearchDropdown'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import MenuBar from 'components/shared/MenuBar/MenuBar'
 import useUser from 'hooks/useUser'
-import NotifyDropdown from './NotifyDropdown'
+// import NotifyDropdown from './NotifyDropdown'
 import AvatarDropdown from './AvatarDropdown'
 
 const Header = () => {
@@ -33,6 +33,31 @@ const Header = () => {
     }
   }
 
+  const { data: user } = useUser()
+  const { pathname } = useLocation()
+
+  const head = () => {
+    switch (pathname) {
+      case '/':
+        return (
+          <p>
+            {`Hi ${user?.title},`}
+            <p>
+              Find Best Boats
+              {`\u{1F44D}`}
+            </p>
+          </p>
+        )
+      case '/boats':
+        return 'My Boats'
+      case '/rides':
+        return 'My Rides'
+      default:
+        'Booknaav'
+        break
+    }
+  }
+
   return (
     <div
       id="nc-chifis-header"
@@ -48,7 +73,8 @@ const Header = () => {
           {!data ? (
             <>
               <div className="flex justify-start flex-grow items-center space-x-4 sm:space-x-10 2xl:space-x-14">
-                <Logo />
+                {/* <Logo /> */}
+                <span className="font-extrabold text-lg">{head()}</span>
               </div>
               <div className="flex-shrink-0 flex items-center justify-end text-neutral-700 dark:text-neutral-100 space-x-1">
                 <div className="hidden items-center xl:flex space-x-1">
@@ -67,7 +93,8 @@ const Header = () => {
           ) : (
             <>
               <div className="flex justify-start flex-grow items-center space-x-3 sm:space-x-8 lg:space-x-10">
-                <Logo />
+                <span className="font-extrabold text-lg">{head()}</span>
+                {/* <Logo /> */}
               </div>
               <div className="flex-shrink-0 flex items-center justify-end text-neutral-700 dark:text-neutral-100 space-x-1">
                 <div className="hidden items-center xl:flex space-x-1">
@@ -81,13 +108,13 @@ const Header = () => {
                   </Link>
 
                   <SwitchDarkMode />
-                  <NotifyDropdown />
+                  {/* <NotifyDropdown /> */}
                   <AvatarDropdown />
                 </div>
                 <div className="flex items-center space-x-4 xl:hidden">
-                  <NotifyDropdown />
+                  {/* <NotifyDropdown /> */}
                   <AvatarDropdown />
-                  <MenuBar />
+                  {/* <MenuBar /> */}
                 </div>
               </div>
             </>
