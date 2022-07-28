@@ -1,7 +1,7 @@
 import React, { FC, FormEvent, useState } from 'react'
 
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
-
+import { ReactComponent as LoginSvg } from '../../images/undraw_mobile_login_re_9ntv.svg'
 import LoginService from 'services/login'
 import toast from 'react-hot-toast'
 import InputWithHelper from 'components/shared/InputWithHelper'
@@ -49,10 +49,11 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
   return (
     <div className={`nc-PageLogin ${className}`} data-nc-id="PageLogin">
       <div className="container mb-24 lg:mb-32">
-        <h2 className="my-20 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 dark:text-neutral-100 justify-center">
+        <h2 className="my-10 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 dark:text-neutral-100 justify-center">
           Login
         </h2>
         <div className="max-w-md mx-auto space-y-6">
+          <LoginSvg height="200px" width="100%" />
           <form
             className="grid grid-cols-1 gap-6"
             action="#"
