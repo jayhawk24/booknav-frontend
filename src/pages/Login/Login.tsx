@@ -23,27 +23,26 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
     if (Object.values(errors).join('') !== '') setErrors({ phone: '' })
 
     setIsDisabled(true)
-    toast.promise(
-      LoginService.login(phone)
-        .then(response =>
-          history.push('/otp', {
-            hash: response.data.hash,
-            phone: phone,
-          }),
-        )
-        .catch(error => {
-          if (error.response.status === 500) {
-            toast.error('No active account found with the given credentials')
-          }
-          setErrors(error.response.data)
-        })
-        .finally(() => setIsDisabled(false)),
-      {
+    toast
+      .promise(LoginService.login(phone), {
         loading: 'Sending OTP...',
         success: 'OTP sent successfully',
         error: 'Error sending OTP',
-      },
-    )
+      })
+      .then(response =>
+        history.push('/otp', {
+          hash: response.data.hash,
+          phone: phone,
+        }),
+      )
+      .catch(error => {
+        if (error?.response?.status === 406) {
+          toast.error(error.response.data.message)
+          return history.push('/register')
+        }
+        setErrors(error.response.data)
+      })
+      .finally(() => setIsDisabled(false))
   }
 
   return (
