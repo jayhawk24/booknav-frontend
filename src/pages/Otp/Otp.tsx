@@ -78,6 +78,9 @@ const Otp: FC<PageLoginProps> = ({ className = '' }: PageLoginProps) => {
         success: 'OTP sent successfully',
         error: 'Error sending OTP',
       })
+      .then(response => {
+        locationState.hash = response.data.hash
+      })
       .finally(() => setIsDisabled({ ...isDisabled, request: false }))
   }
 
