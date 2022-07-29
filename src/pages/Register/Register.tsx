@@ -33,7 +33,7 @@ const Register: FC<PageSignUpProps> = ({ className = '' }) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const phoneNumber = phoneCode + ' ' + phone
+    const phoneNumber = '+' + phoneCode + phone
 
     setDisabled(true)
     const register = RegisterService.register(name, phoneNumber, 'user')

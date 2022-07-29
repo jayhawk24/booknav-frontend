@@ -24,7 +24,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
 
     setIsDisabled(true)
     toast
-      .promise(LoginService.login('91 ' + phone), {
+      .promise(LoginService.login('+91' + phone), {
         loading: 'Sending OTP...',
         success: 'OTP sent successfully',
         error: 'Error sending OTP',
@@ -32,7 +32,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
       .then(response =>
         history.push('/otp', {
           hash: response.data.hash,
-          phone: '91 ' + phone,
+          phone: '+91' + phone,
         }),
       )
       .catch(error => {

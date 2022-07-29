@@ -60,6 +60,7 @@ const Otp: FC<PageLoginProps> = ({ className = '' }: PageLoginProps) => {
     })
       .catch(error => {
         toast.error('Incorrect OTP')
+        setOtp('')
         setErrors(error.response.data)
       })
       .finally(() => setIsDisabled({ ...isDisabled, otp: false }))

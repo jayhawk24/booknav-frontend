@@ -8,8 +8,8 @@ export const CustomerSidebar = () => {
 
   const links: SidbarLinkType[] = [
     {
-      name: 'Dashboard',
-      pathname: '/dashboard',
+      name: 'Account',
+      pathname: '/account',
     },
     {
       name: 'Messages',
