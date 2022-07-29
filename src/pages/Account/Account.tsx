@@ -31,7 +31,6 @@ const Account: FC<AccountPageProps> = ({ className = '' }) => {
   useEffect(() => {
     setName(user?.title || '')
     setPicture(user?.picture || '')
-    console.log(picture) // temporary
   }, [user])
 
   const handleUpdateInfo = async (e: FormEvent) => {
@@ -41,7 +40,7 @@ const Account: FC<AccountPageProps> = ({ className = '' }) => {
     setIsDisabled(true)
 
     const formData = new FormData()
-    formData.append('name', name)
+    formData.append('title', name)
     if (file) formData.append('picture', file)
 
     toast
@@ -61,14 +60,20 @@ const Account: FC<AccountPageProps> = ({ className = '' }) => {
   }
 
   return (
-    <div className={`nc-AccountPage ${className}`} data-nc-id="AccountPage">
+    <div
+      className={`nc-AccountPage ${className} container`}
+      data-nc-id="AccountPage"
+    >
       <div className="space-y-6 sm:space-y-8">
         {/* HEADING */}
-        <h2 className="text-3xl font-semibold">General infomation</h2>
         <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
         <form onSubmit={handleUpdateInfo} method="post">
           <div className="flex flex-col md:flex-row">
-            <ImageUpload title="Change picture" setFile={setFile} />
+            <ImageUpload
+              title="Change picture"
+              setFile={setFile}
+              imgUrl={picture}
+            />
             <div className="flex-grow mt-10 md:mt-0 md:pl-16 max-w-3xl space-y-6">
               <div>
                 <Label>Name</Label>
@@ -80,6 +85,16 @@ const Account: FC<AccountPageProps> = ({ className = '' }) => {
                       setName(e.target.value)
                     }
                     helperText={error.name}
+                  />
+                }
+              </div>
+              <div>
+                <Label>Phone</Label>
+                {
+                  <InputWithHelper
+                    className="mt-1.5"
+                    value={user?.phone}
+                    disabled
                   />
                 }
               </div>

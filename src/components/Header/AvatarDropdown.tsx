@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/outline'
 import { Fragment } from 'react'
 import Avatar from 'components/shared/Avatar'
-import { logoutUser } from 'hooks/useUser'
+import useUser, { logoutUser } from 'hooks/useUser'
 import { NavLink } from 'react-router-dom'
 
 const solutions = [
@@ -43,6 +43,8 @@ const solutionsFoot = [
 ]
 
 export default function AvatarDropdown() {
+  const { data: user } = useUser()
+
   return (
     <div className="AvatarDropdown">
       <Popover className="relative">
@@ -51,7 +53,11 @@ export default function AvatarDropdown() {
             <Popover.Button
               className={`inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
             >
-              <Avatar radius="rounded-xl" sizeClass="w-10 h-10 sm:w-9 sm:h-9" />
+              <Avatar
+                userName={user?.title}
+                radius="rounded-xl"
+                sizeClass="w-10 h-10 sm:w-9 sm:h-9"
+              />
             </Popover.Button>
             <Transition
               as={Fragment}

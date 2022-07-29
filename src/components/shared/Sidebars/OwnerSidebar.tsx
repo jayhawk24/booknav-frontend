@@ -23,7 +23,7 @@ export const OwnerSidebar = () => {
 
     { name: 'Listings', pathname: '/listings' },
 
-    { name: 'Profile', pathname: '/account/profile' },
+    { name: 'Profile', pathname: '/account' },
   ]
 
   return <SidebarContainer title={user?.title} links={links} />

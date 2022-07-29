@@ -1,9 +1,7 @@
 import { lazy } from 'react'
 
 const Logout = lazy(() => import('pages/Logout'))
-const UpdateEmail = lazy(() => import('pages/UpdateEmail'))
 const Account = lazy(() => import('pages/Account'))
-const AccountProfile = lazy(() => import('pages/AccountProfile'))
 const EditListingGeneral = lazy(
   () => import('pages/EditListing/EditListingGeneral'),
 )
@@ -30,25 +28,10 @@ export const protectedRoutes = [
     exact: true,
   },
   {
-    name: 'account-basic',
-    path: '/account/general',
+    name: 'account',
+    path: '/account',
     component: Account,
     exact: true,
-    // roles: [ROLES.CUSTOMER,ROLES.OWNER]
-  },
-  {
-    name: 'account-profile',
-    path: '/account/profile',
-    component: AccountProfile,
-    exact: true,
-    // // roles: [ROLES.CUSTOMER,ROLES.OWNER]
-  },
-  {
-    name: 'update-email',
-    path: '/update-email',
-    component: UpdateEmail,
-    exact: true,
-    // // roles: [ROLES.CUSTOMER,ROLES.OWNER]
   },
   {
     name: 'add-listing-1',

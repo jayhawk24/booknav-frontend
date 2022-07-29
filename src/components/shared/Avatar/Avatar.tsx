@@ -16,7 +16,7 @@ const Avatar: FC<AvatarProps> = ({
   containerClassName = 'ring-1 ring-white dark:ring-neutral-900',
   sizeClass = 'h-6 w-6 text-sm',
   radius = 'rounded-full',
-  imgUrl = 'https://images.unsplash.com/photo-1639628735078-ed2f038a193e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80',
+  imgUrl = '',
   userName,
   hasChecked,
   hasCheckedClass = 'w-4 h-4 -top-0.5 -right-0.5',

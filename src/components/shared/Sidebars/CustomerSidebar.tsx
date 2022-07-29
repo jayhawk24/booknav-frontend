@@ -26,8 +26,7 @@ export const CustomerSidebar = () => {
     },
     {
       name: 'Profile',
-      pathname: '/account/general',
-      activeLinks: ['/account/profile'],
+      pathname: '/account',
     },
     {
       name: 'Logout',

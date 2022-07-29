@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { RefObject, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 // import Logo from 'components/shared/Logo/Logo'
@@ -9,6 +9,7 @@ import MenuBar from 'components/shared/MenuBar/MenuBar'
 import useUser from 'hooks/useUser'
 // import NotifyDropdown from './NotifyDropdown'
 import AvatarDropdown from './AvatarDropdown'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const Header = () => {
   const [isTop, setisTop] = useState(true)
@@ -48,6 +49,8 @@ const Header = () => {
             </p>
           </p>
         )
+      case '/account':
+        return 'Account Details'
       case '/boats':
         return 'My Boats'
       case '/rides':
@@ -57,6 +60,8 @@ const Header = () => {
         break
     }
   }
+
+  const [parentRef] = useAutoAnimate()
 
   return (
     <div
@@ -93,8 +98,12 @@ const Header = () => {
           ) : (
             <>
               <div className="flex justify-start flex-grow items-center space-x-3 sm:space-x-8 lg:space-x-10">
-                <span className="font-extrabold text-lg">{head()}</span>
-                {/* <Logo /> */}
+                <span
+                  ref={parentRef as RefObject<HTMLSpanElement>}
+                  className="font-extrabold text-lg"
+                >
+                  {head()}
+                </span>
               </div>
               <div className="flex-shrink-0 flex items-center justify-end text-neutral-700 dark:text-neutral-100 space-x-1">
                 <div className="hidden items-center xl:flex space-x-1">

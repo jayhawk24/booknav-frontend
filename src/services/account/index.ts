@@ -12,29 +12,7 @@ export default class accountService {
       mobile_number,
     })
   }
-  static updatePassword(
-    new_password: string,
-    current_password: string,
-  ): Promise<GenericResponseType> {
-    return requestClient.put('/api/system-users/change-password/', {
-      new_password,
-      current_password,
-    })
-  }
-  static updateEmail(email: string): Promise<GenericResponseType> {
-    return requestClient.post('/api/system-users/request-email-change/', {
-      email,
-    })
-  }
   static updateGeneralInfo(formData: FormData): Promise<GenericResponseType> {
-    return requestClient.post(
-      '/api/system-users/update-basic-profile/',
-      formData,
-    )
-  }
-  static verifyUpdateEmail(token: string): Promise<GenericResponseType> {
-    return requestClient.put(
-      `/api/system-users/verify-update-email?token=${token}`,
-    )
+    return requestClient.put('/users/me/', formData)
   }
 }

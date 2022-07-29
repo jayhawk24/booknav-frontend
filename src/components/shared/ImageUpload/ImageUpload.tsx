@@ -11,11 +11,7 @@ const ImageUpload = ({ imgUrl, setFile, title }: Props) => {
   return (
     <div className="flex-shrink-0 flex items-start">
       <div className="relative rounded-full overflow-hidden flex">
-        <Avatar
-          sizeClass="w-32 h-32"
-          imgUrl={imgUrl}
-          // imgUrl="https://images.unsplash.com/photo-1528154291023-a6525fabe5b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
-        />
+        <Avatar sizeClass="w-32 h-32" imgUrl={imgUrl} userName={title} />
         <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center text-neutral-50 cursor-pointer">
           <svg
             width="30"

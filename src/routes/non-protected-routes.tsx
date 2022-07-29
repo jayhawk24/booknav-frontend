@@ -5,7 +5,6 @@ const Register = lazy(() => import('pages/Register'))
 const ForgotPass = lazy(() => import('pages/ForgotPass'))
 const Logout = lazy(() => import('pages/Logout'))
 const ResetPassword = lazy(() => import('pages/ResetPassword/ResetPassword'))
-const VerifyEmail = lazy(() => import('pages/VerifyEmail'))
 const Otp = lazy(() => import('pages/Otp'))
 
 export const nonProtectedRoutes = [
@@ -22,11 +21,6 @@ export const nonProtectedRoutes = [
   {
     path: '/register',
     component: Register,
-    exact: true,
-  },
-  {
-    path: '/verify-email',
-    component: VerifyEmail,
     exact: true,
   },
   {
