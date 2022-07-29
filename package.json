@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
+    "@formkit/auto-animate": "^1.0.0-beta.1",
     "@glidejs/glide": "^3.4.1",
     "@greatsumini/react-facebook-login": "^3.0.0",
     "@headlessui/react": "^1.4.2",

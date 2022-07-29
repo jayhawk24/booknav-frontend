@@ -43,7 +43,6 @@ function MainRouter() {
   if (!isFetched) {
     return <FallbackComponent />
   }
-
   return (
     <BrowserRouter>
       <div style={{ height: 'calc(100vh)' }}>

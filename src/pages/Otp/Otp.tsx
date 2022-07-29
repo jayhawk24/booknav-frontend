@@ -30,8 +30,8 @@ const Otp: FC<PageLoginProps> = ({ className = '' }: PageLoginProps) => {
   )
 
   const { state: locationState } = useLocation<{
-    hash: string
-    phone: string
+    hash?: string
+    phone?: string
   }>()
 
   useEffect(() => {
@@ -54,8 +54,8 @@ const Otp: FC<PageLoginProps> = ({ className = '' }: PageLoginProps) => {
 
     setIsDisabled({ ...isDisabled, otp: true })
     const response = await LoginService.sendOtp({
-      phone: locationState.phone,
-      hash: locationState.hash,
+      phone: locationState?.phone || '',
+      hash: locationState?.hash || '',
       otp,
     })
       .catch(error => {
@@ -73,7 +73,7 @@ const Otp: FC<PageLoginProps> = ({ className = '' }: PageLoginProps) => {
     setIsDisabled({ ...isDisabled, request: true })
     resetTimer()
     toast
-      .promise(LoginService.login(locationState.phone), {
+      .promise(LoginService.login(locationState?.phone || ''), {
         loading: 'Resending OTP...',
         success: 'OTP sent successfully',
         error: 'Error sending OTP',

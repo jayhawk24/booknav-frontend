@@ -3,7 +3,7 @@ import React, { FC, FormEvent, useState } from 'react'
 // import googleSvg from 'images/Google.svg'
 import Input from 'components/shared/Input/Input'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import Label from 'components/shared/Label/Label'
 import RegisterService from 'services/register'
 import toast from 'react-hot-toast'
@@ -16,9 +16,13 @@ export interface PageSignUpProps {
 }
 
 const Register: FC<PageSignUpProps> = ({ className = '' }) => {
+  const { state: locationState } = useLocation<{
+    phone?: string
+  }>()
+
   const [name, setName] = useState('')
   const [phoneCode, setPhoneCode] = useState('91')
-  const [phone, setPhone] = useState('')
+  const [phone, setPhone] = useState(locationState?.phone || '')
   const [error, setError] = useState({
     name: '',
     mobile_number: '',
@@ -45,7 +49,6 @@ const Register: FC<PageSignUpProps> = ({ className = '' }) => {
       })
       .catch(error => {
         const data = error.response.data
-        //Todo add types
         setError(data)
         setDisabled(false)
         throw error
