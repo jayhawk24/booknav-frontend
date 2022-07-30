@@ -32,7 +32,7 @@ const ResetPassword = ({ className }: PageSignUpProps) => {
     toast
       .promise(forgotPassService.resetPass(token, password), {
         loading: 'Resetting password...',
-        success: response => response.data.msg,
+        success: response => response.data.message,
         error: 'Error resetting password',
       })
       .then(() => {

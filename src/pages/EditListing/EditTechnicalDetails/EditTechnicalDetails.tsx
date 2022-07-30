@@ -45,8 +45,8 @@ const EditListingDescription = () => {
         }),
         {
           loading: 'Updating ...',
-          success: response => response.data.msg,
-          error: error => error.response.data.msg,
+          success: response => response.data.message,
+          error: error => error.response.data.message,
         },
       )
       .finally(() => setDisabled(false))

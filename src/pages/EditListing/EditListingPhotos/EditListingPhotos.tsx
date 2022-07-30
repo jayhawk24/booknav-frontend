@@ -21,7 +21,7 @@ const EditListingPhotos = () => {
       toast.promise(
         EditPhotosService.uploadPhoto({ yachtId, image: formData }),
         {
-          success: response => response.data.msg,
+          success: response => response.data.message,
           loading: 'Uploading...',
           error: error => error.response.data.image,
         },

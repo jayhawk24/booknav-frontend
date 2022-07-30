@@ -40,8 +40,8 @@ const EditListingPrice = () => {
         }),
         {
           loading: 'Updating...',
-          success: response => response.data.msg,
-          error: error => error.response.data.msg,
+          success: response => response.data.message,
+          error: error => error.response.data.message,
         },
       )
       .finally(() => setDisabled(false))
@@ -58,7 +58,7 @@ const EditListingPrice = () => {
         }),
         {
           loading: 'Updating...',
-          success: response => response.data.msg,
+          success: response => response.data.message,
           error: "Can't update advance notice",
         },
       )

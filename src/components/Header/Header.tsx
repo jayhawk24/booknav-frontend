@@ -10,6 +10,7 @@ import useUser from 'hooks/useUser'
 // import NotifyDropdown from './NotifyDropdown'
 import AvatarDropdown from './AvatarDropdown'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { ArrowLeftIcon } from '@heroicons/react/solid'
 
 const Header = () => {
   const [isTop, setisTop] = useState(true)
@@ -98,6 +99,12 @@ const Header = () => {
           ) : (
             <>
               <div className="flex justify-start flex-grow items-center space-x-3 sm:space-x-8 lg:space-x-10">
+                {pathname !== '/' && (
+                  <ArrowLeftIcon
+                    className="h-5 w-5 cursor-pointer"
+                    onClick={() => history.back()}
+                  />
+                )}
                 <span
                   ref={parentRef as RefObject<HTMLSpanElement>}
                   className="font-extrabold text-lg"

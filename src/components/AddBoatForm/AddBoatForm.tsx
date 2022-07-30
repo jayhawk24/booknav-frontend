@@ -98,7 +98,7 @@ const AddBoatForm = ({ saved, yachtId }: Props) => {
   const addCity = async (name: string) => {
     toast
       .promise(AddBoatService.addCity(name), {
-        success: response => response.msg,
+        success: response => response.message,
         loading: 'Adding city...',
         error: error => error.response.data.name,
       })
@@ -107,7 +107,7 @@ const AddBoatForm = ({ saved, yachtId }: Props) => {
   const addHarbour = async (name: string) => {
     toast
       .promise(AddBoatService.addHarbour({ cityId: city.id, name }), {
-        success: response => response.msg,
+        success: response => response.message,
         loading: 'Adding harbour...',
         error: error => error.response.data.name,
       })
@@ -116,7 +116,7 @@ const AddBoatForm = ({ saved, yachtId }: Props) => {
   const addManufacturer = async (name: string) => {
     toast
       .promise(AddBoatService.addManufacturer(name), {
-        success: response => response.msg,
+        success: response => response.message,
         loading: 'Adding manufacturer...',
         error: error => error.response.data.name,
       })
@@ -127,7 +127,7 @@ const AddBoatForm = ({ saved, yachtId }: Props) => {
       .promise(
         AddBoatService.addModel({ name, manufacturerId: manufacturer.id }),
         {
-          success: response => response.msg,
+          success: response => response.message,
           loading: 'Adding model...',
           error: error => error.response.data.name,
         },
@@ -160,7 +160,7 @@ const AddBoatForm = ({ saved, yachtId }: Props) => {
     if (saved && yachtId) {
       toast
         .promise(UpdateBoatService.updateBoat(yachtId, formData), {
-          success: response => response.data.msg,
+          success: response => response.data.message,
           loading: 'Updating boat...',
           error: "Can't update boat",
         })
@@ -171,7 +171,7 @@ const AddBoatForm = ({ saved, yachtId }: Props) => {
     } else {
       toast
         .promise(AddBoatService.addBoat(formData), {
-          success: response => response.data.msg,
+          success: response => response.data.message,
           loading: 'Adding boat...',
           error: "Can't add boat",
         })

@@ -28,7 +28,7 @@ const ImageUpload = ({ imgUrl, setFile, title }: Props) => {
               strokeLinejoin="round"
             />
           </svg>
-          <span className="mt-1 text-xs">{title || 'Add Image'}</span>
+          <span className="mt-1 text-xs">Add Image</span>
         </div>
         <input
           type="file"

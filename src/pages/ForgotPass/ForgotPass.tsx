@@ -25,7 +25,7 @@ const ForgotPass: FC<PageSignUpProps> = ({ className = '' }) => {
     toast
       .promise(register, {
         loading: 'Working on it...',
-        success: response => response.data.msg,
+        success: response => response.data.message,
         error: error => error.response.data.email,
       })
       .then(() => setDisabled(false))

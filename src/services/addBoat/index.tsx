@@ -12,12 +12,12 @@ export type MetaResponseType<T> = {
   data: T[]
 }
 export type AddMetaResponseType<T> = {
-  msg: string
+  message: string
   data: T
 }
 export type AddBoatResponseType = {
   data: {
-    msg: string
+    message: string
     data: Yacht
   }
 }

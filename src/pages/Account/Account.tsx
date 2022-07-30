@@ -41,12 +41,13 @@ const Account: FC<AccountPageProps> = ({ className = '' }) => {
 
     const formData = new FormData()
     formData.append('title', name)
+    console.log(file)
     if (file) formData.append('picture', file)
 
     toast
       .promise(accountService.updateGeneralInfo(formData), {
         loading: 'Updating...',
-        success: response => response.data.msg,
+        success: response => response.data.message,
         error: 'Error updating info',
       })
       .then(() => {
@@ -67,10 +68,10 @@ const Account: FC<AccountPageProps> = ({ className = '' }) => {
       <div className="space-y-6 sm:space-y-8">
         {/* HEADING */}
         <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
-        <form onSubmit={handleUpdateInfo} method="post">
+        <form onSubmit={handleUpdateInfo} encType="multipart/form-data">
           <div className="flex flex-col md:flex-row">
             <ImageUpload
-              title="Change picture"
+              title={user?.title}
               setFile={setFile}
               imgUrl={picture}
             />
