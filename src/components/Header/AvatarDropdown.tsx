@@ -11,29 +11,6 @@ import Avatar from 'components/shared/Avatar'
 import useUser, { logoutUser } from 'hooks/useUser'
 import { NavLink } from 'react-router-dom'
 
-const solutions = [
-  {
-    name: 'Account',
-    href: '/account',
-    icon: UserCircleIcon,
-  },
-  {
-    name: 'Messages',
-    href: '/messages',
-    icon: AnnotationIcon,
-  },
-  {
-    name: 'Wishlists',
-    href: '/account-savelists',
-    icon: HeartIcon,
-  },
-  {
-    name: 'Bookings',
-    href: '/bookings',
-    icon: HomeIcon,
-  },
-]
-
 const solutionsFoot = [
   {
     name: 'Logout',
@@ -45,6 +22,32 @@ const solutionsFoot = [
 export default function AvatarDropdown() {
   const { data: user } = useUser()
 
+  const solutions = [
+    {
+      name: 'Account',
+      href: '/account',
+      icon: UserCircleIcon,
+    },
+    {
+      name: 'Messages',
+      href: '/messages',
+      icon: AnnotationIcon,
+    },
+    ...(user?.role === 'admin'
+      ? [
+          {
+            name: 'Ghats',
+            href: '/ghats',
+            icon: HeartIcon,
+          },
+        ]
+      : []),
+    {
+      name: 'Bookings',
+      href: '/bookings',
+      icon: HomeIcon,
+    },
+  ]
   return (
     <div className="AvatarDropdown">
       <Popover className="relative">
@@ -55,6 +58,7 @@ export default function AvatarDropdown() {
             >
               <Avatar
                 userName={user?.title}
+                imgUrl={user?.picture}
                 radius="rounded-xl"
                 sizeClass="w-10 h-10 sm:w-9 sm:h-9"
               />

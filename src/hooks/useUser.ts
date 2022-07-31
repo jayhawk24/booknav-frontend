@@ -5,7 +5,7 @@ import { clearAllTokens } from 'utils/tokenHandlers'
 export type UserType = {
   id: number
   phone: string
-  email?: string
+  role: string
   title: string
   picture?: string
 }
