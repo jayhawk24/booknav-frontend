@@ -1,6 +1,7 @@
 import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import useGhats from 'hooks/useGhats'
-import React, { useEffect } from 'react'
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const GhatList = () => {
   const { data } = useGhats()
@@ -8,7 +9,9 @@ const GhatList = () => {
   return (
     <div className="container mb-24 lg:mb-32" style={{ minHeight: '60vh' }}>
       <div className="w-full text-center">
-        <ButtonSecondary>Add Ghat</ButtonSecondary>
+        <ButtonSecondary>
+          <Link to="/ghats/addghat">Add Ghat</Link>{' '}
+        </ButtonSecondary>
         <div className="flex flex-col">
           <div className="w-full">
             <div className="border-b border-gray-200 shadow">

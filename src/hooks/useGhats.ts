@@ -2,9 +2,9 @@ import { useQuery } from 'react-query'
 import requestClient from 'services/requestClient'
 
 export type GhatType = {
-  name: string
+  title: string
   description?: string
-  image?: string
+  picture?: string
 }
 
 const getGhats = async (): Promise<GhatType> => {

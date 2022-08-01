@@ -23,6 +23,8 @@ const Listings = lazy(() => import('pages/Listings/Listings'))
 
 const GhatList = lazy(() => import('pages/GhatsList/GhatList'))
 
+const AddGhatForm = lazy(() => import('components/AddGhatForm/AddGhatForm'))
+
 export const protectedRoutes = [
   {
     path: '/', // this is temporary component
@@ -85,6 +87,12 @@ export const protectedRoutes = [
     name: 'ghats-list',
     path: '/ghats',
     component: GhatList,
+    exact: true,
+  },
+  {
+    name: 'ghat-form',
+    path: '/ghats/addghat',
+    component: AddGhatForm,
     exact: true,
   },
 ]
