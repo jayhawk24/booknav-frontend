@@ -54,6 +54,8 @@ const Header = () => {
         return 'Account Details'
       case '/boats':
         return 'My Boats'
+      case '/ghats':
+        return 'My Ghats'
       case '/rides':
         return 'My Rides'
       default:

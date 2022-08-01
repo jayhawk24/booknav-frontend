@@ -21,6 +21,8 @@ const EditTechnicalDetails = lazy(
 )
 const Listings = lazy(() => import('pages/Listings/Listings'))
 
+const GhatList = lazy(() => import('pages/GhatsList/GhatList'))
+
 export const protectedRoutes = [
   {
     path: '/', // this is temporary component
@@ -77,6 +79,12 @@ export const protectedRoutes = [
   {
     path: '/logout',
     component: Logout,
+    exact: true,
+  },
+  {
+    name: 'ghats-list',
+    path: '/ghats',
+    component: GhatList,
     exact: true,
   },
 ]
