@@ -3508,9 +3508,9 @@ coa@^2.0.2:
     chalk "^2.4.1"
     q "^1.1.2"
 
-"cogent@git://github.com/timaschew/cogent#fix-redirects":
+"cogent@https://github.com/timaschew/cogent#fix-redirects":
   version "0.4.3-fix-redirects"
-  resolved "git://github.com/timaschew/cogent#2246bd071392f5053a3a110024fd608a40a593ba"
+  resolved "https://github.com/timaschew/cogent#2246bd071392f5053a3a110024fd608a40a593ba"
   dependencies:
     debug "*"
     generator-supported "~0.0.1"
@@ -3735,7 +3735,7 @@ component-remotes@^1.1.1, component-remotes@^1.1.5, component-remotes@^1.2.0:
   integrity sha1-PQeYpR5ziZxs5VnZN2Olb8eh2IM=
   dependencies:
     co "^3"
-    cogent "git://github.com/timaschew/cogent#fix-redirects"
+    cogent "https://github.com/timaschew/cogent#fix-redirects"
     component-consoler "^2.0.0"
     component-validator "^1.0.0"
     debug "*"
