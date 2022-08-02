@@ -3,7 +3,7 @@ import InputWithHelper from 'components/shared/InputWithHelper'
 import Label from 'components/shared/Label'
 import Textarea from 'components/shared/Textarea'
 import useGhats from 'hooks/useGhats'
-import React, { useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 
 const AddGhatForm = () => {
   const { data: ghat } = useGhats()
@@ -13,6 +13,10 @@ const AddGhatForm = () => {
   const [picture, setPicture] = useState(ghat?.picture || '')
   const [file, setFile] = useState<File | null>(null)
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+  }
+
   return (
     <div className="container mb-24 lg:mb-32" style={{ minHeight: '60vh' }}>
       <div className="w-full text-center">
@@ -20,7 +24,7 @@ const AddGhatForm = () => {
           className="grid grid-cols-1 gap-6"
           action="#"
           method="post"
-          // onSubmit={handleSubmit}
+          onSubmit={handleSubmit}
         >
           <div>
             <Label>Title</Label>
