@@ -91,7 +91,7 @@ export const protectedRoutes = [
   },
   {
     name: 'ghat-form',
-    path: '/ghats/addghat',
+    path: '/ghats/add',
     component: AddGhatForm,
     exact: true,
   },

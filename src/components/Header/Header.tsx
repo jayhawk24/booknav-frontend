@@ -58,6 +58,8 @@ const Header = () => {
         return 'My Ghats'
       case '/rides':
         return 'My Rides'
+      case '/ghats/add':
+        return 'Add Ghats'
       default:
         'Booknaav'
         break

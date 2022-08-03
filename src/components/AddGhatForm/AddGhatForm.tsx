@@ -1,20 +1,41 @@
+import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import ImageUpload from 'components/shared/ImageUpload'
 import InputWithHelper from 'components/shared/InputWithHelper'
 import Label from 'components/shared/Label'
 import Textarea from 'components/shared/Textarea'
 import useGhats from 'hooks/useGhats'
 import React, { FormEvent, useState } from 'react'
+import toast from 'react-hot-toast'
+import GhatService from 'services/ghats'
 
 const AddGhatForm = () => {
   const { data: ghat } = useGhats()
 
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [picture, setPicture] = useState(ghat?.picture || '')
   const [file, setFile] = useState<File | null>(null)
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    const formData = new FormData()
+    formData.append('title', title)
+    formData.append('description', description)
+    formData.append('location', JSON.stringify({ lat: 687416, lng: 87964 }))
+
+    if (file) formData.append('picture', file)
+
+    const addGhat = GhatService.addGhat(formData)
+
+    toast
+      .promise(addGhat, {
+        loading: 'Adding Ghat',
+        success: 'Ghat added successfully.',
+        error: 'Error adding, please try again',
+      })
+      .then(() => {
+        setDescription('')
+        setTitle('')
+      })
   }
 
   return (
@@ -26,27 +47,31 @@ const AddGhatForm = () => {
           method="post"
           onSubmit={handleSubmit}
         >
-          <div>
-            <Label>Title</Label>
-            <InputWithHelper
-              className="mt-1.5"
-              value={title}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setTitle(e.target.value)
-              }
-            />
+          <div className="flex items-center">
+            <div>
+              <Label>Title</Label>
+              <InputWithHelper
+                className="mt-1.5"
+                value={title}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setTitle(e.target.value)
+                }
+              />
+
+              <Label>Description</Label>
+              <Textarea
+                className="mt-1.5"
+                value={description}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setDescription(e.target.value)
+                }
+              />
+            </div>
+            <div>
+              <ImageUpload title={ghat?.title} setFile={setFile} />
+            </div>
           </div>
-          <div>
-            <Label>Description</Label>
-            <Textarea
-              className="mt-1.5"
-              value={description}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                setDescription(e.target.value)
-              }
-            />
-          </div>
-          <ImageUpload title={ghat?.title} setFile={setFile} imgUrl={picture} />
+          <ButtonPrimary>Save</ButtonPrimary>
         </form>
       </div>
     </div>

@@ -10,7 +10,7 @@ const GhatList = () => {
     <div className="container mb-24 lg:mb-32" style={{ minHeight: '60vh' }}>
       <div className="w-full text-center">
         <ButtonSecondary>
-          <Link to="/ghats/addghat">Add Ghat</Link>{' '}
+          <Link to="/ghats/add">Add Ghat</Link>{' '}
         </ButtonSecondary>
         <div className="flex flex-col">
           <div className="w-full">
