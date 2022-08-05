@@ -2,12 +2,14 @@ import { useQuery } from 'react-query'
 import requestClient from 'services/requestClient'
 
 export type GhatType = {
+  _id: string
   title: string
   description?: string
   picture?: string
+  location?: { lat: number; lng: number }
 }
 
-const getGhats = async (): Promise<GhatType> => {
+const getGhats = async (): Promise<GhatType[]> => {
   const { data } = await requestClient.get('/ghat')
   return data
 }

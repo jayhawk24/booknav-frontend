@@ -1,10 +1,18 @@
+import Button from 'components/shared/Buttons/Button'
 import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
+import NcImage from 'components/shared/NcImage'
 import useGhats from 'hooks/useGhats'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import requestClient from 'services/requestClient'
 
 const GhatList = () => {
   const { data } = useGhats()
+  // const {title, description, picture} = data
+
+  const handleDelete = (_id: string) => {
+    requestClient.delete(`/ghat/${_id}`)
+  }
 
   return (
     <div className="container mb-24 lg:mb-32" style={{ minHeight: '60vh' }}>
@@ -28,38 +36,45 @@ const GhatList = () => {
                     <th className="px-6 py-2 text-xs text-gray-500">Delete</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-300">
-                  <tr className="whitespace-nowrap">
-                    <td className="px-6 py-4 text-sm text-gray-500">1</td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm text-gray-900">Jon doe</div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm text-gray-500">
-                        jhondoe@example.com
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-500">
-                      2021-1-12
-                    </td>
-                    <td className="px-6 py-4">
-                      <a
-                        href="#"
-                        className="px-4 py-1 text-sm text-blue-600 bg-blue-200 rounded-full"
-                      >
-                        Edit
-                      </a>
-                    </td>
-                    <td className="px-6 py-4">
-                      <a
-                        href="#"
-                        className="px-4 py-1 text-sm text-red-400 bg-red-200 rounded-full"
-                      >
-                        Delete
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
+                {data?.map(ghat => (
+                  <tbody
+                    key={ghat._id}
+                    className="bg-white divide-y divide-gray-300"
+                  >
+                    <tr className="whitespace-nowrap">
+                      <td className="px-6 py-4 text-sm text-gray-500">1</td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-900">
+                          {ghat.title}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-500">
+                          {ghat?.description}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-500">
+                        <NcImage src={ghat.picture} />
+                      </td>
+                      <td className="px-6 py-4">
+                        <Button
+                          href="#"
+                          className="px-4 py-1 text-sm text-blue-600 bg-blue-200 rounded-full"
+                        >
+                          Edit
+                        </Button>
+                      </td>
+                      <td className="px-6 py-4">
+                        <Button
+                          className="px-4 py-1 text-sm text-red-400 bg-red-200 rounded-full"
+                          onClick={() => handleDelete(ghat._id)}
+                        >
+                          Delete
+                        </Button>
+                      </td>
+                    </tr>
+                  </tbody>
+                ))}
               </table>
             </div>
           </div>

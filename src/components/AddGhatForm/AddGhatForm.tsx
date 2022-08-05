@@ -47,7 +47,7 @@ const AddGhatForm = () => {
           method="post"
           onSubmit={handleSubmit}
         >
-          <div className="flex items-center">
+          <div className="flex items-center justify-between">
             <div>
               <Label>Title</Label>
               <InputWithHelper
@@ -68,7 +68,10 @@ const AddGhatForm = () => {
               />
             </div>
             <div>
-              <ImageUpload title={ghat?.title} setFile={setFile} />
+              <ImageUpload
+                // title={ghat?.title}
+                setFile={setFile}
+              />
             </div>
           </div>
           <ButtonPrimary>Save</ButtonPrimary>
