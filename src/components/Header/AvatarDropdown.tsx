@@ -42,6 +42,15 @@ export default function AvatarDropdown() {
           },
         ]
       : []),
+    ...(user?.role === 'naavik'
+      ? [
+          {
+            name: 'My Naav',
+            href: '/listings',
+            icon: HeartIcon,
+          },
+        ]
+      : []),
     {
       name: 'Bookings',
       href: '/bookings',

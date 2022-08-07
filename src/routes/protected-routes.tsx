@@ -5,7 +5,6 @@ const Account = lazy(() => import('pages/Account'))
 const EditListingGeneral = lazy(
   () => import('pages/EditListing/EditListingGeneral'),
 )
-const AddListing1 = lazy(() => import('pages/AddListing'))
 const Home = lazy(() => import('pages/Home'))
 const EditListingPhotos = lazy(
   () => import('pages/EditListing/EditListingPhotos'),
@@ -31,12 +30,6 @@ export const protectedRoutes = [
     name: 'account',
     path: '/account',
     component: Account,
-    exact: true,
-  },
-  {
-    name: 'add-listing-1',
-    path: '/add-listing/1',
-    component: AddListing1,
     exact: true,
   },
   {

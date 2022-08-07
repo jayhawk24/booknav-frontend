@@ -4,13 +4,13 @@
 
 In order to make any changes to this project you’ll need to follow a few steps:
 
-1. Create a ticket in the ToDo column on [FE Board](https://github.com/orgs/yacht-away/projects/1/views/3).
+1. Create a ticket in the ToDo column on [FE Board](https://github.com/orgs/Booknav/projects/1/views/3).
 2. Convert that ticket to an issue.
 3. Add the description in the issue accordingly.
 4. Create a branch for that issue. (See branch naming conventions)
 5. Once you are done with your work raise a PR. (Don’t forget to add Reviewer*, Project*, Assignees, Milestones)
 6. Link your newly created PR with your issue.
-7. Once PR is merged, Your issue will move from `In-Review` to `End-To-End-Testing` on the [FE Board](https://github.com/orgs/yacht-away/projects/1/views/3).
+7. Once PR is merged, Your issue will move from `In-Review` to `End-To-End-Testing` on the [FE Board](https://github.com/orgs/Booknav/projects/1/views/3).
 8. Make sure that the functionality that is implemented works perfectly on the [Staging environment](https://localhost:3000/).
 
 ## <a name=“commit-header”></a>Commit Message Header (Defined by angular)

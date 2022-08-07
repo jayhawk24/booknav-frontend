@@ -1,9 +1,9 @@
 import { GenericResponseType } from 'services/account'
-import { Yacht } from 'services/addBoat'
+import { Naav } from 'services/addBoat'
 import requestClient from 'services/requestClient'
 
 type YachtResponse = {
-  data: Yacht
+  data: Naav
 }
 export default class UpdateBoatService {
   static updateBoat = (
