@@ -63,8 +63,8 @@ export const protectedRoutes = [
     exact: true,
   },
   {
-    name: 'listings',
-    path: '/listings',
+    name: 'Naavs',
+    path: '/naavs',
     component: Listings,
   },
   {

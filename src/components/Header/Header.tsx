@@ -15,7 +15,6 @@ import { ArrowLeftIcon } from '@heroicons/react/solid'
 const Header = () => {
   const [isTop, setisTop] = useState(true)
   const { data } = useUser()
-
   useEffect(() => {
     window.onscroll = function () {
       scrollFunction()
@@ -42,13 +41,13 @@ const Header = () => {
     switch (pathname) {
       case '/':
         return (
-          <p>
+          <div>
             {`Hi ${user?.title},`}
             <p>
               Find Best Boats
               {`\u{1F44D}`}
             </p>
-          </p>
+          </div>
         )
       case '/account':
         return 'Account Details'
@@ -56,6 +55,8 @@ const Header = () => {
         return 'My Boats'
       case '/rides':
         return 'My Rides'
+      case '/naavs':
+        return 'My Naavs'
       default:
         'Booknaav'
         break

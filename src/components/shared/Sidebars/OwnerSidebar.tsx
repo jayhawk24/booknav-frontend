@@ -21,7 +21,7 @@ export const OwnerSidebar = () => {
     { name: 'New Enquiry', pathname: '/admin-new-enquiry' },
     { name: 'New Block', pathname: '/admin-new-block' },
 
-    { name: 'Listings', pathname: '/listings' },
+    { name: 'Listings', pathname: '/naavs' },
 
     { name: 'Profile', pathname: '/account' },
   ]

@@ -44,7 +44,7 @@ function MainRouter() {
   }
   return (
     <BrowserRouter>
-      <div style={{ height: 'calc(100vh)' }}>
+      <div className="min-h-screen">
         <Header />
         <Switch>
           {isLogin && protectedRoutes}
