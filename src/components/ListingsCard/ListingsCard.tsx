@@ -17,7 +17,7 @@ const ListingsCard: FC<StayCardProps> = ({
   boat,
   ratioClass,
 }) => {
-  const { id, boatType, ghat, title, picture } = boat
+  const { id, boatType, ghat, title, pictures, price } = boat
 
   const renderSliderGallery = () => {
     return (
@@ -25,7 +25,7 @@ const ListingsCard: FC<StayCardProps> = ({
         <GallerySlider
           uniqueID={`stay-v-${id}`}
           ratioClass={ratioClass}
-          galleryImgs={[picture as string]}
+          galleryImgs={pictures || []}
         />
         {/* <BtnLikeIcon isLiked={like} className="absolute right-3 top-3 z-[1]" /> */}
         {/* {chartered_with.id === '1' && (
@@ -79,21 +79,19 @@ const ListingsCard: FC<StayCardProps> = ({
           </div>
         </div>
         <div className="w-14 border-b border-neutral-100 dark:border-neutral-800"></div>
-        {/* <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center">
           <span className="text-base font-semibold">
-            {price}
-            200
-            {` `}
+            ₹{price}
             {size === 'default' && (
               <span className="text-sm text-neutral-500 dark:text-neutral-400 font-normal">
-                /day
+                /trip
               </span>
             )}
           </span>
-          {!!reviewStart && (
+          {/* {reviewStart && (
             <StartRating reviewCount={reviewCount} point={reviewStart} />
-          )}
-        </div> */}
+          )} */}
+        </div>
       </div>
     )
   }

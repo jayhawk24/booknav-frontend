@@ -59,6 +59,10 @@ export const EditListingSidebar = () => {
   ]
 
   return (
-    <SidebarContainer title={title} links={links} imageUrl={boat?.picture} />
+    <SidebarContainer
+      title={title}
+      links={links}
+      imageUrl={boat?.pictures?.[0]}
+    />
   )
 }

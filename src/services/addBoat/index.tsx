@@ -67,7 +67,8 @@ export type Naav = {
   ghat?: Ghat
   title?: string
   description?: string
-  picture?: string
+  pictures?: [string]
+  price?: number
 }
 
 export default class AddBoatService {
