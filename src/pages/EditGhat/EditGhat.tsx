@@ -11,12 +11,18 @@ import GhatService from 'services/ghats'
 const EditGhat = () => {
   const { ghatId } = useParams<{ ghatId: string }>()
 
-  const ghatData = useQuery('getGhatId', () => GhatService.getGhatId(ghatId))
-
-  console.log(ghatData)
-  const [title, setTitle] = useState(ghatData.data?.title)
-  const [description, setDescription] = useState(ghatData.data?.description)
+  const { data } = useQuery('getGhatId', () => GhatService.getGhatId(ghatId))
+  // console.log(data)
+  const [title, setTitle] = useState(data?.title || '')
+  const [description, setDescription] = useState(data?.description || '')
   // const [file, setFile] = useState<File | null>(null)
+
+  useEffect(() => {
+    setTitle(data?.title || '')
+    setDescription(data?.description || '')
+  }, [data])
+
+  console.log(title)
 
   return (
     <div className="container mb-24 lg:mb-32" style={{ minHeight: '60vh' }}>
