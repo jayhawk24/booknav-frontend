@@ -3,7 +3,6 @@ import { Switch, BrowserRouter, Route, Redirect } from 'react-router-dom'
 
 import routes from 'routes'
 import Header from 'components/Header'
-import Footer from 'components/shared/Footer/Footer'
 import Page404 from 'pages/Page404/Page404'
 import useUser from 'hooks/useUser'
 import FallbackComponent from 'components/FallbackComponent'
@@ -45,7 +44,7 @@ function MainRouter() {
   }
   return (
     <BrowserRouter>
-      <div style={{ height: 'calc(100vh)' }}>
+      <div className="min-h-screen">
         <Header />
         <Switch>
           {isLogin && protectedRoutes}
@@ -55,7 +54,7 @@ function MainRouter() {
           <Route key={0} component={Page404} />
         </Switch>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </BrowserRouter>
   )
 }

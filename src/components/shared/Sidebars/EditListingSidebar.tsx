@@ -17,7 +17,7 @@ export const EditListingSidebar = () => {
     { staleTime: 24 * 60 * 60 * 1000 },
   )
 
-  const title = boat?.name
+  const title = boat?.title
 
   const links: SidbarLinkType[] = [
     {
@@ -59,6 +59,10 @@ export const EditListingSidebar = () => {
   ]
 
   return (
-    <SidebarContainer title={title} links={links} imageUrl={boat?.yacht_icon} />
+    <SidebarContainer
+      title={title}
+      links={links}
+      imageUrl={boat?.pictures?.[0]}
+    />
   )
 }

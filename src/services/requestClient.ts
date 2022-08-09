@@ -31,21 +31,21 @@ requestClient.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config
-
-    if (error.response?.status === 401) {
-      if (error.response?.data?.message === 'Refresh token expired') {
-        //refresh token expired
-        clearAllTokens()
-        return
+    if (originalRequest._retry) {
+      if (error.response?.status === 401) {
+        if (error.response?.data?.message === 'Refresh token expired') {
+          //refresh token expired
+          clearAllTokens()
+          return
+        }
+        originalRequest._retry = true
+        const response = await requestClient.post('/users/refresh/', {
+          refresh: getToken('refresh'),
+        })
+        setToken(response.data.accessToken)
+        return requestClient(originalRequest)
       }
-      originalRequest._retry = true
-      const response = await requestClient.post('/users/refresh/', {
-        refresh: getToken('refresh'),
-      })
-      setToken(response.data.accessToken)
-      return requestClient(originalRequest)
     }
-
     return Promise.reject(error)
   },
 )

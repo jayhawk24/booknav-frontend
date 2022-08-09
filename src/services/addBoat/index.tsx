@@ -18,7 +18,7 @@ export type AddMetaResponseType<T> = {
 export type AddBoatResponseType = {
   data: {
     message: string
-    data: Yacht
+    data: Naav
   }
 }
 
@@ -46,24 +46,29 @@ export type ModelType = {
   id: string
   name: string
 }
-export type Yacht = {
+
+export type BoatType = {
+  id: string
+  title: string
+}
+export type Location = {
+  lat: number
+  lng: number
+}
+export type Ghat = {
+  id: string
+  title: string
+  location: Location
+}
+
+export type Naav = {
   id: number
-  name: string
-  description: null | string
-  type: YachtType
-  yacht_icon: string
-  is_professional: boolean
-  company_name: string | null
-  website: string | null
-  chartered_with: CharterType
-  harbour: HarbourType & {
-    city: CityType
-  }
-  capacity: number
-  length: number
-  model: ModelType & {
-    manufacturer: ManufacturerType
-  }
+  boatType?: BoatType
+  ghat?: Ghat
+  title?: string
+  description?: string
+  pictures?: [string]
+  price?: number
 }
 
 export default class AddBoatService {

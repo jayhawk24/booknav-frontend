@@ -5,7 +5,6 @@ const Account = lazy(() => import('pages/Account'))
 const EditListingGeneral = lazy(
   () => import('pages/EditListing/EditListingGeneral'),
 )
-const AddListing1 = lazy(() => import('pages/AddListing'))
 const Home = lazy(() => import('pages/Home'))
 const EditListingPhotos = lazy(
   () => import('pages/EditListing/EditListingPhotos'),
@@ -40,12 +39,6 @@ export const protectedRoutes = [
     exact: true,
   },
   {
-    name: 'add-listing-1',
-    path: '/add-listing/1',
-    component: AddListing1,
-    exact: true,
-  },
-  {
     name: 'yacht-edit-general',
     path: '/yacht/:yachtId/general',
     component: EditListingGeneral,
@@ -76,8 +69,8 @@ export const protectedRoutes = [
     exact: true,
   },
   {
-    name: 'listings',
-    path: '/listings',
+    name: 'Naavs',
+    path: '/naavs',
     component: Listings,
   },
   {
