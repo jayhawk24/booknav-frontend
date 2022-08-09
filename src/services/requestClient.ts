@@ -31,7 +31,7 @@ requestClient.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config
-    if (originalRequest._retry) {
+    if (!originalRequest._retry) {
       if (error.response?.status === 401) {
         if (error.response?.data?.message === 'Refresh token expired') {
           //refresh token expired
