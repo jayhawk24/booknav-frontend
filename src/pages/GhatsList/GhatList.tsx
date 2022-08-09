@@ -8,7 +8,6 @@ import requestClient from 'services/requestClient'
 
 const GhatList = () => {
   const { data } = useGhats()
-  // const {title, description, picture} = data
 
   const handleDelete = (_id: string) => {
     requestClient.delete(`/ghat/${_id}`)
@@ -57,11 +56,9 @@ const GhatList = () => {
                         <NcImage src={ghat.picture} />
                       </td>
                       <td className="px-6 py-4">
-                        <Button
-                          href="#"
-                          className="px-4 py-1 text-sm text-blue-600 bg-blue-200 rounded-full"
-                        >
-                          Edit
+                        <Button className="px-4 py-1 text-sm text-blue-600 bg-blue-200 rounded-full">
+                          {' '}
+                          <Link to={`/ghat/${ghat._id}`}>Edit</Link>
                         </Button>
                       </td>
                       <td className="px-6 py-4">

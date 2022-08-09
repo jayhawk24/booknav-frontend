@@ -9,4 +9,8 @@ export default class GhatService {
   static addGhat(data: FormData): Promise<GhatType> {
     return requestClient.post('/ghat', data)
   }
+
+  static getGhatId(_id: string): Promise<GhatType> {
+    return requestClient.get(`/ghat/${_id}`)
+  }
 }
