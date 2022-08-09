@@ -147,6 +147,6 @@ export default class AddBoatService {
   }
 
   static addBoat(formData: FormData): Promise<AddBoatResponseType> {
-    return requestClient.post('/api/yacht-management/yachts/', formData)
+    return requestClient.post('/naav/file/', formData)
   }
 }

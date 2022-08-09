@@ -19,6 +19,7 @@ const EditTechnicalDetails = lazy(
   () => import('pages/EditListing/EditTechnicalDetails'),
 )
 const Listings = lazy(() => import('pages/Listings/Listings'))
+const AddListing = lazy(() => import('pages/AddListing'))
 
 export const protectedRoutes = [
   {
@@ -66,6 +67,11 @@ export const protectedRoutes = [
     name: 'Naavs',
     path: '/naavs',
     component: Listings,
+  },
+  {
+    name: 'Add naav',
+    path: '/naav/add',
+    component: AddListing,
   },
   {
     path: '/logout',
