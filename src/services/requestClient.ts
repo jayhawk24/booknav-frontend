@@ -33,7 +33,10 @@ requestClient.interceptors.response.use(
     const originalRequest = error.config
     if (!originalRequest._retry) {
       if (error.response?.status === 401) {
-        if (error.response?.data?.message === 'Refresh token expired') {
+        if (
+          error.response?.data?.message === 'Refresh token expired' ||
+          !getToken('refresh')
+        ) {
           //refresh token expired
           clearAllTokens()
           return
