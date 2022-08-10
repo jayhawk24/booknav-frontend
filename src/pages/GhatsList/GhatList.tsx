@@ -2,7 +2,6 @@ import Button from 'components/shared/Buttons/Button'
 import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import NcImage from 'components/shared/NcImage'
 import useGhats from 'hooks/useGhats'
-import React from 'react'
 import { Link } from 'react-router-dom'
 import requestClient from 'services/requestClient'
 
@@ -58,7 +57,7 @@ const GhatList = () => {
                       <td className="px-6 py-4">
                         <Button className="px-4 py-1 text-sm text-blue-600 bg-blue-200 rounded-full">
                           {' '}
-                          <Link to={`/ghat/${ghat._id}`}>Edit</Link>
+                          <Link to={`/ghats/${ghat._id}`}>Edit</Link>
                         </Button>
                       </td>
                       <td className="px-6 py-4">

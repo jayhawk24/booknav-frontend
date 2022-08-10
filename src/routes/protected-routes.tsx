@@ -92,7 +92,7 @@ export const protectedRoutes = [
   },
   {
     name: 'edit-ghat',
-    path: '/ghat/:ghatId',
+    path: '/ghats/:ghatId',
     component: EditGhat,
     exact: true,
   },

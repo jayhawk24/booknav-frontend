@@ -7,10 +7,17 @@ export default class GhatService {
   }
 
   static addGhat(data: FormData): Promise<GhatType> {
-    return requestClient.post('/ghat', data)
+    return requestClient.post('/ghat/file', data)
   }
 
-  static getGhatId(_id: string): Promise<GhatType> {
+  static getGhatId(_id: string): Promise<{ data: GhatType }> {
     return requestClient.get(`/ghat/${_id}`)
+  }
+
+  static updateGhatInfo(
+    formData: FormData,
+    _id: string | undefined,
+  ): Promise<GhatType> {
+    return requestClient.put(`/ghat/${_id}/file`, formData)
   }
 }

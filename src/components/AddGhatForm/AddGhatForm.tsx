@@ -3,14 +3,11 @@ import ImageUpload from 'components/shared/ImageUpload'
 import InputWithHelper from 'components/shared/InputWithHelper'
 import Label from 'components/shared/Label'
 import Textarea from 'components/shared/Textarea'
-import useGhats from 'hooks/useGhats'
 import React, { FormEvent, useState } from 'react'
 import toast from 'react-hot-toast'
 import GhatService from 'services/ghats'
 
 const AddGhatForm = () => {
-  const { data } = useGhats()
-
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [file, setFile] = useState<File | null>(null)
