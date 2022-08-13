@@ -10,6 +10,10 @@ export default class GhatService {
     return requestClient.post('/ghat/file', data)
   }
 
+  static deleteGhat(_id: string): Promise<GhatType> {
+    return requestClient.delete(`/ghat/${_id}`)
+  }
+
   static getGhatId(_id: string): Promise<{ data: GhatType }> {
     return requestClient.get(`/ghat/${_id}`)
   }

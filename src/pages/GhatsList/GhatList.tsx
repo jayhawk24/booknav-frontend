@@ -3,13 +3,13 @@ import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import NcImage from 'components/shared/NcImage'
 import useGhats from 'hooks/useGhats'
 import { Link } from 'react-router-dom'
-import requestClient from 'services/requestClient'
+import GhatService from 'services/ghats'
 
 const GhatList = () => {
   const { data } = useGhats()
 
   const handleDelete = (_id: string) => {
-    requestClient.delete(`/ghat/${_id}`)
+    GhatService.deleteGhat(_id)
   }
 
   return (

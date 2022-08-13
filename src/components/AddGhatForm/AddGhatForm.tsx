@@ -11,6 +11,7 @@ const AddGhatForm = () => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [file, setFile] = useState<File | null>(null)
+  const [isDisabled, setIsDisabled] = useState(false)
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -18,8 +19,8 @@ const AddGhatForm = () => {
     formData.append('title', title)
     formData.append('description', description)
     formData.append('location', JSON.stringify({ lat: 687416, lng: 87964 }))
-
     if (file) formData.append('picture', file)
+    setIsDisabled(true)
 
     const addGhat = GhatService.addGhat(formData)
 
@@ -32,6 +33,9 @@ const AddGhatForm = () => {
       .then(() => {
         setDescription('')
         setTitle('')
+      })
+      .finally(() => {
+        setIsDisabled(false)
       })
   }
 
@@ -71,7 +75,7 @@ const AddGhatForm = () => {
               />
             </div>
           </div>
-          <ButtonPrimary>Save</ButtonPrimary>
+          <ButtonPrimary disabled={isDisabled}>Save</ButtonPrimary>
         </form>
       </div>
     </div>
