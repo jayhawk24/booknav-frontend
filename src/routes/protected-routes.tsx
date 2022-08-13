@@ -21,6 +21,12 @@ const EditTechnicalDetails = lazy(
 const Listings = lazy(() => import('pages/Listings/Listings'))
 const AddListing = lazy(() => import('pages/AddListing'))
 
+const GhatList = lazy(() => import('pages/GhatsList/GhatList'))
+
+const AddGhatForm = lazy(() => import('components/AddGhatForm/AddGhatForm'))
+
+const EditGhat = lazy(() => import('pages/EditGhat/EditGhat'))
+
 export const protectedRoutes = [
   {
     path: '/', // this is temporary component
@@ -76,6 +82,24 @@ export const protectedRoutes = [
   {
     path: '/logout',
     component: Logout,
+    exact: true,
+  },
+  {
+    name: 'ghats-list',
+    path: '/ghats',
+    component: GhatList,
+    exact: true,
+  },
+  {
+    name: 'ghat-form',
+    path: '/ghats/add',
+    component: AddGhatForm,
+    exact: true,
+  },
+  {
+    name: 'edit-ghat',
+    path: '/ghats/:ghatId',
+    component: EditGhat,
     exact: true,
   },
 ]
