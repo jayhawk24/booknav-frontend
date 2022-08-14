@@ -5,13 +5,19 @@ type Props = {
   imgUrl?: string
   setFile: (file: File) => void
   title?: string
+  sizeClass?: string
 }
 
-const ImageUpload = ({ imgUrl, setFile, title }: Props) => {
+const ImageUpload = ({
+  imgUrl,
+  setFile,
+  title,
+  sizeClass = 'w-32 h-32',
+}: Props) => {
   return (
     <div className="flex-shrink-0 flex items-start">
       <div className="relative rounded-full overflow-hidden flex">
-        <Avatar sizeClass="w-32 h-32" imgUrl={imgUrl} userName={title} />
+        <Avatar sizeClass={sizeClass} imgUrl={imgUrl} userName={title} />
         <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center text-neutral-50 cursor-pointer">
           <svg
             width="30"

@@ -16,13 +16,13 @@ const Listings: FC = () => {
     <OwnerDashboardLayout>
       <div className="listingSection__wrap">
         <div className="flex justify-end">
-          <ButtonSecondary href="/add-naav/">New Boat</ButtonSecondary>
+          <ButtonSecondary href="/naav/add">New Boat</ButtonSecondary>
         </div>
         <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
         <div>
           <div className="mt-8 grid grid-cols-1 gap-6 md:gap-7 sm:grid-cols-2">
             {listings?.map((listing: Naav) => (
-              <ListingsCard key={listing.id} boat={listing} />
+              <ListingsCard key={listing._id} boat={listing} />
             ))}
           </div>
           <div className="flex mt-11 justify-center items-center"></div>

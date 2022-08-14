@@ -17,13 +17,13 @@ const ListingsCard: FC<StayCardProps> = ({
   boat,
   ratioClass,
 }) => {
-  const { id, boatType, ghat, title, pictures, price } = boat
+  const { _id, boatType, ghat, title, pictures, price } = boat
 
   const renderSliderGallery = () => {
     return (
       <div className="relative w-full">
         <GallerySlider
-          uniqueID={`stay-v-${id}`}
+          uniqueID={`stay-v-${_id}`}
           ratioClass={ratioClass}
           galleryImgs={pictures || []}
         />
@@ -104,7 +104,7 @@ const ListingsCard: FC<StayCardProps> = ({
       {renderSliderGallery()}
       <Link to="/">{renderContent()}</Link>
       <div className="flex justify-center mb-5">
-        <ButtonSecondary href={`/yacht/${id}/general`} className="font-thin">
+        <ButtonSecondary href={`/naav/${_id}`} className="font-thin">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
