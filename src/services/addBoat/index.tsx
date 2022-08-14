@@ -48,7 +48,7 @@ export type ModelType = {
 }
 
 export type BoatType = {
-  id: string
+  _id: string
   title: string
 }
 export type Location = {
@@ -56,7 +56,7 @@ export type Location = {
   lng: number
 }
 export type Ghat = {
-  id: string
+  _id: string
   title: string
   location: Location
 }
