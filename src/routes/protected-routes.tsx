@@ -9,12 +9,6 @@ const AddGhatForm = lazy(() => import('components/GhatForm/GhatForm'))
 const EditGhat = lazy(() => import('pages/EditGhat/EditGhat'))
 const EditNaav = lazy(() => import('pages/EditNaav'))
 
-const GhatList = lazy(() => import('pages/GhatsList/GhatList'))
-
-const AddGhatForm = lazy(() => import('components/AddGhatForm/AddGhatForm'))
-
-const EditGhat = lazy(() => import('pages/EditGhat/EditGhat'))
-
 export const protectedRoutes = [
   {
     path: '/', // this is temporary component

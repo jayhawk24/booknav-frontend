@@ -15,7 +15,7 @@ const GhatList = () => {
   return (
     <div className="container mb-24 lg:mb-32" style={{ minHeight: '60vh' }}>
       <div className="w-full text-center">
-        <ButtonSecondary>
+        <ButtonSecondary className="mb-7">
           <Link to="/ghats/add">Add Ghat</Link>{' '}
         </ButtonSecondary>
         <div className="flex flex-col">
@@ -34,20 +34,22 @@ const GhatList = () => {
                     <th className="px-6 py-2 text-xs text-gray-500">Delete</th>
                   </tr>
                 </thead>
-                {data?.map(ghat => (
+                {data?.map((ghat, index) => (
                   <tbody
                     key={ghat._id}
                     className="bg-white divide-y divide-gray-300"
                   >
                     <tr className="whitespace-nowrap">
-                      <td className="px-6 py-4 text-sm text-gray-500">1</td>
+                      <td className="px-6 py-4 text-sm text-gray-500">
+                        {index + 1}
+                      </td>
                       <td className="px-6 py-4">
                         <div className="text-sm text-gray-900">
                           {ghat.title}
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="text-sm text-gray-500">
+                        <div className="text-sm text-gray-500 w-64 truncate">
                           {ghat?.description}
                         </div>
                       </td>
