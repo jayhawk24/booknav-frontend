@@ -9,7 +9,7 @@ import AddBoatService from 'services/addBoat'
 import toast from 'react-hot-toast'
 import useGhats from 'hooks/useGhats'
 import useBoatTypes from 'hooks/useBoatTypes'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { useQuery, useQueryClient } from 'react-query'
 import { editNaav, getNaav } from 'services/naav'
 import GallerySlider from 'components/GallerySlider'
@@ -34,6 +34,7 @@ const AddListing: FC<Props> = ({ isEdit }) => {
     if (naavId) return getNaav(naavId)
   })
   const queryClient = useQueryClient()
+  const history = useHistory()
 
   useEffect(() => {
     if (isEdit && naavId) {
@@ -44,10 +45,17 @@ const AddListing: FC<Props> = ({ isEdit }) => {
       setPrice(naav?.price || null)
     }
   }, [naav])
+  useEffect(() => {
+    if (ghats && boatTypes) {
+      setGhat(ghats[0]._id)
+      setBoatType(boatTypes[0]._id)
+    }
+  }, [ghats, boatTypes])
 
   const handleSumbit = () => {
     setDisabled(true)
     const formData = new FormData()
+    console.log({ boatType, ghat })
     formData.append('title', title)
     formData.append('description', description)
     formData.append('boatType', boatType)
@@ -68,10 +76,13 @@ const AddListing: FC<Props> = ({ isEdit }) => {
       toast
         .promise(AddBoatService.addBoat(formData), {
           loading: 'Adding...',
-          success: response => response.data.message,
+          success: 'Naav added successfully',
           error: error => error.response.data.message,
         })
-        .then(() => queryClient.invalidateQueries('naav'))
+        .then(() => {
+          queryClient.invalidateQueries('naav')
+          history.push('/naavs')
+        })
         .finally(() => setDisabled(false))
     }
   }
@@ -111,6 +122,9 @@ const AddListing: FC<Props> = ({ isEdit }) => {
 
         <FormItem label="Naav Type">
           <Select value={boatType} onChange={e => setBoatType(e.target.value)}>
+            <option disabled defaultChecked>
+              Select naav type
+            </option>
             {boatTypes?.map(boatType => (
               <option key={boatType._id} value={boatType._id}>
                 {boatType.title}
@@ -121,6 +135,7 @@ const AddListing: FC<Props> = ({ isEdit }) => {
 
         <FormItem label="Ghat">
           <Select value={ghat} onChange={e => setGhat(e.target.value)}>
+            <option disabled>Select ghat</option>
             {ghats?.map(ghat => (
               <option key={ghat._id} value={ghat._id}>
                 {ghat.title}

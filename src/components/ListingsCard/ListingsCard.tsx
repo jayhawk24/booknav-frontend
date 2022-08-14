@@ -3,6 +3,9 @@ import GallerySlider from 'components/GallerySlider'
 import { Link } from 'react-router-dom'
 import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import { Naav } from 'services/addBoat'
+import { deleteNaav } from 'services/naav'
+import { TrashIcon } from '@heroicons/react/outline'
+import { useQueryClient } from 'react-query'
 
 export interface StayCardProps {
   className?: string
@@ -18,6 +21,7 @@ const ListingsCard: FC<StayCardProps> = ({
   ratioClass,
 }) => {
   const { _id, boatType, ghat, title, pictures, price } = boat
+  const queryClient = useQueryClient()
 
   const renderSliderGallery = () => {
     return (
@@ -120,6 +124,17 @@ const ListingsCard: FC<StayCardProps> = ({
             />
           </svg>
           <span className="ml-3 text-sm">Edit</span>
+        </ButtonSecondary>
+        <ButtonSecondary
+          onClick={() => {
+            deleteNaav(_id).then(() =>
+              queryClient.invalidateQueries('getListings'),
+            )
+          }}
+          className="font-thin ml-5"
+        >
+          <TrashIcon className="h-5" />
+          Delete
         </ButtonSecondary>
       </div>
     </div>

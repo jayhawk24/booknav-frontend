@@ -15,12 +15,6 @@ export type AddMetaResponseType<T> = {
   message: string
   data: T
 }
-export type AddBoatResponseType = {
-  data: {
-    message: string
-    data: Naav
-  }
-}
 
 export type HarbourType = {
   id: string
@@ -62,7 +56,7 @@ export type Ghat = {
 }
 
 export type Naav = {
-  _id: number
+  _id: string
   boatType?: BoatType
   ghat?: Ghat
   title?: string
@@ -146,7 +140,7 @@ export default class AddBoatService {
     )
   }
 
-  static addBoat(formData: FormData): Promise<AddBoatResponseType> {
+  static addBoat(formData: FormData): Promise<Naav> {
     return requestClient.post('/naav/file/', formData)
   }
 }
