@@ -7,7 +7,7 @@ import React, { FormEvent, useState } from 'react'
 import toast from 'react-hot-toast'
 import GhatService from 'services/ghats'
 
-const AddGhatForm = () => {
+const GhatForm = () => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [file, setFile] = useState<File | null>(null)
@@ -82,4 +82,4 @@ const AddGhatForm = () => {
   )
 }
 
-export default AddGhatForm
+export default GhatForm

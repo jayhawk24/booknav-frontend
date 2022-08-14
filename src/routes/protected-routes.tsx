@@ -1,13 +1,13 @@
 import { lazy } from 'react'
-
 const Logout = lazy(() => import('pages/Logout'))
 const Account = lazy(() => import('pages/Account'))
 const Home = lazy(() => import('pages/Home'))
 const Listings = lazy(() => import('pages/Listings/Listings'))
 const AddListing = lazy(() => import('pages/AddListing'))
 const GhatList = lazy(() => import('pages/GhatsList/GhatList'))
-const AddGhatForm = lazy(() => import('components/AddGhatForm/AddGhatForm'))
+const AddGhatForm = lazy(() => import('components/GhatForm/GhatForm'))
 const EditGhat = lazy(() => import('pages/EditGhat/EditGhat'))
+const EditNaav = lazy(() => import('pages/EditNaav'))
 
 export const protectedRoutes = [
   {
@@ -52,6 +52,12 @@ export const protectedRoutes = [
     name: 'edit-ghat',
     path: '/ghats/:ghatId',
     component: EditGhat,
+    exact: true,
+  },
+  {
+    name: 'edit-naav',
+    path: '/naav/:naavId',
+    component: EditNaav,
     exact: true,
   },
 ]

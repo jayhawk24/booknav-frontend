@@ -22,7 +22,7 @@ const Listings: FC = () => {
         <div>
           <div className="mt-8 grid grid-cols-1 gap-6 md:gap-7 sm:grid-cols-2">
             {listings?.map((listing: Naav) => (
-              <ListingsCard key={listing.id} boat={listing} />
+              <ListingsCard key={listing._id} boat={listing} />
             ))}
           </div>
           <div className="flex mt-11 justify-center items-center"></div>

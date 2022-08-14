@@ -62,7 +62,7 @@ export type Ghat = {
 }
 
 export type Naav = {
-  id: number
+  _id: number
   boatType?: BoatType
   ghat?: Ghat
   title?: string

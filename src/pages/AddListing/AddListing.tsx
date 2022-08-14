@@ -7,6 +7,8 @@ import ImageUpload from 'components/shared/ImageUpload'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import AddBoatService from 'services/addBoat'
 import toast from 'react-hot-toast'
+import useGhats from 'hooks/useGhats'
+import useBoatTypes from 'hooks/useBoatTypes'
 
 const AddListing = () => {
   const [title, setTitle] = useState('')
@@ -15,6 +17,9 @@ const AddListing = () => {
   const [ghat, setGhat] = useState('')
   const [file, setFile] = useState<File | null>(null)
   const [disabled, setDisabled] = useState(false)
+
+  const { data: ghats } = useGhats()
+  const { data: boatTypes } = useBoatTypes()
 
   const handleSumbit = () => {
     setDisabled(true)
@@ -66,19 +71,21 @@ const AddListing = () => {
 
         <FormItem label="Naav Type">
           <Select value={boatType} onChange={e => setBoatType(e.target.value)}>
-            <option>Hour</option>
-            <option>Day</option>
-            <option>Week</option>
-            <option>Month</option>
+            {boatTypes?.map(boatType => (
+              <option key={boatType._id} value={boatType._id}>
+                {boatType.title}
+              </option>
+            ))}
           </Select>
         </FormItem>
 
         <FormItem label="Ghat">
           <Select value={ghat} onChange={e => setGhat(e.target.value)}>
-            <option>Hour</option>
-            <option>Day</option>
-            <option>Week</option>
-            <option>Month</option>
+            {ghats?.map(ghat => (
+              <option key={ghat._id} value={ghat._id}>
+                {ghat.title}
+              </option>
+            ))}
           </Select>
         </FormItem>
       </div>
