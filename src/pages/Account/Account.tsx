@@ -71,6 +71,7 @@ const Account: FC<AccountPageProps> = ({ className = '' }) => {
         <form onSubmit={handleUpdateInfo} encType="multipart/form-data">
           <div className="flex flex-col md:flex-row">
             <ImageUpload
+              file={file}
               title={user?.title}
               setFile={setFile}
               imgUrl={picture}

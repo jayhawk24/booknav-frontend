@@ -70,6 +70,7 @@ const GhatForm = () => {
             </div>
             <div>
               <ImageUpload
+                file={file}
                 // title={ghat?.title}
                 setFile={setFile}
               />

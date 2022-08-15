@@ -1,11 +1,8 @@
-import GhatForm from 'components/GhatForm'
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import AddListing from 'pages/AddListing'
 
 const EditNaav = () => {
-  const { naavId } = useParams<{ naavId: string }>()
-
-  return <GhatForm />
+  return <AddListing isEdit={true} />
 }
 
 export default EditNaav
