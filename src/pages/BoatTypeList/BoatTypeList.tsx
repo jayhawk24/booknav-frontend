@@ -2,12 +2,13 @@ import Button from 'components/shared/Buttons/Button'
 import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import useBoatTypes from 'hooks/useBoatTypes'
 import { Link } from 'react-router-dom'
+import BoatTypeService from 'services/boatType'
 
 const GhatList = () => {
   const { data } = useBoatTypes()
 
   const handleDelete = (_id: string) => {
-    // GhatService.deleteGhat(_id)
+    BoatTypeService.deleteBoatType(_id)
   }
 
   return (
@@ -43,7 +44,7 @@ const GhatList = () => {
                       <td className="px-6 py-4">
                         <Button className="px-4 py-1 text-sm text-blue-600 bg-blue-200 rounded-full">
                           {' '}
-                          <Link to={`/ghats/${boatType._id}`}>Edit</Link>
+                          <Link to={`/boat_types/${boatType._id}`}>Edit</Link>
                         </Button>
                       </td>
                       <td className="px-6 py-4">

@@ -19,9 +19,9 @@ export default class BoatTypeService {
   }
 
   static updateBoatType(
-    formData: FormData,
     _id: string | undefined,
+    title: string,
   ): Promise<BoatType> {
-    return requestClient.put(`/boat-type/${_id}/file`, formData)
+    return requestClient.put(`/boat-type/${_id}`, { title })
   }
 }

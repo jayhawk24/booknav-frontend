@@ -1,26 +1,37 @@
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import InputWithHelper from 'components/shared/InputWithHelper'
 import Label from 'components/shared/Label'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
+import { useQuery } from 'react-query'
+import { useParams } from 'react-router-dom'
 import BoatTypeService from 'services/boatType'
 
 const AddBoatType = () => {
+  const { boatTypeId } = useParams<{ boatTypeId: string }>()
+
+  const { data: boatType } = useQuery('getGhatId', async () => {
+    const { data } = await BoatTypeService.getBoatTypeId(boatTypeId)
+    return data
+  })
+
   const [title, setTitle] = useState('')
   const [isDisabled, setIsDisabled] = useState(false)
 
-  const handleSave = () => {
+  useEffect(() => {
+    setTitle(boatType?.title || '')
+  }, [boatType])
+
+  const handleUpdate = () => {
     setIsDisabled(true)
-    const addBoatType = BoatTypeService.addBoatType(title)
 
     toast
-      .promise(addBoatType, {
-        loading: 'Adding ',
-        success: ' added successfully.',
-        error: 'Error adding, please try again',
+      .promise(BoatTypeService.updateBoatType(boatType?._id, title), {
+        loading: 'Updating...',
+        success: 'updated',
+        error: 'Error updating info',
       })
       .finally(() => {
-        setTitle('')
         setIsDisabled(false)
       })
   }
@@ -44,9 +55,9 @@ const AddBoatType = () => {
           className="w-full mt-4"
           disabled={isDisabled}
           type="submit"
-          onClick={handleSave}
+          onClick={handleUpdate}
         >
-          Save
+          Update
         </ButtonPrimary>
       </div>
     </div>
