@@ -69,7 +69,7 @@ const AddGhatForm = () => {
               />
             </div>
             <div>
-              <ImageUpload setFile={setFile} />
+              <ImageUpload file={file} setFile={setFile} />
             </div>
           </div>
           <ButtonPrimary disabled={isDisabled}>Save</ButtonPrimary>

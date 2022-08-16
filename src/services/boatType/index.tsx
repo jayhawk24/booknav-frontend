@@ -6,8 +6,8 @@ export default class BoatTypeService {
     return requestClient.get('/boat-type')
   }
 
-  static addBoatType(data: FormData): Promise<BoatType> {
-    return requestClient.post('/boat-type', data)
+  static addBoatType(title: string): Promise<BoatType> {
+    return requestClient.post('/boat-type', { title })
   }
 
   static deleteBoatType(_id: string): Promise<BoatType> {

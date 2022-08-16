@@ -1,7 +1,7 @@
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import InputWithHelper from 'components/shared/InputWithHelper'
 import Label from 'components/shared/Label'
-import React, { FormEvent, useState } from 'react'
+import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import BoatTypeService from 'services/boatType'
 
@@ -9,9 +9,20 @@ const AddBoatType = () => {
   const [title, setTitle] = useState('')
   const [isDisabled, setIsDisabled] = useState(false)
 
-  const handleSave = (event: Event) => {
-    event.preventDefault()
+  const handleSave = () => {
     setIsDisabled(true)
+    const addBoatType = BoatTypeService.addBoatType(title)
+
+    toast
+      .promise(addBoatType, {
+        loading: 'Adding ',
+        success: ' added successfully.',
+        error: 'Error adding, please try again',
+      })
+      .finally(() => {
+        setTitle('')
+        setIsDisabled(false)
+      })
   }
 
   return (
@@ -29,7 +40,7 @@ const AddBoatType = () => {
             />
           </div>
         </div>
-        <ButtonPrimary disabled={isDisabled} type="submit">
+        <ButtonPrimary disabled={isDisabled} type="submit" onClick={handleSave}>
           Save
         </ButtonPrimary>
       </div>
