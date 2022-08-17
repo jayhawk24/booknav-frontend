@@ -1,5 +1,6 @@
 import Button from 'components/shared/Buttons/Button'
 import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
+import NcModal from 'components/shared/NcModal/NcModal'
 import useBoatTypes from 'hooks/useBoatTypes'
 import { Link } from 'react-router-dom'
 import BoatTypeService from 'services/boatType'
@@ -9,6 +10,15 @@ const GhatList = () => {
 
   const handleDelete = (_id: string) => {
     BoatTypeService.deleteBoatType(_id)
+  }
+
+  const renderModal = (_id: string) => {
+    return (
+      <div className="flex items-center justify-between">
+        <h3>Are you sure you want to delete?</h3>
+        <ButtonSecondary onClick={() => handleDelete(_id)}>Yes</ButtonSecondary>
+      </div>
+    )
   }
 
   return (
@@ -48,12 +58,18 @@ const GhatList = () => {
                         </Button>
                       </td>
                       <td className="px-6 py-4">
-                        <Button
-                          className="px-4 py-1 text-sm text-red-400 bg-red-200 rounded-full"
-                          onClick={() => handleDelete(boatType._id)}
-                        >
-                          Delete
-                        </Button>
+                        <NcModal
+                          modalTitle={'Delete Boat Type'}
+                          renderTrigger={openModal => (
+                            <Button
+                              className="px-4 py-1 text-sm text-red-400 bg-red-200 rounded-full"
+                              onClick={() => openModal()}
+                            >
+                              Delete
+                            </Button>
+                          )}
+                          renderContent={() => renderModal(boatType._id)}
+                        />
                       </td>
                     </tr>
                   </tbody>

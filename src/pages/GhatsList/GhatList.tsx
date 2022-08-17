@@ -1,6 +1,7 @@
 import Button from 'components/shared/Buttons/Button'
 import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import NcImage from 'components/shared/NcImage'
+import NcModal from 'components/shared/NcModal/NcModal'
 import useGhats from 'hooks/useGhats'
 import { Link } from 'react-router-dom'
 import GhatService from 'services/ghats'
@@ -10,6 +11,15 @@ const GhatList = () => {
 
   const handleDelete = (_id: string) => {
     GhatService.deleteGhat(_id)
+  }
+
+  const renderModal = (_id: string) => {
+    return (
+      <div className="flex items-center justify-between">
+        <h3>Are you sure you want to delete?</h3>
+        <ButtonSecondary onClick={() => handleDelete(_id)}>Yes</ButtonSecondary>
+      </div>
+    )
   }
 
   return (
@@ -63,12 +73,18 @@ const GhatList = () => {
                         </Button>
                       </td>
                       <td className="px-6 py-4">
-                        <Button
-                          className="px-4 py-1 text-sm text-red-400 bg-red-200 rounded-full"
-                          onClick={() => handleDelete(ghat._id)}
-                        >
-                          Delete
-                        </Button>
+                        <NcModal
+                          modalTitle={'Delete Ghat'}
+                          renderTrigger={openModal => (
+                            <Button
+                              className="px-4 py-1 text-sm text-red-400 bg-red-200 rounded-full"
+                              onClick={() => openModal()}
+                            >
+                              Delete
+                            </Button>
+                          )}
+                          renderContent={() => renderModal(ghat._id)}
+                        />
                       </td>
                     </tr>
                   </tbody>
