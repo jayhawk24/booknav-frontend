@@ -20,6 +20,16 @@ const Listings: FC = () => {
         </div>
         <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
         <div>
+          {listings?.length === 0 && (
+            <div className="text-center w-full">
+              <h1 className="text-2xl font-bold text-neutral-700">
+                You have no boats listed
+              </h1>
+              <p className="text-lg text-neutral-500">
+                You can add a boat by clicking the button above.
+              </p>
+            </div>
+          )}
           <div className="mt-8 grid grid-cols-1 gap-6 md:gap-7 sm:grid-cols-2">
             {listings?.map((listing: Naav) => (
               <ListingsCard key={listing._id} boat={listing} />

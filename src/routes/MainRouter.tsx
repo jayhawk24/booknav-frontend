@@ -6,6 +6,7 @@ import Header from 'components/Header'
 import Page404 from 'pages/Page404/Page404'
 import useUser from 'hooks/useUser'
 import FallbackComponent from 'components/FallbackComponent'
+import Footer from 'components/shared/Footer/Footer'
 
 function MainRouter() {
   const noAuthRoutes: string[] = []
@@ -54,7 +55,7 @@ function MainRouter() {
           <Route key={0} component={Page404} />
         </Switch>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </BrowserRouter>
   )
 }
