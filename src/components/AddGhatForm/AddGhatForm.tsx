@@ -5,6 +5,7 @@ import Label from 'components/shared/Label'
 import Textarea from 'components/shared/Textarea'
 import React, { FormEvent, useState } from 'react'
 import toast from 'react-hot-toast'
+import { useQueryClient } from 'react-query'
 import GhatService from 'services/ghats'
 
 const AddGhatForm = () => {
@@ -23,6 +24,7 @@ const AddGhatForm = () => {
     setIsDisabled(true)
 
     const addGhat = GhatService.addGhat(formData)
+    const queryClient = useQueryClient()
 
     toast
       .promise(addGhat, {
@@ -35,6 +37,7 @@ const AddGhatForm = () => {
         setTitle('')
       })
       .finally(() => {
+        queryClient.invalidateQueries('getGhats')
         setIsDisabled(false)
       })
   }

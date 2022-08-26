@@ -5,7 +5,7 @@ import Label from 'components/shared/Label'
 import Textarea from 'components/shared/Textarea'
 import React, { FormEvent, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import { useParams } from 'react-router-dom'
 import GhatService from 'services/ghats'
 
@@ -22,6 +22,8 @@ const EditGhat = () => {
   const [picture, setPicture] = useState(ghat?.picture || '')
   const [file, setFile] = useState<File | null>(null)
   const [isDisabled, setIsDisabled] = useState(false)
+
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     setTitle(ghat?.title || '')
@@ -45,6 +47,7 @@ const EditGhat = () => {
         success: 'updated',
         error: 'Error updating info',
       })
+      .then(() => queryClient.invalidateQueries('getGhats'))
       .finally(() => {
         setIsDisabled(false)
       })

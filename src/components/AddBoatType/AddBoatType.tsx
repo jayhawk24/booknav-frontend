@@ -15,8 +15,8 @@ const AddBoatType = () => {
 
     toast
       .promise(addBoatType, {
-        loading: 'Adding ',
-        success: ' added successfully.',
+        loading: 'Adding Boat Type',
+        success: 'Boat Type added successfully.',
         error: 'Error adding, please try again',
       })
       .finally(() => {

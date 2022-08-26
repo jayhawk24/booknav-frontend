@@ -3,14 +3,18 @@ import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import NcImage from 'components/shared/NcImage'
 import NcModal from 'components/shared/NcModal/NcModal'
 import useGhats from 'hooks/useGhats'
+import { useQueryClient } from 'react-query'
 import { Link } from 'react-router-dom'
 import GhatService from 'services/ghats'
 
 const GhatList = () => {
   const { data } = useGhats()
 
+  const queryClient = useQueryClient()
   const handleDelete = (_id: string) => {
-    GhatService.deleteGhat(_id)
+    GhatService.deleteGhat(_id).then(() =>
+      queryClient.invalidateQueries('getGhats'),
+    )
   }
 
   const renderModal = (_id: string) => {
