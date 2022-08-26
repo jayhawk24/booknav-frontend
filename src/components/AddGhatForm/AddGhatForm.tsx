@@ -33,11 +33,11 @@ const AddGhatForm = () => {
         error: 'Error adding, please try again',
       })
       .then(() => {
+        queryClient.invalidateQueries('getGhats')
         setDescription('')
         setTitle('')
       })
       .finally(() => {
-        queryClient.invalidateQueries('getGhats')
         setIsDisabled(false)
       })
   }
