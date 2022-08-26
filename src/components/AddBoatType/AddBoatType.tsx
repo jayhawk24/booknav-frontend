@@ -3,11 +3,13 @@ import InputWithHelper from 'components/shared/InputWithHelper'
 import Label from 'components/shared/Label'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
+import { useQueryClient } from 'react-query'
 import BoatTypeService from 'services/boatType'
 
 const AddBoatType = () => {
   const [title, setTitle] = useState('')
   const [isDisabled, setIsDisabled] = useState(false)
+  const queryClient = useQueryClient()
 
   const handleSave = () => {
     setIsDisabled(true)
@@ -19,6 +21,7 @@ const AddBoatType = () => {
         success: 'Boat Type added successfully.',
         error: 'Error adding, please try again',
       })
+      .then(() => queryClient.invalidateQueries('getBoatTypes'))
       .finally(() => {
         setTitle('')
         setIsDisabled(false)

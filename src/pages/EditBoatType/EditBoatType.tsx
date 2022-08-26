@@ -3,7 +3,7 @@ import InputWithHelper from 'components/shared/InputWithHelper'
 import Label from 'components/shared/Label'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import { useParams } from 'react-router-dom'
 import BoatTypeService from 'services/boatType'
 
@@ -17,6 +17,7 @@ const AddBoatType = () => {
 
   const [title, setTitle] = useState('')
   const [isDisabled, setIsDisabled] = useState(false)
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     setTitle(boatType?.title || '')
@@ -31,6 +32,7 @@ const AddBoatType = () => {
         success: 'updated',
         error: 'Error updating info',
       })
+      .then(() => queryClient.invalidateQueries('getBoatTypes'))
       .finally(() => {
         setIsDisabled(false)
       })

@@ -2,14 +2,19 @@ import Button from 'components/shared/Buttons/Button'
 import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import NcModal from 'components/shared/NcModal/NcModal'
 import useBoatTypes from 'hooks/useBoatTypes'
+import { useQueryClient } from 'react-query'
 import { Link } from 'react-router-dom'
 import BoatTypeService from 'services/boatType'
 
 const GhatList = () => {
   const { data } = useBoatTypes()
 
+  const queryClient = useQueryClient()
+
   const handleDelete = (_id: string) => {
-    BoatTypeService.deleteBoatType(_id)
+    BoatTypeService.deleteBoatType(_id).then(() =>
+      queryClient.invalidateQueries('getBoatTypes'),
+    )
   }
 
   const renderModal = (_id: string) => {

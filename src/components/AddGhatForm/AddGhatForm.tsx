@@ -13,6 +13,7 @@ const AddGhatForm = () => {
   const [description, setDescription] = useState('')
   const [file, setFile] = useState<File | null>(null)
   const [isDisabled, setIsDisabled] = useState(false)
+  const queryClient = useQueryClient()
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -24,7 +25,6 @@ const AddGhatForm = () => {
     setIsDisabled(true)
 
     const addGhat = GhatService.addGhat(formData)
-    const queryClient = useQueryClient()
 
     toast
       .promise(addGhat, {
