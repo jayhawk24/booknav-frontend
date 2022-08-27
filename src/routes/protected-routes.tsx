@@ -8,6 +8,11 @@ const GhatList = lazy(() => import('pages/GhatsList/GhatList'))
 const AddGhatForm = lazy(() => import('components/GhatForm/GhatForm'))
 const EditGhat = lazy(() => import('pages/EditGhat/EditGhat'))
 const EditNaav = lazy(() => import('pages/EditNaav'))
+const BoatTypeList = lazy(
+  () => import('../../src/pages/BoatTypeList/BoatTypeList'),
+)
+const AddBoatType = lazy(() => import('components/AddBoatType/AddBoatType'))
+const EditBoatType = lazy(() => import('pages/EditBoatType/EditBoatType'))
 
 export const protectedRoutes = [
   {
@@ -58,6 +63,24 @@ export const protectedRoutes = [
     name: 'edit-naav',
     path: '/naav/:naavId',
     component: EditNaav,
+    exact: true,
+  },
+  {
+    name: 'boat-type-list',
+    path: '/boat_types',
+    component: BoatTypeList,
+    exact: true,
+  },
+  {
+    name: 'add-boat-type',
+    path: '/boat_types/add',
+    component: AddBoatType,
+    exact: true,
+  },
+  {
+    name: 'edit-boat-type',
+    path: '/boat_types/:boatTypeId',
+    component: EditBoatType,
     exact: true,
   },
 ]

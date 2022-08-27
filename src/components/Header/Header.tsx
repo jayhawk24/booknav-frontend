@@ -59,6 +59,10 @@ const Header = () => {
         return 'My Rides'
       case '/ghats/add':
         return 'Add Ghats'
+      case '/boat_types':
+        return 'My Boat Types'
+      case '/boat_types/add':
+        return 'Add Boat Types'
       case '/naavs':
         return 'My Naavs'
       case '/naav/add':
