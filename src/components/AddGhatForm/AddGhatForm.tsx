@@ -3,51 +3,40 @@ import ImageUpload from 'components/shared/ImageUpload'
 import InputWithHelper from 'components/shared/InputWithHelper'
 import Label from 'components/shared/Label'
 import Textarea from 'components/shared/Textarea'
-import React, { FormEvent, useEffect, useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 import toast from 'react-hot-toast'
-import { useQuery, useQueryClient } from 'react-query'
-import { useParams } from 'react-router-dom'
+import { useQueryClient } from 'react-query'
 import GhatService from 'services/ghats'
 
-const EditGhat = () => {
-  const { ghatId } = useParams<{ ghatId: string }>()
-
-  const { data: ghat } = useQuery('getGhatId', async () => {
-    const { data } = await GhatService.getGhatId(ghatId)
-    return data
-  })
-
-  const [title, setTitle] = useState(ghat?.title)
-  const [description, setDescription] = useState(ghat?.description || '')
-  const [picture, setPicture] = useState(ghat?.picture || '')
+const AddGhatForm = () => {
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
   const [file, setFile] = useState<File | null>(null)
   const [isDisabled, setIsDisabled] = useState(false)
-
   const queryClient = useQueryClient()
 
-  useEffect(() => {
-    setTitle(ghat?.title || '')
-    setDescription(ghat?.description || '')
-    setPicture(ghat?.picture || '')
-  }, [ghat])
-
-  const handleUpdateData = async (e: FormEvent) => {
-    e.preventDefault()
-    if (!title) return
-    setIsDisabled(true)
-
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
     const formData = new FormData()
     formData.append('title', title)
     formData.append('description', description)
+    formData.append('location', JSON.stringify({ lat: 687416, lng: 87964 }))
     if (file) formData.append('picture', file)
+    setIsDisabled(true)
+
+    const addGhat = GhatService.addGhat(formData)
 
     toast
-      .promise(GhatService.updateGhatInfo(formData, ghat?._id), {
-        loading: 'Updating...',
-        success: 'updated',
-        error: 'Error updating info',
+      .promise(addGhat, {
+        loading: 'Adding Ghat',
+        success: 'Ghat added successfully.',
+        error: 'Error adding, please try again',
       })
-      .then(() => queryClient.invalidateQueries('getGhats'))
+      .then(() => {
+        queryClient.invalidateQueries('getGhats')
+        setDescription('')
+        setTitle('')
+      })
       .finally(() => {
         setIsDisabled(false)
       })
@@ -59,8 +48,8 @@ const EditGhat = () => {
         <form
           className="grid grid-cols-1 gap-6"
           action="#"
-          method="put"
-          onSubmit={handleUpdateData}
+          method="post"
+          onSubmit={handleSubmit}
         >
           <div className="flex items-center justify-between">
             <div>
@@ -83,21 +72,14 @@ const EditGhat = () => {
               />
             </div>
             <div>
-              <ImageUpload
-                file={file}
-                title={ghat?.title}
-                setFile={setFile}
-                imgUrl={picture}
-              />
+              <ImageUpload file={file} setFile={setFile} />
             </div>
           </div>
-          <ButtonPrimary type="submit" disabled={isDisabled}>
-            Update info
-          </ButtonPrimary>
+          <ButtonPrimary disabled={isDisabled}>Save</ButtonPrimary>
         </form>
       </div>
     </div>
   )
 }
 
-export default EditGhat
+export default AddGhatForm

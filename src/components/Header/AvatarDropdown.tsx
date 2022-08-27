@@ -40,6 +40,11 @@ export default function AvatarDropdown() {
             href: '/ghats',
             icon: HeartIcon,
           },
+          {
+            name: 'Boat Type',
+            href: '/boat_types',
+            icon: AnnotationIcon,
+          },
         ]
       : []),
     ...(user?.role === 'naavik'
