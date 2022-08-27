@@ -25,6 +25,7 @@ const AddListing: FC<Props> = ({ isEdit }) => {
   const [ghat, setGhat] = useState('')
   const [file, setFile] = useState<File | null>(null)
   const [price, setPrice] = useState<number | null>(null)
+  const [capacity, setCapacity] = useState<number | null>(null)
   const [disabled, setDisabled] = useState(false)
 
   const { naavId } = useParams<{ naavId: string }>()
@@ -43,6 +44,7 @@ const AddListing: FC<Props> = ({ isEdit }) => {
       setBoatType(naav?.boatType?._id || '')
       setGhat(naav?.ghat?._id || '')
       setPrice(naav?.price || null)
+      setCapacity(naav?.capacity || null)
     }
   }, [naav])
   useEffect(() => {
@@ -61,6 +63,7 @@ const AddListing: FC<Props> = ({ isEdit }) => {
     formData.append('boatType', boatType)
     formData.append('ghat', ghat)
     formData.append('price', price?.toString() || '')
+    formData.append('capacity', capacity?.toString() || '')
     if (file) formData.append('picture', file)
 
     if (isEdit) {
@@ -151,6 +154,16 @@ const AddListing: FC<Props> = ({ isEdit }) => {
             value={price?.toString()}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setPrice(parseInt(e.target.value))
+            }
+          />
+        </FormItem>
+        <FormItem label="Capacity">
+          <Input
+            type="number"
+            placeholder="Authorized Capacity"
+            value={capacity?.toString()}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setCapacity(parseInt(e.target.value))
             }
           />
         </FormItem>

@@ -22,3 +22,16 @@ export const editNaav = async ({
 export const deleteNaav = async (id: string): Promise<void> => {
   await requestClient.delete(`/naav/${id}`)
 }
+
+export const publishNaav = async ({
+  id,
+  isPublished,
+}: {
+  id: string
+  isPublished: boolean
+}): Promise<Naav> => {
+  const { data } = await requestClient.put(`/naav/${id}/status`, {
+    isPublished,
+  })
+  return data
+}

@@ -47,7 +47,7 @@ export default function AvatarDropdown() {
           },
         ]
       : []),
-    ...(user?.role === 'naavik'
+    ...(user?.role === 'naavik' || user?.role === 'admin'
       ? [
           {
             name: 'My Naav',
