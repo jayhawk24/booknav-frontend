@@ -63,6 +63,7 @@ export type Naav = {
   description?: string
   pictures?: [string]
   price?: number
+  capacity?: number
 }
 
 export default class AddBoatService {

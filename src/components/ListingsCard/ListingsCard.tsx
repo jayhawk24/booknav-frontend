@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import { Naav } from 'services/addBoat'
 import { deleteNaav } from 'services/naav'
-import { TrashIcon } from '@heroicons/react/outline'
+import { TrashIcon, UsersIcon } from '@heroicons/react/outline'
 import { useQueryClient } from 'react-query'
 
 export interface StayCardProps {
@@ -20,7 +20,7 @@ const ListingsCard: FC<StayCardProps> = ({
   boat,
   ratioClass,
 }) => {
-  const { _id, boatType, ghat, title, pictures, price } = boat
+  const { _id, boatType, ghat, title, pictures, price, capacity } = boat
   const queryClient = useQueryClient()
 
   const renderSliderGallery = () => {
@@ -91,6 +91,10 @@ const ListingsCard: FC<StayCardProps> = ({
                 /trip
               </span>
             )}
+          </span>
+          <span className="text-base font-semibold flex items-center space-x-2">
+            <UsersIcon className="h-4 w-4 ml-2" />
+            <span>{capacity}</span>
           </span>
           {/* {reviewStart && (
             <StartRating reviewCount={reviewCount} point={reviewStart} />
