@@ -1,11 +1,14 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import GallerySlider from 'components/GallerySlider'
 import { Link } from 'react-router-dom'
 import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import { Naav } from 'services/addBoat'
-import { deleteNaav } from 'services/naav'
+import { deleteNaav, publishNaav } from 'services/naav'
 import { TrashIcon, UsersIcon } from '@heroicons/react/outline'
 import { useQueryClient } from 'react-query'
+import Badge from 'components/shared/Badge'
+import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
+import toast from 'react-hot-toast'
 
 export interface StayCardProps {
   className?: string
@@ -20,8 +23,23 @@ const ListingsCard: FC<StayCardProps> = ({
   boat,
   ratioClass,
 }) => {
-  const { _id, boatType, ghat, title, pictures, price, capacity } = boat
+  const { _id, boatType, ghat, title, pictures, price, capacity, isPublished } =
+    boat
+  const [publishHover, setPublishHover] = useState(false)
+  const [disabled, setDisabled] = useState(false)
   const queryClient = useQueryClient()
+
+  const handlePublish = () => {
+    setDisabled(true)
+    toast
+      .promise(publishNaav({ id: _id, isPublished: !isPublished }), {
+        loading: 'Updating status',
+        success: 'Status Updated',
+        error: 'Failed to update status',
+      })
+      .then(() => queryClient.invalidateQueries('getListings'))
+      .finally(() => setDisabled(false))
+  }
 
   const renderSliderGallery = () => {
     return (
@@ -47,7 +65,7 @@ const ListingsCard: FC<StayCardProps> = ({
             {title}
           </span>
           <div className="flex items-center space-x-2">
-            {/* {is_professional && <Badge name="ADS" color="green" />} */}
+            {isPublished && <Badge name="LIVE" color="green" />}
             <h2
               className={` font-medium capitalize ${
                 size === 'default' ? 'text-lg' : 'text-base'
@@ -140,6 +158,45 @@ const ListingsCard: FC<StayCardProps> = ({
           <TrashIcon className="h-5" />
           Delete
         </ButtonSecondary>
+        <div className="flex space-x-3 justify-between mb-3 pr-3 pl-3 flex-wrap items-center ">
+          <div
+            className="w-full"
+            onMouseEnter={() => setPublishHover(true)}
+            onMouseLeave={() => setPublishHover(false)}
+          >
+            <ButtonPrimary
+              className={
+                isPublished
+                  ? 'font-thin w-full dark:bg-neutral-800 bg-neutral-200 text-gray-600 hover:text-gray-50 dark:text-neutral-400 '
+                  : 'font-thin w-full'
+              }
+              onClick={handlePublish}
+              disabled={disabled}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-neutral-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+              <span className="ml-1 text-sm">
+                {isPublished
+                  ? publishHover
+                    ? 'Unpublish'
+                    : 'Published'
+                  : 'Publish'}
+              </span>
+            </ButtonPrimary>
+          </div>
+        </div>
       </div>
     </div>
   )
