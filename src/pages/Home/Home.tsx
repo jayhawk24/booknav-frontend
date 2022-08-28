@@ -3,7 +3,6 @@ import useUser from 'hooks/useUser'
 import { NavLink } from 'react-router-dom'
 import NaavCard from 'components/NaavCard/NaavCard'
 import usePublishedNaav from 'hooks/usePublishedNaav'
-import { Naav } from 'services/addBoat'
 
 const Home = () => {
   const { data: user } = useUser()
