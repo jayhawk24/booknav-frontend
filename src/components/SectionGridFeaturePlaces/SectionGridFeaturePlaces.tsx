@@ -24,8 +24,8 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
   const searchParams = useSearchParams()
 
   const queries: GetNaavQuery = {
-    ghatId: searchParams.get('ghatId') || '',
-    isPublished: searchParams.get('isPublished') || '',
+    ghatId: searchParams.get('ghatId') || undefined,
+    isPublished: searchParams.get('isPublished') || true,
   }
 
   const history = useHistory()

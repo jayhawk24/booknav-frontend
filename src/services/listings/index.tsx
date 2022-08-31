@@ -5,7 +5,11 @@ import { GetNaavQuery } from 'services/naav'
 export function getListings(
   queries?: GetNaavQuery,
 ): Promise<MetaResponseType<Naav>> {
-  const query = new URLSearchParams(JSON.stringify(queries))
+  const query = new URLSearchParams({
+    isPublished: queries?.isPublished ? 'true' : 'false',
+  })
 
-  return requestClient.get(`/naav/${query}`)
+  if (queries?.ghatId) query.set('ghatId', queries?.ghatId)
+
+  return requestClient.get(`/naav/?${query}`)
 }
