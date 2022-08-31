@@ -10,9 +10,10 @@ import toast from 'react-hot-toast'
 import useGhats from 'hooks/useGhats'
 import useBoatTypes from 'hooks/useBoatTypes'
 import { useHistory, useParams } from 'react-router-dom'
-import { useQuery, useQueryClient } from 'react-query'
-import { editNaav, getNaav } from 'services/naav'
+import { useQueryClient } from 'react-query'
+import { editNaav } from 'services/naav'
 import GallerySlider from 'components/GallerySlider'
+import useNaav from 'hooks/useNaav'
 
 type Props = {
   isEdit?: boolean
@@ -31,9 +32,7 @@ const AddListing: FC<Props> = ({ isEdit }) => {
   const { naavId } = useParams<{ naavId: string }>()
   const { data: ghats } = useGhats()
   const { data: boatTypes } = useBoatTypes()
-  const { data: naav } = useQuery(['naav', naavId], () => {
-    if (naavId) return getNaav(naavId)
-  })
+  const { data: naav } = useNaav({ naavId })
   const queryClient = useQueryClient()
   const history = useHistory()
 

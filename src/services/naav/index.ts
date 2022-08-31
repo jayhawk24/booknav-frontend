@@ -3,8 +3,19 @@ import { Naav } from 'services/addBoat'
 
 type EditNaavRequest = { data: FormData; naavId: string }
 
-export const getNaav = async (id: string): Promise<Naav> => {
-  const { data } = await requestClient.get(`/naav/${id}`)
+export type GetNaavQuery = {
+  isPublished?: boolean | string
+  boatTypeId?: string
+  ghatId?: string
+}
+
+export const getNaav = async (
+  id: string,
+  query?: GetNaavQuery,
+): Promise<Naav> => {
+  if (!id) return Promise.reject(new Error('No id provided'))
+  const queryParams = new URLSearchParams(JSON.stringify(query))
+  const { data } = await requestClient.get(`/naav/${id}/?${queryParams}`)
   return data
 }
 
