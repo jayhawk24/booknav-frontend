@@ -1,8 +1,11 @@
 import requestClient from 'services/requestClient'
 import { Naav, MetaResponseType } from 'services/addBoat'
+import { GetNaavQuery } from 'services/naav'
 
-export default class ListingsService {
-  static getListings(): Promise<MetaResponseType<Naav>> {
-    return requestClient.get('/naav/')
-  }
+export function getListings(
+  queries?: GetNaavQuery,
+): Promise<MetaResponseType<Naav>> {
+  const query = new URLSearchParams(JSON.stringify(queries))
+
+  return requestClient.get(`/naav/${query}`)
 }

@@ -13,7 +13,6 @@ export const getNaav = async (
   id: string,
   query?: GetNaavQuery,
 ): Promise<Naav> => {
-  if (!id) return Promise.reject(new Error('No id provided'))
   const queryParams = new URLSearchParams(JSON.stringify(query))
   const { data } = await requestClient.get(`/naav/${id}/?${queryParams}`)
   return data

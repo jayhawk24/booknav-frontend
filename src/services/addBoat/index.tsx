@@ -1,3 +1,4 @@
+import { BoatType } from 'hooks/useBoatTypes'
 import requestClient from 'services/requestClient'
 export type PagedResponseType<T> = {
   data: {
@@ -41,10 +42,6 @@ export type ModelType = {
   name: string
 }
 
-export type BoatType = {
-  _id: string
-  title: string
-}
 export type Location = {
   lat: number
   lng: number

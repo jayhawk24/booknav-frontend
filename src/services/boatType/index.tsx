@@ -1,4 +1,4 @@
-import { BoatType } from 'services/addBoat'
+import { BoatType } from 'hooks/useBoatTypes'
 import requestClient from 'services/requestClient'
 
 export default class BoatTypeService {

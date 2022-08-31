@@ -4,6 +4,7 @@ import requestClient from 'services/requestClient'
 export type BoatType = {
   _id: string
   title: string
+  image: string
 }
 
 const getBoatTypes = async (): Promise<BoatType[]> => {

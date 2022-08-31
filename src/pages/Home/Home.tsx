@@ -1,26 +1,51 @@
 import React from 'react'
-import useUser from 'hooks/useUser'
-import { NavLink } from 'react-router-dom'
+import SectionHero from 'components/SectionHero/SectionHero'
+import BackgroundSection from 'components/BackgroundSection/BackgroundSection'
+import BgGlassmorphism from 'components/BgGlassmorphism'
+import SectionGridFeaturePlaces from 'components/SectionGridFeaturePlaces'
+import SectionSliderNewCategories from 'components/SectionSliderNewCategories'
+import useGhats from 'hooks/useGhats'
+import useBoatTypes from 'hooks/useBoatTypes'
 
-const Home = () => {
-  const { data: user } = useUser()
+function PageHome() {
+  const { data: ghats } = useGhats()
+  const { data: boatTypes } = useBoatTypes()
+
   return (
-    <div className="container mb-24 lg:mb-32" style={{ height: '60vh' }}>
-      <div className="w-full text-center">
-        {user ? (
-          <div>
-            <p>You are logged in</p>
-            <br />
-            <NavLink to="/account" className={'text-purple-500'}>
-              Click to view profile
-            </NavLink>
-          </div>
-        ) : (
-          'You are not logged in'
-        )}
+    <div className="nc-PageHome relative overflow-hidden">
+      <BgGlassmorphism />
+
+      <div className="container relative space-y-24 mb-24 lg:space-y-32 lg:mb-32">
+        <SectionHero className="pt-10 lg:pt-20 pb-16" />
+
+        <div className="relative py-16">
+          <SectionSliderNewCategories
+            categories={ghats}
+            categoryCardType={'card3'}
+          />
+          {/* <SectionClientSay /> */}
+        </div>
+        <div className="relative py-16 mb-10">
+          <BackgroundSection />
+          <SectionSliderNewCategories
+            heading="Explore By Types Of Boats"
+            subHeading="The wealth of choice of different boat types is huge"
+            categoryCardType="card5"
+            itemPerRow={5}
+            sliderStyle="style2"
+            categories={boatTypes || []}
+          />
+        </div>
+        <div className="relative py-16">
+          <SectionGridFeaturePlaces />
+        </div>
+        {/* <div className="relative py-16">
+          <BackgroundSection />
+          <SectionBecomeAnAuthor />
+        </div> */}
       </div>
     </div>
   )
 }
 
-export default Home
+export default PageHome

@@ -92,7 +92,7 @@ const AddListing: FC<Props> = ({ isEdit }) => {
   return (
     <div className="container">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-5">
-        <div className="relative ">
+        <div className="relative rounded-xl overflow-hidden  ">
           <GallerySlider
             uniqueID={`stay-v-${naavId}`}
             galleryImgs={naav?.pictures || []}

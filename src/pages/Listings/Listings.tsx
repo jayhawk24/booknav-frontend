@@ -3,12 +3,12 @@ import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import ListingsCard from 'components/ListingsCard'
 import OwnerDashboardLayout from 'components/OwnerDashboardLayout'
 import { useQuery } from 'react-query'
-import ListingsService from 'services/listings'
 import { Naav } from 'services/addBoat'
+import { getListings } from 'services/listings'
 
 const Listings: FC = () => {
   const { data: listings } = useQuery('getListings', async () => {
-    const { data } = await ListingsService.getListings()
+    const { data } = await getListings()
     return data
   })
 
