@@ -130,7 +130,7 @@ const ListingsCard: FC<StayCardProps> = ({
       {renderSliderGallery()}
       <Link to="/">{renderContent()}</Link>
       <div className="flex justify-center mb-5">
-        <ButtonSecondary href={`/naav/${_id}`} className="font-thin">
+        <ButtonSecondary href={`/naav/${_id}/edit/`} className="font-thin">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
