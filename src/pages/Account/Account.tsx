@@ -8,6 +8,7 @@ import toast from 'react-hot-toast'
 import accountService from 'services/account'
 import InputWithHelper from 'components/shared/InputWithHelper'
 import ImageUpload from 'components/shared/ImageUpload'
+import BankForm from 'components/BankForm/BankForm'
 
 export interface AccountPageProps {
   className?: string
@@ -109,6 +110,9 @@ const Account: FC<AccountPageProps> = ({ className = '' }) => {
             </div>
           </div>
         </form>
+      </div>
+      <div className="container mb-24 lg:mb-32" style={{ minHeight: '60vh' }}>
+        <BankForm />
       </div>
     </div>
   )
