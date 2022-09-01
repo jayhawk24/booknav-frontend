@@ -16,7 +16,7 @@ const CardCategory3: FC<CardCategory3Props> = ({
   const { title, picture, _id, totalNaavs } = taxonomy
   return (
     <Link
-      to={`/search?cityId=${_id}&cityName=${title}`}
+      to={`/search?ghatId=${_id}&cityName=${title}`}
       className={`nc-CardCategory3 flex flex-col ${className}`}
       data-nc-id="CardCategory3"
     >

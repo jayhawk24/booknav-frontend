@@ -32,7 +32,7 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
   const { data: ghats } = useGhats()
   const { data: publishedBoats } = usePublishedNaav(queries)
 
-  const cityId = searchParams.get('cityId') || '1'
+  const ghatId = searchParams.get('ghatId') || '1'
   const cityName = searchParams.get('cityName') || ghats?.[0]?.title
 
   return (
@@ -56,7 +56,7 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
         ))}
       </div>
       <div className="flex mt-16 justify-center items-center">
-        <ButtonPrimary href={`/search/?cityId=${cityId}&cityName=${cityName}`}>
+        <ButtonPrimary href={`/search/?ghatId=${ghatId}&cityName=${cityName}`}>
           Show me more
         </ButtonPrimary>
       </div>
