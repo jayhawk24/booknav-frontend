@@ -7,6 +7,7 @@ export type GhatType = {
   description?: string
   picture?: string
   location?: { lat: number; lng: number }
+  totalNaavs?: number
 }
 
 const getGhats = async (): Promise<GhatType[]> => {

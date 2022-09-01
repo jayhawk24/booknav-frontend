@@ -13,7 +13,7 @@ const CardCategory3: FC<CardCategory3Props> = ({
   className = '',
   taxonomy,
 }) => {
-  const { title, picture, _id } = taxonomy
+  const { title, picture, _id, totalNaavs } = taxonomy
   return (
     <Link
       to={`/search?cityId=${_id}&cityName=${title}`}
@@ -38,8 +38,8 @@ const CardCategory3: FC<CardCategory3Props> = ({
         <span
           className={`block mt-2 text-sm text-neutral-6000 dark:text-neutral-400`}
         >
-          {/* {convertNumbThousand(total || 0)} boat{total > 1 ? 's' : ''} */}
-          {convertNumbThousand(1 || 0)} boat{'s'}
+          {convertNumbThousand(totalNaavs || 0)} boat
+          {totalNaavs && totalNaavs > 1 ? 's' : ''}
         </span>
       </div>
     </Link>

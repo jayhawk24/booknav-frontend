@@ -9,12 +9,14 @@ import { useQueryClient } from 'react-query'
 import Badge from 'components/shared/Badge'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import toast from 'react-hot-toast'
+import StarRating from 'components/StarRating'
 
 export interface StayCardProps {
   className?: string
   ratioClass?: string
   boat: Naav
   size?: 'default' | 'small'
+  hideButtons?: boolean
 }
 
 const ListingsCard: FC<StayCardProps> = ({
@@ -22,9 +24,19 @@ const ListingsCard: FC<StayCardProps> = ({
   className = '',
   boat,
   ratioClass,
+  hideButtons = false,
 }) => {
-  const { _id, boatType, ghat, title, pictures, price, capacity, isPublished } =
-    boat
+  const {
+    _id,
+    boatType,
+    ghat,
+    title,
+    pictures,
+    price,
+    capacity,
+    isPublished,
+    reviews,
+  } = boat
   const [publishHover, setPublishHover] = useState(false)
   const [disabled, setDisabled] = useState(false)
   const queryClient = useQueryClient()
@@ -58,6 +70,12 @@ const ListingsCard: FC<StayCardProps> = ({
   }
 
   const renderContent = () => {
+    const rating =
+      (
+        reviews &&
+        reviews?.reduce((acc, curr) => acc + curr.rating, 0) / reviews?.length
+      )?.toFixed(1) || 0
+
     return (
       <div className={size === 'default' ? 'p-4 space-y-4' : 'p-3 space-y-2'}>
         <div className="space-y-2">
@@ -97,7 +115,13 @@ const ListingsCard: FC<StayCardProps> = ({
                 />
               </svg>
             )}
-            <span className="">{ghat?.title}</span>
+            <div className="flex justify-between w-full text-neutral-800">
+              <span className="">{ghat?.title}</span>
+              <span className="text-base font-semibold flex items-center space-x-2">
+                <UsersIcon className="h-4 w-4 ml-2" />
+                <span>{capacity}</span>
+              </span>
+            </div>
           </div>
         </div>
         <div className="w-14 border-b border-neutral-100 dark:border-neutral-800"></div>
@@ -110,13 +134,10 @@ const ListingsCard: FC<StayCardProps> = ({
               </span>
             )}
           </span>
-          <span className="text-base font-semibold flex items-center space-x-2">
-            <UsersIcon className="h-4 w-4 ml-2" />
-            <span>{capacity}</span>
-          </span>
-          {/* {reviewStart && (
-            <StartRating reviewCount={reviewCount} point={reviewStart} />
-          )} */}
+
+          {reviews && reviews?.length > 0 && (
+            <StarRating reviewCount={reviews.length} point={rating} />
+          )}
         </div>
       </div>
     )
@@ -129,75 +150,77 @@ const ListingsCard: FC<StayCardProps> = ({
     >
       {renderSliderGallery()}
       <Link to="/">{renderContent()}</Link>
-      <div className="flex justify-center mb-5">
-        <ButtonSecondary href={`/naav/${_id}/edit/`} className="font-thin">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-            />
-          </svg>
-          <span className="ml-3 text-sm">Edit</span>
-        </ButtonSecondary>
-        <ButtonSecondary
-          onClick={() => {
-            deleteNaav(_id).then(() =>
-              queryClient.invalidateQueries('getListings'),
-            )
-          }}
-          className="font-thin ml-5"
-        >
-          <TrashIcon className="h-5" />
-          Delete
-        </ButtonSecondary>
-        <div className="flex space-x-3 justify-between mb-3 pr-3 pl-3 flex-wrap items-center ">
-          <div
-            className="w-full"
-            onMouseEnter={() => setPublishHover(true)}
-            onMouseLeave={() => setPublishHover(false)}
-          >
-            <ButtonPrimary
-              className={
-                isPublished
-                  ? 'font-thin w-full dark:bg-neutral-800 bg-neutral-200 text-gray-600 hover:text-gray-50 dark:text-neutral-400 '
-                  : 'font-thin w-full'
-              }
-              onClick={handlePublish}
-              disabled={disabled}
+      {!hideButtons && (
+        <div className="flex justify-center mb-5">
+          <ButtonSecondary href={`/naav/${_id}/edit/`} className="font-thin">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-neutral-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+              />
+            </svg>
+            <span className="ml-3 text-sm">Edit</span>
+          </ButtonSecondary>
+          <ButtonSecondary
+            onClick={() => {
+              deleteNaav(_id).then(() =>
+                queryClient.invalidateQueries('getListings'),
+              )
+            }}
+            className="font-thin ml-5"
+          >
+            <TrashIcon className="h-5" />
+            Delete
+          </ButtonSecondary>
+          <div className="flex space-x-3 justify-between mb-3 pr-3 pl-3 flex-wrap items-center ">
+            <div
+              className="w-full"
+              onMouseEnter={() => setPublishHover(true)}
+              onMouseLeave={() => setPublishHover(false)}
+            >
+              <ButtonPrimary
+                className={
+                  isPublished
+                    ? 'font-thin w-full dark:bg-neutral-800 bg-neutral-200 text-gray-600 hover:text-gray-50 dark:text-neutral-400 '
+                    : 'font-thin w-full'
+                }
+                onClick={handlePublish}
+                disabled={disabled}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-              <span className="ml-1 text-sm">
-                {isPublished
-                  ? publishHover
-                    ? 'Unpublish'
-                    : 'Published'
-                  : 'Publish'}
-              </span>
-            </ButtonPrimary>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 text-neutral-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+                <span className="ml-1 text-sm">
+                  {isPublished
+                    ? publishHover
+                      ? 'Unpublish'
+                      : 'Published'
+                    : 'Publish'}
+                </span>
+              </ButtonPrimary>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
-// import moment from 'moment'
-// import DateSingleInput from 'components/shared/DateSingleInput'
 import LocationInput from 'components/LocationInput'
 import ButtonSubmit from './ButtonSubmit'
 import { GhatType } from 'hooks/useGhats'
 
-// DEFAULT DATA FOR ARCHIVE PAGE
 const SearchForm = () => {
   // const [dateValue, setdateValue] = useState<moment.Moment | null>(moment())
   const [locationInputValue, setLocationInputValue] = useState<GhatType>({

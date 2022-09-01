@@ -62,6 +62,13 @@ export type Naav = {
   price?: number
   capacity?: number
   isPublished?: boolean
+  reviews?: Review[]
+}
+
+export type Review = {
+  _id: string
+  rating: number
+  comment: string
 }
 
 export default class AddBoatService {

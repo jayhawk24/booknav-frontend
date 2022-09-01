@@ -30,8 +30,8 @@ const HeaderFilter: FC<HeaderFilterProps> = ({
   // }, [tabActive])
 
   useEffect(() => {
-    const cityId = searchParams.get('ghatId')
-    setTabActiveState(tabs.find(item => item._id === cityId))
+    const ghatId = searchParams.get('ghatId') || tabs[0]?._id
+    setTabActiveState(tabs.find(item => item._id === ghatId))
   }, [searchParams, tabs])
 
   const handleClickTab = (item: GhatType) => {
