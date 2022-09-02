@@ -36,7 +36,7 @@
     "component": "^1.1.0",
     "google-map-react": "^2.1.10",
     "moment": "^2.29.1",
-    "rc-slider": "^9.7.4",
+    "rc-slider": "^10.0.0",
     "react": "^17.0.2",
     "react-auth-code-input": "^3.2.1",
     "react-dates": "^21.8.0",

@@ -1,10 +1,9 @@
 import React, { FC } from 'react'
-// import Pagination from 'components/shared/Pagination'
-// import TabFilters from 'components/shared/TabFilters'
 import Heading2 from 'components/shared/Heading/Heading2'
 import { Loader } from 'components/FallbackComponent/FallbackComponent'
 import ListingsCard from 'components/ListingsCard'
 import { Naav } from 'services/addBoat'
+import TabFilters from 'components/TabFilters'
 
 export interface SectionGridFilterCardProps {
   className?: string
@@ -27,7 +26,9 @@ const SectionGridFilterCard: FC<SectionGridFilterCardProps> = ({
       data-nc-id="SectionGridFilterCard"
     >
       <Heading2 heading={heading} subHeading={`${count} boats`} />
-      <div className="mb-8">{/* <TabFilters /> */}</div>
+      <div className="mb-8">
+        <TabFilters />
+      </div>
       {isLoading ? (
         <div className="flex justify-center p-12">
           <Loader />
