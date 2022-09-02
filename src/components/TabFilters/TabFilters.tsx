@@ -56,19 +56,25 @@ const TabFilters = () => {
       if (clear) searchParams.delete('boatTypeId')
     }
     if (type === 'price') {
-      if (price) searchParams.set('price', price?.toString() || '')
+      searchParams.set('minPrice', price?.[0]?.toString() || '')
+      searchParams.set('maxPrice', price?.[1]?.toString() || '')
       if (clear) {
-        searchParams.delete('price')
+        searchParams.delete('minPrice')
+        searchParams.delete('maxPrice')
         setPrice(null)
       }
-      if (price === [500, 10000]) searchParams.delete('price')
+      if (price === [500, 10000]) {
+        searchParams.delete('minPrice')
+        searchParams.delete('maxPrice')
+      }
     }
     history.push(`${location.pathname}?${searchParams.toString()}`)
   }
 
   const applyAllFilters = (clear?: boolean) => {
     if (clear) {
-      searchParams.delete('price')
+      searchParams.delete('minPrice')
+      searchParams.delete('maxPrice')
       searchParams.delete('boatTypeId')
       searchParams.delete('ghatId')
       setGhat({ _id: '', title: '' })
@@ -76,7 +82,8 @@ const TabFilters = () => {
       setPrice(null)
       return
     }
-    searchParams.set('price', price?.toString() || '')
+    searchParams.set('minPrice', price?.[0]?.toString() || '')
+    searchParams.set('maxPrice', price?.[1]?.toString() || '')
     searchParams.delete('boatTypeId')
     checkedBoatTypes.map(boatTypeId => {
       if (boatTypeId.value)

@@ -12,6 +12,8 @@ export function getListings(
   if (queries?.ghatId) query.set('ghatId', queries?.ghatId)
   if (queries?.boatTypeId?.length)
     queries.boatTypeId.map(type => query.append('boatTypeId', type))
+  if (queries?.minPrice) query.set('minPrice', queries?.minPrice)
+  if (queries?.maxPrice) query.set('maxPrice', queries?.maxPrice)
 
   return requestClient.get(`/naav/?${query}`)
 }

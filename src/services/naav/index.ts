@@ -7,6 +7,8 @@ export type GetNaavQuery = {
   isPublished?: boolean | string
   boatTypeId?: string[]
   ghatId?: string
+  minPrice?: string
+  maxPrice?: string
 }
 
 export const getNaav = async (
