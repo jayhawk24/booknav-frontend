@@ -8,6 +8,7 @@ import useUser from 'hooks/useUser'
 import FallbackComponent from 'components/FallbackComponent'
 import Footer from 'components/shared/Footer/Footer'
 import ScrollToTop from 'components/shared/ScrollToTop/ScrollToTop'
+import FooterNav from 'components/FooterNav'
 
 function MainRouter() {
   const noAuthRoutes: string[] = []
@@ -56,6 +57,7 @@ function MainRouter() {
           {!isLogin && <Redirect exact from="/" to="/login" />}
           <Route key={0} component={Page404} />
         </Switch>
+        <FooterNav />
       </div>
       <Footer />
     </BrowserRouter>
