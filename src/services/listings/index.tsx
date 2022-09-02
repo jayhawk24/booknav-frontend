@@ -10,6 +10,8 @@ export function getListings(
   })
 
   if (queries?.ghatId) query.set('ghatId', queries?.ghatId)
+  if (queries?.boatTypeId?.length)
+    queries.boatTypeId.map(type => query.append('boatTypeId', type))
 
   return requestClient.get(`/naav/?${query}`)
 }

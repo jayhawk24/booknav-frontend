@@ -34,7 +34,7 @@ const PriceRangeInput: FC<PriceRangeInputProps> = ({
 
   return (
     <Popover className="flex relative [ nc-flex-1 ]">
-      {() => (
+      {({ close }) => (
         <>
           <Popover.Button
             className={

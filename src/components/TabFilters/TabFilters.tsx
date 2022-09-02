@@ -73,6 +73,7 @@ const TabFilters = () => {
       searchParams.delete('ghatId')
       setGhat({ _id: '', title: '' })
       history.push(`${location.pathname}?${searchParams.toString()}`)
+      setPrice(null)
       return
     }
     searchParams.set('price', price?.toString() || '')

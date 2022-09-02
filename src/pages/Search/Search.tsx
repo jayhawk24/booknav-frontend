@@ -14,7 +14,7 @@ const Search: FC<SearchPageProps> = ({ className = '' }) => {
 
   const queries = {
     ghatId: searchParams.get('ghatId') || '',
-    boatType: searchParams.getAll('boatType') || [],
+    boatTypeId: searchParams.getAll('boatTypeId') || [],
     search: searchParams.get('search') || '',
     isPublished: searchParams.get('isPublished') || true,
   }
@@ -24,8 +24,8 @@ const Search: FC<SearchPageProps> = ({ className = '' }) => {
 
   const searchedType = useMemo(
     () =>
-      queries.boatType?.length === 1
-        ? boatTypes?.find(type => type._id == queries?.boatType?.[0])?.title +
+      queries.boatTypeId?.length === 1
+        ? boatTypes?.find(type => type._id == queries?.boatTypeId?.[0])?.title +
           's'
         : 'Naavs',
     [boatTypes, queries],
