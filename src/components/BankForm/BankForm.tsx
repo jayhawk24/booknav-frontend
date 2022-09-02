@@ -3,35 +3,47 @@ import { Formik } from 'formik'
 import Label from 'components/shared/Label'
 import InputWithHelper from 'components/shared/InputWithHelper'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
+import toast from 'react-hot-toast'
+import BankService from 'services/bank'
 
-interface Values {
+export interface BankInfo {
   accountName: string
   accountNumber: number
   bankName: string
-  ifsc: string
+  ifscCode: string
 }
 
 const BankForm: React.FC = () => {
-  const [user, setUser] = useState<Values[]>([])
   const initialValues = {
     accountName: '',
-    accountNumber: NaN,
+    accountNumber: 0,
     bankName: '',
-    ifsc: '',
+    ifscCode: '',
+  }
+
+  const handleSubmit = (values: BankInfo, actions: any) => {
+    const data = {
+      accountName: values.accountName,
+      accountNumber: values.accountNumber,
+      bankName: values.bankName,
+      ifscCode: values.ifscCode,
+    }
+
+    toast
+      .promise(BankService.addBank(data), {
+        loading: 'Adding Bank data',
+        success: 'Bank added successfully.',
+        error: 'Error adding, please try again',
+      })
+      .then(() => {
+        actions.setSubmitting(false)
+      })
   }
 
   return (
-    <div className="w-full text-center ">
-      BankForm
-      <Formik
-        initialValues={initialValues}
-        onSubmit={(values: Values, actions) => {
-          console.log({ values, actions })
-          alert(JSON.stringify(values, null, 2))
-          setUser([...user, values])
-          // actions.setSubmitting(false)
-        }}
-      >
+    <div className="w-full">
+      Bank Details:
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         {({ handleSubmit, values, handleChange }) => (
           <form onSubmit={handleSubmit}>
             <Label>Account Name</Label>
@@ -47,6 +59,7 @@ const BankForm: React.FC = () => {
               value={values.accountNumber}
               name="accountNumber"
               onChange={handleChange}
+              type="number"
             />
             <Label>Bank Name</Label>
             <InputWithHelper
@@ -58,11 +71,13 @@ const BankForm: React.FC = () => {
             <Label>IFSC</Label>
             <InputWithHelper
               className="mt-1.5"
-              value={values.ifsc}
-              name="ifsc"
+              value={values.ifscCode}
+              name="ifscCode"
               onChange={handleChange}
             />
-            <ButtonPrimary type="submit">Save</ButtonPrimary>
+            <div className="pt-2 pb-5">
+              <ButtonPrimary type="submit">Save</ButtonPrimary>
+            </div>
           </form>
         )}
       </Formik>
