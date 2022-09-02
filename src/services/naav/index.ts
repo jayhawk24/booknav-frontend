@@ -5,8 +5,10 @@ type EditNaavRequest = { data: FormData; naavId: string }
 
 export type GetNaavQuery = {
   isPublished?: boolean | string
-  boatTypeId?: string
+  boatTypeId?: string[]
   ghatId?: string
+  minPrice?: string
+  maxPrice?: string
 }
 
 export const getNaav = async (

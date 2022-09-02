@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 
 export interface StartRatingProps {
   className?: string
-  point?: number
+  point?: number | string
   reviewCount?: number
 }
 

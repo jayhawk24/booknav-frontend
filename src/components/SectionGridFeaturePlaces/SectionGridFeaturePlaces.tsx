@@ -32,7 +32,7 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
   const { data: ghats } = useGhats()
   const { data: publishedBoats } = usePublishedNaav(queries)
 
-  const cityId = searchParams.get('cityId') || '1'
+  const ghatId = searchParams.get('ghatId') || '1'
   const cityName = searchParams.get('cityName') || ghats?.[0]?.title
 
   return (
@@ -52,11 +52,11 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
         className={`grid gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${gridClass}`}
       >
         {publishedBoats?.data.map((listing: Naav) => (
-          <ListingsCard key={listing._id} boat={listing} />
+          <ListingsCard key={listing._id} boat={listing} hideButtons={true} />
         ))}
       </div>
       <div className="flex mt-16 justify-center items-center">
-        <ButtonPrimary href={`/search/?cityId=${cityId}&cityName=${cityName}`}>
+        <ButtonPrimary href={`/search/?ghatId=${ghatId}&cityName=${cityName}`}>
           Show me more
         </ButtonPrimary>
       </div>

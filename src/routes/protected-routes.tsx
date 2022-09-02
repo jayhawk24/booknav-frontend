@@ -14,6 +14,7 @@ const BoatTypeList = lazy(
 const AddBoatType = lazy(() => import('components/AddBoatType'))
 const EditBoatType = lazy(() => import('pages/EditBoatType'))
 const NaavDetail = lazy(() => import('pages/NaavDetail'))
+const Search = lazy(() => import('pages/Search'))
 
 export const protectedRoutes = [
   {
@@ -89,5 +90,10 @@ export const protectedRoutes = [
     path: '/naav/:naavId',
     component: NaavDetail,
     exact: true,
+  },
+  {
+    name: 'search',
+    path: '/search',
+    component: Search,
   },
 ]

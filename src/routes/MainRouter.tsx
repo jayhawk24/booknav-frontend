@@ -7,6 +7,8 @@ import Page404 from 'pages/Page404/Page404'
 import useUser from 'hooks/useUser'
 import FallbackComponent from 'components/FallbackComponent'
 import Footer from 'components/shared/Footer/Footer'
+import ScrollToTop from 'components/shared/ScrollToTop/ScrollToTop'
+import FooterNav from 'components/FooterNav'
 
 function MainRouter() {
   const noAuthRoutes: string[] = []
@@ -47,6 +49,7 @@ function MainRouter() {
     <BrowserRouter>
       <div className="min-h-screen">
         <Header />
+        <ScrollToTop />
         <Switch>
           {isLogin && protectedRoutes}
           {isLogin && redirects}
@@ -54,6 +57,7 @@ function MainRouter() {
           {!isLogin && <Redirect exact from="/" to="/login" />}
           <Route key={0} component={Page404} />
         </Switch>
+        <FooterNav />
       </div>
       <Footer />
     </BrowserRouter>
