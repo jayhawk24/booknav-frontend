@@ -1,24 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import Label from 'components/shared/Label'
 import InputWithHelper from 'components/shared/InputWithHelper'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import toast from 'react-hot-toast'
-import BankService from 'services/bank'
-
-export interface BankInfo {
-  accountName: string
-  accountNumber: number
-  bankName: string
-  ifscCode: string
-}
+import BankService, { BankInfo } from 'services/bank'
+import { useQuery } from 'react-query'
 
 const BankForm: React.FC = () => {
+  const { data: bank } = useQuery('getBank', async () => {
+    const data = await BankService.getBank()
+    return data
+  })
   const initialValues = {
-    accountName: '',
-    accountNumber: 0,
-    bankName: '',
-    ifscCode: '',
+    accountName: bank?.[0]?.accountName || '',
+    accountNumber: bank?.[0]?.accountNumber || 0,
+    bankName: bank?.[0]?.bankName || '',
+    ifscCode: bank?.[0]?.ifscCode || '',
   }
 
   const handleSubmit = (values: BankInfo, actions: any) => {
@@ -36,6 +34,7 @@ const BankForm: React.FC = () => {
         error: 'Error adding, please try again',
       })
       .then(() => {
+        console.log(actions)
         actions.setSubmitting(false)
       })
   }

@@ -1,8 +1,15 @@
-import { BankInfo } from 'components/BankForm/BankForm'
 import requestClient from 'services/requestClient'
 
+export interface BankInfo {
+  user?: string
+  accountName: string
+  accountNumber: number
+  bankName: string
+  ifscCode: string
+  _id?: string
+}
 export default class BankService {
-  static getBank(): Promise<BankInfo> {
+  static getBank(): Promise<BankInfo[]> {
     return requestClient.get('/bank')
   }
 
