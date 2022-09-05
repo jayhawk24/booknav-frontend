@@ -10,6 +10,7 @@ import Badge from 'components/shared/Badge'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import toast from 'react-hot-toast'
 import StarRating from 'components/StarRating'
+import averageRating from 'utils/averageRating'
 
 export interface StayCardProps {
   className?: string
@@ -70,11 +71,7 @@ const ListingsCard: FC<StayCardProps> = ({
   }
 
   const renderContent = () => {
-    const rating =
-      (
-        reviews &&
-        reviews?.reduce((acc, curr) => acc + curr.rating, 0) / reviews?.length
-      )?.toFixed(1) || 0
+    const rating = averageRating(boat?.reviews || [])
 
     return (
       <div className={size === 'default' ? 'p-4 space-y-4' : 'p-3 space-y-2'}>
@@ -149,7 +146,7 @@ const ListingsCard: FC<StayCardProps> = ({
       data-nc-id="StayCard"
     >
       {renderSliderGallery()}
-      <Link to="/">{renderContent()}</Link>
+      <Link to={`/naav/${_id}`}>{renderContent()}</Link>
       {!hideButtons && (
         <div className="flex justify-center mb-5">
           <ButtonSecondary href={`/naav/${_id}/edit/`} className="font-thin">

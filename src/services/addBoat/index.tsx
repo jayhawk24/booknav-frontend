@@ -1,4 +1,5 @@
 import { BoatType } from 'hooks/useBoatTypes'
+import { UserType } from 'hooks/useUser'
 import requestClient from 'services/requestClient'
 export type PagedResponseType<T> = {
   data: {
@@ -63,12 +64,15 @@ export type Naav = {
   capacity?: number
   isPublished?: boolean
   reviews?: Review[]
+  user?: UserType
 }
 
 export type Review = {
   _id: string
   rating: number
   comment: string
+  createdAt?: string
+  user?: UserType
 }
 
 export default class AddBoatService {

@@ -21,7 +21,7 @@ export interface SectionSliderNewCategoriesProps {
 
 const SectionSliderNewCategories: FC<SectionSliderNewCategoriesProps> = ({
   heading = 'Selection From The Community',
-  subHeading = 'Popular Places',
+  subHeading = 'Popular Naavs',
   className = '',
   itemClassName = '',
   categories = [],
