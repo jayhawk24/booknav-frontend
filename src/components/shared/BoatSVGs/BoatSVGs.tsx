@@ -1,6 +1,5 @@
 import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import { ButtonSecondaryProps } from 'components/shared/Buttons/ButtonSecondary'
-import { YachtType } from 'services/addBoat'
 
 export const MotorboatSVG = (props: ButtonSecondaryProps) => (
   <ButtonSecondary {...props}>
@@ -142,47 +141,3 @@ export const YachtSVG = (props: ButtonSecondaryProps) => (
     </svg>
   </ButtonSecondary>
 )
-
-type Props = {
-  yachtTypes?: YachtType[]
-  onClick: (type: YachtType) => void
-  selected?: YachtType
-}
-
-export const BoatSVGs = ({ yachtTypes, onClick, selected }: Props) => {
-  if (!yachtTypes) return null
-
-  return (
-    <>
-      {yachtTypes.map((yachtType: YachtType) => {
-        const className =
-          selected?.id === yachtType.id
-            ? 'dark:bg-neutral-800 bg-neutral-100'
-            : ''
-
-        const allSVGs = [
-          <CatamaranSVG key={1} className={className} />,
-          <GuletSVG key={2} className={className} />,
-          <HouseboatSVG key={3} className={className} />,
-          <JetskiSVG key={4} className={className} />,
-          <MotorboatSVG key={5} className={className} />,
-          <RibSVG key={6} className={className} />,
-          <SailboatSVG key={7} className={className} />,
-          <YachtSVG key={8} className={className} />,
-        ]
-
-        return (
-          <div
-            key={yachtType.id}
-            className="text-xs text-center"
-            onClick={() => onClick(yachtType)}
-          >
-            {allSVGs[Number(yachtType.id) - 1]}
-
-            <p className="mt-2">{yachtType.name}</p>
-          </div>
-        )
-      })}
-    </>
-  )
-}

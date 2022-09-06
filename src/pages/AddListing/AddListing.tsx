@@ -5,7 +5,7 @@ import Select from 'components/shared/Select/Select'
 import Textarea from 'components/shared/Textarea'
 import ImageUpload from 'components/shared/ImageUpload'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
-import AddBoatService from 'services/addBoat'
+import AddBoatService, { Price } from 'services/addBoat'
 import toast from 'react-hot-toast'
 import useGhats from 'hooks/useGhats'
 import useBoatTypes from 'hooks/useBoatTypes'
@@ -25,7 +25,7 @@ const AddListing: FC<Props> = ({ isEdit }) => {
   const [boatType, setBoatType] = useState('')
   const [ghat, setGhat] = useState('')
   const [file, setFile] = useState<File | null>(null)
-  const [price, setPrice] = useState<number | null>(null)
+  const [price, setPrice] = useState<Price | null>(null)
   const [capacity, setCapacity] = useState<number | null>(null)
   const [disabled, setDisabled] = useState(false)
 
@@ -61,7 +61,7 @@ const AddListing: FC<Props> = ({ isEdit }) => {
     formData.append('description', description)
     formData.append('boatType', boatType)
     formData.append('ghat', ghat)
-    formData.append('price', price?.toString() || '')
+    formData.append('price', JSON.stringify(price) || '')
     formData.append('capacity', capacity?.toString() || '')
     if (file) formData.append('picture', file)
 
@@ -146,19 +146,11 @@ const AddListing: FC<Props> = ({ isEdit }) => {
           </Select>
         </FormItem>
 
-        <FormItem label="Price INR">
-          <Input
-            type="number"
-            placeholder="Enter Price"
-            value={price?.toString()}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPrice(parseInt(e.target.value))
-            }
-          />
-        </FormItem>
         <FormItem label="Capacity">
           <Input
             type="number"
+            min={1}
+            max={500}
             placeholder="Authorized Capacity"
             value={capacity?.toString()}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -166,6 +158,55 @@ const AddListing: FC<Props> = ({ isEdit }) => {
             }
           />
         </FormItem>
+
+        <h1 className="text-xl font-semibold">Pricing</h1>
+        <div className="grid grid-cols-2 gap-2">
+          <FormItem label="Ghat To Ghat">
+            <Input
+              type="number"
+              min={0}
+              max={99999}
+              placeholder="Assi to Manikarnika"
+              value={price?.ghatToGhat?.toString()}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPrice({
+                  ...price,
+                  ghatToGhat: parseInt(e.target.value),
+                })
+              }
+            />
+          </FormItem>
+          <FormItem label="Cross River">
+            <Input
+              type="number"
+              min={0}
+              max={99999}
+              placeholder="Ghat to Beach"
+              value={price?.crossRiver?.toString()}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPrice({
+                  ...price,
+                  crossRiver: parseInt(e.target.value),
+                })
+              }
+            />
+          </FormItem>
+          <FormItem label="Hourly">
+            <Input
+              type="number"
+              min={0}
+              max={99999}
+              placeholder="Enter Price"
+              value={price?.hourly?.toString()}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPrice({
+                  ...price,
+                  hourly: parseInt(e.target.value),
+                })
+              }
+            />
+          </FormItem>
+        </div>
       </div>
       <ButtonPrimary
         className="w-full my-5"

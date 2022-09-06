@@ -17,32 +17,6 @@ export type AddMetaResponseType<T> = {
   message: string
   data: T
 }
-
-export type HarbourType = {
-  id: string
-  name: string
-}
-export type CityType = {
-  id: string
-  name: string
-}
-export type CharterType = {
-  id: string
-  name: string
-}
-export type YachtType = {
-  id: string
-  name: string
-}
-export type ManufacturerType = {
-  id: string
-  name: string
-}
-export type ModelType = {
-  id: string
-  name: string
-}
-
 export type Location = {
   lat: number
   lng: number
@@ -53,6 +27,13 @@ export type Ghat = {
   location: Location
 }
 
+export type Price = {
+  // _id: string
+  ghatToGhat?: number
+  crossRiver?: number
+  hourly?: number
+}
+
 export type Naav = {
   _id: string
   boatType?: BoatType
@@ -60,7 +41,7 @@ export type Naav = {
   title?: string
   description?: string
   pictures?: [string]
-  price?: number
+  price?: Price
   capacity?: number
   isPublished?: boolean
   reviews?: Review[]
@@ -76,80 +57,6 @@ export type Review = {
 }
 
 export default class AddBoatService {
-  static getYachtTypes(page?: number): Promise<PagedResponseType<YachtType>> {
-    if (page)
-      return requestClient.get(
-        `/api/yacht-management/yacht-types?page=${page}/`,
-      )
-    return requestClient.get('/api/yacht-management/yacht/types')
-  }
-
-  static getCharterTypes(
-    page?: number,
-  ): Promise<PagedResponseType<CharterType>> {
-    if (page)
-      return requestClient.get(
-        `/api/yacht-management/charter-types?page=${page}/`,
-      )
-    return requestClient.get('/api/yacht-management/charter-types')
-  }
-
-  static getCities(): Promise<MetaResponseType<CityType>> {
-    return requestClient.get('/api/yacht-management/city')
-  }
-  static addCity(name: string): Promise<AddMetaResponseType<CityType>> {
-    return requestClient.post('/api/yacht-management/city/', { name })
-  }
-
-  static getHarbours(city: string): Promise<MetaResponseType<HarbourType>> {
-    return requestClient.get(`/api/yacht-management/city/${city}/harbours/`)
-  }
-  static addHarbour({
-    cityId,
-    name,
-  }: {
-    cityId: string
-    name: string
-  }): Promise<AddMetaResponseType<HarbourType>> {
-    return requestClient.post(
-      `/api/yacht-management/city/${cityId}/harbours/`,
-      {
-        name,
-      },
-    )
-  }
-
-  static getManufacturers(): Promise<MetaResponseType<ManufacturerType>> {
-    return requestClient.get('/api/yacht-management/manufacturer')
-  }
-  static addManufacturer(
-    name: string,
-  ): Promise<AddMetaResponseType<ManufacturerType>> {
-    return requestClient.post('/api/yacht-management/manufacturer/', { name })
-  }
-
-  static getModels(
-    manufacturerId: string,
-  ): Promise<MetaResponseType<ModelType>> {
-    return requestClient.get(
-      `/api/yacht-management/manufacturer/${manufacturerId}/models`,
-    )
-  }
-  static addModel({
-    manufacturerId,
-    name,
-  }: {
-    manufacturerId: string
-    name: string
-  }): Promise<AddMetaResponseType<ModelType>> {
-    return requestClient.post(
-      `/api/yacht-management/manufacturer/${manufacturerId}/models/`,
-      {
-        name,
-      },
-    )
-  }
-
   static addBoat(formData: FormData): Promise<Naav> {
     return requestClient.post('/naav/file/', formData)
   }

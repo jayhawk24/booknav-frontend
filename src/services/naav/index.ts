@@ -14,8 +14,9 @@ export type GetNaavQuery = {
 export const getNaav = async (
   id: string,
   query?: GetNaavQuery,
-): Promise<Naav> => {
+): Promise<Naav | undefined> => {
   const queryParams = new URLSearchParams(JSON.stringify(query))
+  if (!id) return
   const { data } = await requestClient.get(`/naav/${id}/?${queryParams}`)
   return data
 }

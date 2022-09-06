@@ -1,12 +1,6 @@
 import { Fragment, useState } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
-import {
-  CityType,
-  HarbourType,
-  ManufacturerType,
-  ModelType,
-} from 'services/addBoat'
 import NcModal from '../NcModal/NcModal'
 import Label from '../Label'
 import ButtonPrimary from '../Buttons/ButtonPrimary'
@@ -14,18 +8,14 @@ import ButtonSecondary from '../Buttons/ButtonSecondary'
 import InputWithHelper from '../InputWithHelper'
 import shortenString from '../../../utils/shortenString'
 
+type Data = { _id: string; title: string }
+
 type Props = {
-  data:
-    | CityType[]
-    | ModelType[]
-    | ManufacturerType[]
-    | HarbourType[]
-    | undefined
-  onAddOption?: (query: string) => Promise<ManufacturerType | ModelType>
-  selectedItem: CityType | HarbourType | ModelType | ManufacturerType
-  setSelectedItem: (
-    item: ManufacturerType | ModelType | HarbourType | CityType,
-  ) => void
+  data: Data[]
+
+  onAddOption?: (query: string) => Promise<Data>
+  selectedItem: Data
+  setSelectedItem: (item: Data) => void
   modalTitle?: string
   isDisabled?: boolean
   disableAddButton?: boolean
@@ -48,7 +38,7 @@ export default function CustomCombobox({
     query === ''
       ? data
       : data?.filter(item =>
-          item.name
+          item.title
             .toLowerCase()
             .replace(/\s+/g, '')
             .includes(query.toLowerCase().replace(/\s+/g, '')),
@@ -56,7 +46,7 @@ export default function CustomCombobox({
 
   const handleAdd = async () => {
     if (onAddOption) {
-      onAddOption(query).then((response: ManufacturerType | ModelType) => {
+      onAddOption(query).then((response: Data) => {
         setSelectedItem(response)
         setShowModal(false)
       })
@@ -95,8 +85,8 @@ export default function CustomCombobox({
               <div className="relative w-full text-left bg-neutral-100 dark:bg-neutral-800 cursor-default overflow-hidden border-2 border-neutral-100 dark:border-neutral-700 rounded-2xl text-sm block ">
                 <Combobox.Input
                   className="w-full border-none focus:ring-0 py-3 px-4 text-sm leading-5 bg-white dark:bg-neutral-900 "
-                  displayValue={(item: ManufacturerType | ModelType) =>
-                    shortenString(item.name, 30) || ''
+                  displayValue={(item: Data) =>
+                    shortenString(item.title, 30) || ''
                   }
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setQuery(event.target.value)
@@ -137,7 +127,7 @@ export default function CustomCombobox({
                     ) : (
                       filteredData?.map(item => (
                         <Combobox.Option
-                          key={item.id}
+                          key={item._id}
                           className={({ active }) =>
                             `cursor-default select-none relative py-2 pl-10 pr-4 ${
                               active
@@ -154,7 +144,7 @@ export default function CustomCombobox({
                                   selected ? 'font-medium' : 'font-normal'
                                 }`}
                               >
-                                {shortenString(item.name, 30)}
+                                {shortenString(item.title, 30)}
                               </span>
                               {selected ? (
                                 <span
