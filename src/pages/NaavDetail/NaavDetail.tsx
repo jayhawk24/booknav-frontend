@@ -134,19 +134,21 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
         <div className="flow-root">
           <div className="text-sm sm:text-base text-neutral-6000 dark:text-neutral-300 -mb-4">
             <div className="p-4 bg-neutral-100 dark:bg-neutral-800 flex justify-between items-center space-x-4 rounded-lg">
-              <span>Assi Ghat to Khidkiya Ghat</span>
-              <span className="font-medium">₹ {naav?.price} </span>
+              <span>Ghat to Ghat</span>
+              <span className="font-medium">₹ {naav?.price?.ghatToGhat} </span>
             </div>
             <div className="p-4  flex justify-between items-center space-x-4 rounded-lg">
-              <span>Ghat to beach</span>
+              <span>Cross River</span>
               <span>
-                <span className="font-medium">₹ {naav?.price} </span>
+                <span className="font-medium">
+                  ₹ {naav?.price?.crossRiver}{' '}
+                </span>
               </span>
             </div>
             <div className="p-4 bg-neutral-100 dark:bg-neutral-800 flex justify-between items-center space-x-4 rounded-lg">
               <span>Hourly</span>
               <span>
-                <span className="font-medium">₹ {naav?.price} </span>
+                <span className="font-medium">₹ {naav?.price?.hourly} </span>
               </span>
             </div>
           </div>
@@ -360,7 +362,9 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
         <header className="container 2xl:px-14 rounded-md sm:rounded-xl">
           <div className="relative grid grid-cols-3 sm:grid-cols-4 gap-1 sm:gap-2">
             <div
-              className="col-span-2 row-span-3 sm:row-span-2 relative rounded-md sm:rounded-xl overflow-hidden cursor-pointer mb-2"
+              className={`col-span-2 row-span-3 sm:row-span-2 relative rounded-md sm:rounded-xl overflow-hidden cursor-pointer mb-2 min-h-full ${
+                naav?.pictures?.length === 1 && 'h-48'
+              }`}
               onClick={() => handleOpenModal(0)}
             >
               <NcImage
