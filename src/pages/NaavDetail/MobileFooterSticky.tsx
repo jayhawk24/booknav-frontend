@@ -2,16 +2,26 @@ import { DateRange } from 'components/DatesRangeInput/DatesRangeInput'
 import { GuestsObject } from 'components/GuestsInput/GuestsInput'
 import ModalSelectDate from 'components/ModalSelectDate/ModalSelectDate'
 import moment from 'moment'
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import converSelectedDateToString from 'utils/convertSelectedDateToString'
 import ModalReserveMobile from './ModalReserveMobile'
+import { useParams } from 'react-router-dom'
+import useNaav from 'hooks/useNaav'
 
-const MobileFooterSticky = () => {
+type Props = {
+  selectedDate?: DateRange
+  selectedGuests?: GuestsObject
+}
+
+const MobileFooterSticky: FC<Props> = () => {
   const [selectedDate, setSelectedDate] = useState<DateRange>({
     startDate: moment().add(4, 'days'),
     endDate: moment().add(10, 'days'),
   })
+  const { naavId } = useParams<{ naavId: string }>()
+  const { data: naav } = useNaav({ naavId })
+
   const [guestsState, setGuestsState] = useState<GuestsObject>({
     guestAdults: 0,
     guestChildren: 0,
@@ -23,7 +33,7 @@ const MobileFooterSticky = () => {
       <div className="container flex items-center justify-between">
         <div className="">
           <span className="block text-xl font-semibold">
-            $311
+            {naav?.price?.ghatToGhat}
             <span className="ml-1 text-sm font-normal text-neutral-500 dark:text-neutral-400">
               /ride
             </span>

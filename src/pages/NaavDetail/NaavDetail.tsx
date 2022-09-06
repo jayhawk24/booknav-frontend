@@ -448,7 +448,6 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
         </div>
       </main>
 
-      {/* STICKY FOOTER MOBILE */}
       {!isPreviewMode && <MobileFooterSticky />}
 
       {!isPreviewMode && (
