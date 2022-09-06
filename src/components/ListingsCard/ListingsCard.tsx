@@ -39,11 +39,11 @@ const ListingsCard: FC<StayCardProps> = ({
     reviews,
   } = boat
   const [publishHover, setPublishHover] = useState(false)
-  const [disabled, setDisabled] = useState(false)
+  const [disabled, setDisabled] = useState({ delete: false, publish: false })
   const queryClient = useQueryClient()
 
   const handlePublish = () => {
-    setDisabled(true)
+    setDisabled({ ...disabled, publish: true })
     toast
       .promise(publishNaav({ id: _id, isPublished: !isPublished }), {
         loading: 'Updating status',
@@ -51,7 +51,32 @@ const ListingsCard: FC<StayCardProps> = ({
         error: 'Failed to update status',
       })
       .then(() => queryClient.invalidateQueries('getListings'))
-      .finally(() => setDisabled(false))
+      .finally(() =>
+        setDisabled({
+          ...disabled,
+          publish: false,
+        }),
+      )
+  }
+
+  const handleDelete = () => {
+    setDisabled({
+      ...disabled,
+      delete: true,
+    })
+    toast
+      .promise(deleteNaav(_id), {
+        loading: 'Deleting naav',
+        success: 'Naav deleted',
+        error: 'Failed to delete naav',
+      })
+      .then(() => queryClient.invalidateQueries('getListings'))
+      .finally(() =>
+        setDisabled({
+          ...disabled,
+          delete: false,
+        }),
+      )
   }
 
   const renderSliderGallery = () => {
@@ -167,12 +192,9 @@ const ListingsCard: FC<StayCardProps> = ({
             <span className="ml-3 text-sm">Edit</span>
           </ButtonSecondary>
           <ButtonSecondary
-            onClick={() => {
-              deleteNaav(_id).then(() =>
-                queryClient.invalidateQueries('getListings'),
-              )
-            }}
+            onClick={handleDelete}
             className="font-thin ml-5"
+            disabled={disabled.delete}
           >
             <TrashIcon className="h-5" />
             Delete
@@ -190,7 +212,7 @@ const ListingsCard: FC<StayCardProps> = ({
                     : 'font-thin w-full'
                 }
                 onClick={handlePublish}
-                disabled={disabled}
+                disabled={disabled.publish}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -23,10 +23,10 @@ const Listings: FC = () => {
           {listings?.length === 0 && (
             <div className="text-center w-full">
               <h1 className="text-2xl font-bold text-neutral-700">
-                You have no boats listed
+                You have no naavs listed
               </h1>
               <p className="text-lg text-neutral-500">
-                You can add a boat by clicking the button above.
+                You can add a naav by clicking the button above.
               </p>
             </div>
           )}
