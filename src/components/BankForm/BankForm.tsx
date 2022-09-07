@@ -12,12 +12,23 @@ const BankForm: React.FC = () => {
     const data = await BankService.getBank()
     return data
   })
-  const initialValues = {
+  let initialValues = {
     accountName: bank?.[0]?.accountName || '',
     accountNumber: bank?.[0]?.accountNumber || 0,
     bankName: bank?.[0]?.bankName || '',
     ifscCode: bank?.[0]?.ifscCode || '',
   }
+
+  useEffect(() => {
+    initialValues = {
+      accountName: bank?.[0]?.accountName || '',
+      accountNumber: bank?.[0]?.accountNumber || 0,
+      bankName: bank?.[0]?.bankName || '',
+      ifscCode: bank?.[0]?.ifscCode || '',
+    }
+  }, [bank])
+
+  console.log(initialValues)
 
   const handleSubmit = (values: BankInfo, actions: any) => {
     const data = {
@@ -42,7 +53,11 @@ const BankForm: React.FC = () => {
   return (
     <div className="w-full">
       Bank Details:
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+      <Formik
+        enableReinitialize={true}
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+      >
         {({ handleSubmit, values, handleChange }) => (
           <form onSubmit={handleSubmit}>
             <Label>Account Name</Label>

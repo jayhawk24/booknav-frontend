@@ -10,6 +10,7 @@ import Badge from 'components/shared/Badge'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import toast from 'react-hot-toast'
 import StarRating from 'components/StarRating'
+import averageRating from 'utils/averageRating'
 
 export interface StayCardProps {
   className?: string
@@ -38,11 +39,11 @@ const ListingsCard: FC<StayCardProps> = ({
     reviews,
   } = boat
   const [publishHover, setPublishHover] = useState(false)
-  const [disabled, setDisabled] = useState(false)
+  const [disabled, setDisabled] = useState({ delete: false, publish: false })
   const queryClient = useQueryClient()
 
   const handlePublish = () => {
-    setDisabled(true)
+    setDisabled({ ...disabled, publish: true })
     toast
       .promise(publishNaav({ id: _id, isPublished: !isPublished }), {
         loading: 'Updating status',
@@ -50,7 +51,32 @@ const ListingsCard: FC<StayCardProps> = ({
         error: 'Failed to update status',
       })
       .then(() => queryClient.invalidateQueries('getListings'))
-      .finally(() => setDisabled(false))
+      .finally(() =>
+        setDisabled({
+          ...disabled,
+          publish: false,
+        }),
+      )
+  }
+
+  const handleDelete = () => {
+    setDisabled({
+      ...disabled,
+      delete: true,
+    })
+    toast
+      .promise(deleteNaav(_id), {
+        loading: 'Deleting naav',
+        success: 'Naav deleted',
+        error: 'Failed to delete naav',
+      })
+      .then(() => queryClient.invalidateQueries('getListings'))
+      .finally(() =>
+        setDisabled({
+          ...disabled,
+          delete: false,
+        }),
+      )
   }
 
   const renderSliderGallery = () => {
@@ -70,11 +96,7 @@ const ListingsCard: FC<StayCardProps> = ({
   }
 
   const renderContent = () => {
-    const rating =
-      (
-        reviews &&
-        reviews?.reduce((acc, curr) => acc + curr.rating, 0) / reviews?.length
-      )?.toFixed(1) || 0
+    const rating = averageRating(boat?.reviews || [])
 
     return (
       <div className={size === 'default' ? 'p-4 space-y-4' : 'p-3 space-y-2'}>
@@ -127,7 +149,7 @@ const ListingsCard: FC<StayCardProps> = ({
         <div className="w-14 border-b border-neutral-100 dark:border-neutral-800"></div>
         <div className="flex justify-between items-center">
           <span className="text-base font-semibold">
-            ₹{price}
+            ₹{price?.ghatToGhat || 0}
             {size === 'default' && (
               <span className="text-sm text-neutral-500 dark:text-neutral-400 font-normal">
                 /trip
@@ -149,7 +171,7 @@ const ListingsCard: FC<StayCardProps> = ({
       data-nc-id="StayCard"
     >
       {renderSliderGallery()}
-      <Link to="/">{renderContent()}</Link>
+      <Link to={`/naav/${_id}`}>{renderContent()}</Link>
       {!hideButtons && (
         <div className="flex justify-center mb-5">
           <ButtonSecondary href={`/naav/${_id}/edit/`} className="font-thin">
@@ -170,12 +192,9 @@ const ListingsCard: FC<StayCardProps> = ({
             <span className="ml-3 text-sm">Edit</span>
           </ButtonSecondary>
           <ButtonSecondary
-            onClick={() => {
-              deleteNaav(_id).then(() =>
-                queryClient.invalidateQueries('getListings'),
-              )
-            }}
+            onClick={handleDelete}
             className="font-thin ml-5"
+            disabled={disabled.delete}
           >
             <TrashIcon className="h-5" />
             Delete
@@ -193,7 +212,7 @@ const ListingsCard: FC<StayCardProps> = ({
                     : 'font-thin w-full'
                 }
                 onClick={handlePublish}
-                disabled={disabled}
+                disabled={disabled.publish}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

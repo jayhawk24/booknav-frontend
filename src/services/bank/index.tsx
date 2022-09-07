@@ -17,7 +17,7 @@ export default class BankService {
     return requestClient.post('/bank', data)
   }
 
-  static deleteBank(_id: string): Promise<BankInfo> {
-    return requestClient.delete(`/bank/${_id}`)
+  static updateBank(_id: string): Promise<BankInfo> {
+    return requestClient.put(`/bank/${_id}`)
   }
 }

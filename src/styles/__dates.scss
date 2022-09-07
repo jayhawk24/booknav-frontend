@@ -100,10 +100,11 @@
 
 //
 .nc-SetYourAvailabilityData {
-  .CalendarDay__highlighted_calendar {
+  .CalendarDay__highlighted_calendar,
+  .CalendarDay__blocked_calendar {
     @apply bg-neutral-200 dark:bg-neutral-6000 border-neutral-200 dark:border-neutral-6000 text-neutral-700 dark:text-neutral-100 relative;
     &::after {
-      content: "";
+      content: '';
       width: 1px;
       height: 30px;
       left: 50%;
