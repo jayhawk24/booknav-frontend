@@ -1,16 +1,16 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/solid'
-import { DateRange } from 'components/DatesRangeInput/DatesRangeInput'
 import { GuestsObject } from 'components/GuestsInput/GuestsInput'
+import moment from 'moment'
 
 type ModalReserveMobileProps = {
   onClose?: () => void
   onChangeGuests: (date: GuestsObject) => void
   renderChildren?: (p: { openModal: () => void }) => React.ReactNode
-  onChangeDate: (date: DateRange) => void
+  onChangeDate: (date: moment.Moment) => void
   defaultGuests: GuestsObject
-  defaultDate: DateRange
+  defaultDate: moment.Moment | null
 }
 
 const ModalReserveMobile = ({ renderChildren }: ModalReserveMobileProps) => {

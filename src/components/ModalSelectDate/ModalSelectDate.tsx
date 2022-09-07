@@ -1,39 +1,32 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { DateRange } from 'components/DatesRangeInput/DatesRangeInput'
 import moment from 'moment'
-import React, { FC, Fragment, useEffect, useState } from 'react'
-import {
-  DayPickerRangeController,
-  FocusedInputShape,
-  isInclusivelyAfterDay,
-} from 'react-dates'
+import React, { FC, Fragment, useState } from 'react'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import { XIcon } from '@heroicons/react/solid'
+import DateSingleInput from 'components/shared/DateSingleInput/DateSingleInput'
 
 interface ModalSelectDateProps {
   onClose?: () => void
-  onSelectDate: (date: DateRange) => void
-  defaultValue: DateRange
+  defaultValue: moment.Moment | null
   renderChildren?: (p: {
-    defaultValue: DateRange
+    defaultValue: moment.Moment | null
     openModal: () => void
   }) => React.ReactNode
+  dateFocused: boolean
+  setDateFocused: (focused: boolean) => void
+  dateValue: moment.Moment | null
+  setDateValue: (date: moment.Moment | null) => void
 }
 
 const ModalSelectDate: FC<ModalSelectDateProps> = ({
   defaultValue,
-  onSelectDate,
+  dateValue,
+  setDateValue,
+  dateFocused,
+  setDateFocused,
   renderChildren,
 }) => {
   const [showModal, setShowModal] = useState(false)
-  const [stateDate, setStateDate] = useState(defaultValue)
-  const [focusedInputSectionCheckDate, setFocusedInputSectionCheckDate] =
-    useState<FocusedInputShape>('startDate')
-
-  useEffect(() => {
-    setStateDate(defaultValue)
-  }, [defaultValue])
-
   // FOR RESET ALL DATA WHEN CLICK CLEAR BUTTON
   //
   function closeModal() {
@@ -82,53 +75,28 @@ const ModalSelectDate: FC<ModalSelectDateProps> = ({
                         <XIcon className="w-5 h-5 text-black dark:text-white" />
                       </button>
                     </div>
-
-                    <div className="flex-1 pt-12 p-1 flex flex-col overflow-hidden">
-                      <div className="flex-1 flex flex-col overflow-hidden bg-white dark:bg-neutral-800">
-                        <div className="flex-1 flex flex-col transition-opacity animate-[myblur_0.4s_ease-in-out] overflow-auto">
-                          <div className="p-5 ">
-                            <span className="block font-semibold text-xl sm:text-2xl">
-                              When&apos;s your trip?
-                            </span>
-                          </div>
-                          <div
-                            className={`flex-1 relative flex z-10 overflow-hidden`}
-                          >
-                            <DayPickerRangeController
-                              startDate={stateDate.startDate}
-                              endDate={stateDate.endDate}
-                              onDatesChange={date => {
-                                setStateDate(date)
-                                onSelectDate && onSelectDate(date)
-                              }}
-                              focusedInput={focusedInputSectionCheckDate}
-                              onFocusChange={focusedInput =>
-                                setFocusedInputSectionCheckDate(
-                                  focusedInput || 'startDate',
-                                )
-                              }
-                              initialVisibleMonth={null}
-                              hideKeyboardShortcutsPanel={false}
-                              numberOfMonths={3}
-                              orientation="vertical"
-                              isOutsideRange={day =>
-                                !isInclusivelyAfterDay(day, moment())
-                              }
-                            />
-                          </div>
-                        </div>
+                    <div className="pt-12 p-1 flex flex-col">
+                      <div className="p-5 ">
+                        <span className="block font-semibold text-xl sm:text-2xl">
+                          When&apos;s your trip?
+                        </span>
                       </div>
+                      <DateSingleInput
+                        defaultValue={dateValue}
+                        onChange={(date: moment.Moment | null) =>
+                          setDateValue(date)
+                        }
+                        defaultFocus={dateFocused}
+                        onFocusChange={(focus: boolean) => {
+                          setDateFocused(focus)
+                        }}
+                      />
                     </div>
                     <div className="px-4 py-3 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-700 flex justify-between">
                       <button
                         type="button"
                         className="underline font-semibold flex-shrink-0"
-                        onClick={() => {
-                          setStateDate({
-                            startDate: moment(),
-                            endDate: moment().add(1, 'days'),
-                          })
-                        }}
+                        onClick={() => setDateValue(moment().add(1, 'days'))}
                       >
                         Clear dates
                       </button>

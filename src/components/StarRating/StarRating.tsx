@@ -18,7 +18,9 @@ const StartRating: FC<StartRatingProps> = ({
       data-nc-id="StartRating"
     >
       <StarIcon className="w-5 h-5 text-red-500" />
-      <span className="font-medium ">{point}</span>
+      <span className="font-medium ">
+        {isNaN(parseFloat(point.toString())) ? 0 : point}
+      </span>
       <span className="text-neutral-500 dark:text-neutral-400">
         ({reviewCount})
       </span>

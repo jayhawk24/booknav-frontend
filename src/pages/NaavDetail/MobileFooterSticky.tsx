@@ -4,7 +4,6 @@ import ModalSelectDate from 'components/ModalSelectDate/ModalSelectDate'
 import moment from 'moment'
 import React, { FC, useState } from 'react'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
-import converSelectedDateToString from 'utils/convertSelectedDateToString'
 import ModalReserveMobile from './ModalReserveMobile'
 import { useParams } from 'react-router-dom'
 import useNaav from 'hooks/useNaav'
@@ -15,12 +14,12 @@ type Props = {
 }
 
 const MobileFooterSticky: FC<Props> = () => {
-  const [selectedDate, setSelectedDate] = useState<DateRange>({
-    startDate: moment().add(4, 'days'),
-    endDate: moment().add(10, 'days'),
-  })
+  const [selectedDate, setSelectedDate] = useState<moment.Moment | null>(
+    moment().add(1, 'days'),
+  )
   const { naavId } = useParams<{ naavId: string }>()
   const { data: naav } = useNaav({ naavId })
+  const [dateFocused, setDateFocused] = useState<boolean>(true)
 
   const [guestsState, setGuestsState] = useState<GuestsObject>({
     guestAdults: 0,
@@ -40,13 +39,16 @@ const MobileFooterSticky: FC<Props> = () => {
           </span>
           <ModalSelectDate
             defaultValue={selectedDate}
-            onSelectDate={setSelectedDate}
+            dateFocused={dateFocused}
+            setDateValue={setSelectedDate}
+            setDateFocused={setDateFocused}
+            dateValue={selectedDate}
             renderChildren={({ openModal }) => (
               <span
                 onClick={openModal}
-                className="block text-sm underline font-medium"
+                className="block text-sm underline font-medium cursor-pointer text-right"
               >
-                {converSelectedDateToString(selectedDate)}
+                {moment(selectedDate).format('MMM DD')}
               </span>
             )}
           />

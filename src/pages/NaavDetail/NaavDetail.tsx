@@ -19,14 +19,12 @@ import ModalPhotos from 'components/shared/ModalPhotos'
 import BackgroundSection from 'components/BackgroundSection/BackgroundSection'
 import SectionSliderNewCategories from 'components/SectionSliderNewCategories/SectionSliderNewCategories'
 import MobileFooterSticky from './MobileFooterSticky'
-import DatesRangeInput, {
-  DateRange,
-} from 'components/DatesRangeInput/DatesRangeInput'
 import { useParams } from 'react-router-dom'
 import useNaav from 'hooks/useNaav'
 import averageRating from 'utils/averageRating'
 import AvailableDates from 'components/AvailableDates'
 import useBoatTypes from 'hooks/useBoatTypes'
+import DateSingleInput from 'components/shared/DateSingleInput/DateSingleInput'
 
 export interface ListingStayDetailPageProps {
   className?: string
@@ -39,10 +37,9 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [openFocusIndex, setOpenFocusIndex] = useState(0)
-  const [selectedDate, setSelectedDate] = useState<DateRange>({
-    startDate: moment().add(4, 'days'),
-    endDate: moment().add(10, 'days'),
-  })
+  const [selectedDate, setSelectedDate] = useState<moment.Moment | null>(
+    moment().add(1, 'days'),
+  )
   const { naavId } = useParams<{ naavId: string }>()
   const { data: naav } = useNaav({ naavId })
   const { data: boatTypes } = useBoatTypes()
@@ -309,13 +306,13 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
 
         {/* FORM */}
         <form className="flex flex-col border border-neutral-200 dark:border-neutral-700 rounded-3xl ">
-          <DatesRangeInput
-            wrapClassName="divide-x divide-neutral-200 dark:divide-neutral-700 !grid-cols-1 sm:!grid-cols-2"
+          <DateSingleInput
+            className="divide-x divide-neutral-200 dark:divide-neutral-700 !grid-cols-1 sm:!grid-cols-2"
             onChange={date => setSelectedDate(date)}
             fieldClassName="p-3"
             defaultValue={selectedDate}
             anchorDirection={'right'}
-            // className="nc-ListingStayDetailPage__stayDatesRangeInput flex-1"
+            onFocusChange={focusedInput => focusedInput}
           />
           <div className="w-full border-b border-neutral-200 dark:border-neutral-700"></div>
           <GuestsInput
