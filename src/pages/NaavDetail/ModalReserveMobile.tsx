@@ -3,6 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/solid'
 import { GuestsObject } from 'components/GuestsInput/GuestsInput'
 import moment from 'moment'
+import CheckOutPage from 'pages/Checkout/Checkout'
 
 type ModalReserveMobileProps = {
   onClose?: () => void
@@ -67,7 +68,7 @@ const ModalReserveMobile = ({ renderChildren }: ModalReserveMobileProps) => {
 
                     <div className="flex-1 pt-12 py-1 flex flex-col ">
                       <div className="flex-1 bg-white dark:bg-neutral-900">
-                        {/* <CheckOutPage /> */}
+                        <CheckOutPage />
                       </div>
                     </div>
                   </>

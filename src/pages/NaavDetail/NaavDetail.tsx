@@ -157,7 +157,6 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
   const renderSectionCheckIndate = () => {
     return (
       <div className="listingSection__wrap overflow-hidden">
-        {/* HEADING */}
         <div>
           <h2 className="text-2xl font-semibold">Availability</h2>
           <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
@@ -165,7 +164,6 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
           </span>
         </div>
         <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
-        {/* CONTENT */}
 
         <div className="listingSection__wrap__DayPickerRangeController flow-root">
           <div className="-mx-4 sm:mx-auto xl:mx-[-22px]">

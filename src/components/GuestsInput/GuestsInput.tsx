@@ -39,7 +39,7 @@ const GuestsInput: FC<GuestsInputProps> = ({
   }, [defaultValue.guestInfants])
 
   const handleChangeData = (value: number, type: keyof GuestsObject) => {
-    let newValue = {
+    const newValue = {
       guestAdults: guestAdultsInputValue,
       guestChildren: guestChildrenInputValue,
       guestInfants: guestInfantsInputValue,
