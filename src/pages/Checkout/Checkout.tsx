@@ -138,6 +138,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
                 defaultValue={guests}
                 onChange={setGuests}
                 hasButtonSubmit={false}
+                maxGuests={naav?.capacity}
               />
               <div className="mr-1 my-1 sm:mr-4 border border-neutral-200 dark:border-neutral-700 rounded-full">
                 <Popover className="relative">

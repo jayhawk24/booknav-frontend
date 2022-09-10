@@ -13,6 +13,7 @@ export interface GuestsInputProps {
   className?: string
   buttonSubmitHref?: string
   hasButtonSubmit?: boolean
+  maxGuests?: number
 }
 
 const GuestsInput: FC<GuestsInputProps> = ({
@@ -22,6 +23,7 @@ const GuestsInput: FC<GuestsInputProps> = ({
   className = '[ nc-flex-1 ]',
   buttonSubmitHref = '/listing-stay-map',
   hasButtonSubmit = true,
+  maxGuests = 10,
 }) => {
   const [guestAdultsInputValue, setGuestAdultsInputValue] = useState(
     defaultValue.guestAdults || 0,
@@ -115,7 +117,7 @@ const GuestsInput: FC<GuestsInputProps> = ({
                 className="w-full"
                 defaultValue={guestAdultsInputValue}
                 onChange={value => handleChangeData(value, 'guestAdults')}
-                max={10}
+                max={maxGuests}
                 min={1}
                 // label="Adults"
                 // desc="Ages 13 or above"
