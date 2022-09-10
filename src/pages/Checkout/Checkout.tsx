@@ -132,14 +132,14 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
                 </button>
               )}
             />
-            <div className="flex justify-between">
+            <div className="flex justify-between py-2">
               <GuestsInput
                 className="nc-ListingStayDetailPage__guestsInput flex-1"
                 defaultValue={guests}
                 onChange={setGuests}
                 hasButtonSubmit={false}
               />
-              <div className="mr-1 my-1 sm:mr-4 border border-neutral-300 dark:border-neutral-700 rounded-full">
+              <div className="mr-1 my-1 sm:mr-4 border border-neutral-200 dark:border-neutral-700 rounded-full">
                 <Popover className="relative">
                   {({ open, close }) => (
                     <>
@@ -149,7 +149,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
             px-4 py-4 rounded-md inline-flex items-center font-medium hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 text-xs`}
                         onClick={() => document.querySelector('html')?.click()}
                       >
-                        <span className="text-neutral-6000 dark:text-neutral-400">
+                        <span className="text-neutral-400 font-normal">
                           Ride Type :
                         </span>
                         <span className="font-semibold text-base ml-2">
