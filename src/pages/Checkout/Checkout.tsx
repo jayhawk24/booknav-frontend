@@ -22,7 +22,7 @@ export interface CheckOutPageProps {
   className?: string
 }
 
-const priceTypes = ['ghatToGhat', 'crossRiver', 'hourly']
+const priceTypes = ['ghatToGhat', 'crossRiver']
 
 const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
   const [rangeDates, setRangeDates] = useState<moment.Moment | null>(
@@ -34,7 +34,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
     guestChildren: 1,
     guestInfants: 1,
   })
-  const [boatTypesState, setBoatTypesState] = useState('ghatToGhat')
+  const [priceType, setPriceType] = useState('ghatToGhat')
   const { naavId } = useParams<{ naavId: string }>()
   const { data: naav } = useNaav({ naavId })
 
@@ -132,64 +132,78 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
                 </button>
               )}
             />
-            <GuestsInput
-              className="nc-ListingStayDetailPage__guestsInput flex-1"
-              defaultValue={guests}
-              onChange={setGuests}
-              hasButtonSubmit={false}
-            />
-          </div>
-
-          <div className=" mr-2 my-1 sm:mr-4 border border-neutral-300 dark:border-neutral-700 rounded-full">
-            <Popover className="relative">
-              {({ open, close }) => (
-                <>
-                  <Popover.Button
-                    className={`
+            <div className="flex justify-between">
+              <GuestsInput
+                className="nc-ListingStayDetailPage__guestsInput flex-1"
+                defaultValue={guests}
+                onChange={setGuests}
+                hasButtonSubmit={false}
+              />
+              <div className="mr-1 my-1 sm:mr-4 border border-neutral-300 dark:border-neutral-700 rounded-full">
+                <Popover className="relative">
+                  {({ open, close }) => (
+                    <>
+                      <Popover.Button
+                        className={`
            ${open ? '' : ''}
-            px-4 py-1.5 rounded-md inline-flex items-center font-medium hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 text-xs`}
-                    onClick={() => document.querySelector('html')?.click()}
-                  >
-                    <span>{`${boatTypesState}`}</span>
-                    <ChevronDownIcon
-                      className={`${
-                        open ? '' : 'text-opacity-70'
-                      } ml-2 h-4 w-4 group-hover:text-opacity-80 transition ease-in-out duration-150`}
-                      aria-hidden="true"
-                    />
-                  </Popover.Button>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-200"
-                    enterFrom="opacity-0 translate-y-1"
-                    enterTo="opacity-100 translate-y-0"
-                    leave="transition ease-in duration-150"
-                    leaveFrom="opacity-100 translate-y-0"
-                    leaveTo="opacity-0 translate-y-1"
-                  >
-                    <Popover.Panel className="absolute z-10 w-screen max-w-[200px] sm:max-w-[220px] px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0 ">
-                      <div className="overflow-hidden rounded-2xl shadow-lg ring-1 ring-black/5 dark:ring-white/10 ">
-                        <div className="relative grid gap-8 bg-white dark:bg-neutral-800 p-7 ">
-                          {priceTypes?.map(item => (
-                            <div
-                              key={item}
-                              onClick={e => {
-                                e.preventDefault()
-                                setBoatTypesState(item)
-                                close()
-                              }}
-                              className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
-                            >
-                              <p className="text-sm font-medium ">{item}</p>
+            px-4 py-4 rounded-md inline-flex items-center font-medium hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 text-xs`}
+                        onClick={() => document.querySelector('html')?.click()}
+                      >
+                        <span className="text-neutral-6000 dark:text-neutral-400">
+                          Ride Type :
+                        </span>
+                        <span className="font-semibold text-base ml-2">
+                          {`${
+                            priceType === 'ghatToGhat'
+                              ? 'Ghat To Ghat'
+                              : 'Cross River'
+                          }`}
+                        </span>
+                        <ChevronDownIcon
+                          className={`${
+                            open ? '' : 'text-opacity-70'
+                          } ml-2 h-4 w-4 group-hover:text-opacity-80 transition ease-in-out duration-150`}
+                          aria-hidden="true"
+                        />
+                      </Popover.Button>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-200"
+                        enterFrom="opacity-0 translate-y-1"
+                        enterTo="opacity-100 translate-y-0"
+                        leave="transition ease-in duration-150"
+                        leaveFrom="opacity-100 translate-y-0"
+                        leaveTo="opacity-0 translate-y-1"
+                      >
+                        <Popover.Panel className="absolute z-10 w-screen max-w-[200px] sm:max-w-[220px] px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0 ">
+                          <div className="overflow-hidden rounded-2xl shadow-lg ring-1 ring-black/5 dark:ring-white/10 ">
+                            <div className="relative grid gap-8 bg-white dark:bg-neutral-800 p-7 ">
+                              {priceTypes?.map(item => (
+                                <div
+                                  key={item}
+                                  onClick={e => {
+                                    e.preventDefault()
+                                    setPriceType(item)
+                                    close()
+                                  }}
+                                  className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                                >
+                                  <p className="text-sm font-medium ">
+                                    {item === 'ghatToGhat'
+                                      ? 'Ghat to Ghat'
+                                      : 'Cross River'}
+                                  </p>
+                                </div>
+                              ))}
                             </div>
-                          ))}
-                        </div>
-                      </div>
-                    </Popover.Panel>
-                  </Transition>
-                </>
-              )}
-            </Popover>
+                          </div>
+                        </Popover.Panel>
+                      </Transition>
+                    </>
+                  )}
+                </Popover>
+              </div>
+            </div>
           </div>
         </div>
 
