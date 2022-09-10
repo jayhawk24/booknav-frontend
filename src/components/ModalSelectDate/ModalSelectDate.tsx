@@ -75,7 +75,7 @@ const ModalSelectDate: FC<ModalSelectDateProps> = ({
                         <XIcon className="w-5 h-5 text-black dark:text-white" />
                       </button>
                     </div>
-                    <div className="pt-12 p-1 flex flex-col">
+                    <div className="pt-12 p-1 flex flex-col dark:text-neutral-200">
                       <div className="p-5 ">
                         <span className="block font-semibold text-xl sm:text-2xl">
                           When&apos;s your trip?
@@ -92,7 +92,7 @@ const ModalSelectDate: FC<ModalSelectDateProps> = ({
                         }}
                       />
                     </div>
-                    <div className="px-4 py-3 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-700 flex justify-between">
+                    <div className="px-4 py-3 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-700 flex justify-between dark:text-neutral-200">
                       <button
                         type="button"
                         className="underline font-semibold flex-shrink-0"

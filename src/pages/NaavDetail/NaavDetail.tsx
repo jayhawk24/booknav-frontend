@@ -142,12 +142,6 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
                 </span>
               </span>
             </div>
-            <div className="p-4 bg-neutral-100 dark:bg-neutral-800 flex justify-between items-center space-x-4 rounded-lg">
-              <span>Hourly</span>
-              <span>
-                <span className="font-medium">₹ {naav?.price?.hourly} </span>
-              </span>
-            </div>
           </div>
         </div>
       </div>

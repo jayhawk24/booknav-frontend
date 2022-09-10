@@ -76,7 +76,6 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
             <span>Service charge</span>
             <span>₹0</span>
           </div>
-
           <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
           <div className="flex justify-between font-semibold">
             <span>Total</span>
@@ -86,9 +85,10 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
       </div>
     )
   }
+
   const renderMain = () => {
     return (
-      <div className="w-full flex flex-col sm:rounded-2xl sm:border border-neutral-200 dark:border-neutral-700 space-y-8 px-0 sm:p-6 xl:p-8">
+      <div className="w-full flex flex-col sm:rounded-2xl sm:border border-neutral-200 dark:border-neutral-700 space-y-8 px-0 sm:p-6 xl:p-8 dark:text-neutral-200">
         <h2 className="text-3xl lg:text-4xl font-semibold">
           Confirm and payment
         </h2>

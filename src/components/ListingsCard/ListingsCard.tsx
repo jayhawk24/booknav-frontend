@@ -11,6 +11,7 @@ import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import toast from 'react-hot-toast'
 import StarRating from 'components/StarRating'
 import averageRating from 'utils/averageRating'
+import useUser from 'hooks/useUser'
 
 export interface StayCardProps {
   className?: string
@@ -41,6 +42,7 @@ const ListingsCard: FC<StayCardProps> = ({
   const [publishHover, setPublishHover] = useState(false)
   const [disabled, setDisabled] = useState({ delete: false, publish: false })
   const queryClient = useQueryClient()
+  const { data: user } = useUser()
 
   const handlePublish = () => {
     setDisabled({ ...disabled, publish: true })
@@ -137,7 +139,7 @@ const ListingsCard: FC<StayCardProps> = ({
                 />
               </svg>
             )}
-            <div className="flex justify-between w-full text-neutral-800">
+            <div className="flex justify-between w-full text-neutral-800 dark:text-neutral-200">
               <span className="">{ghat?.title}</span>
               <span className="text-base font-semibold flex items-center space-x-2">
                 <UsersIcon className="h-4 w-4 ml-2" />
@@ -199,45 +201,47 @@ const ListingsCard: FC<StayCardProps> = ({
             <TrashIcon className="h-5" />
             Delete
           </ButtonSecondary>
-          <div className="flex space-x-3 justify-between mb-3 pr-3 pl-3 flex-wrap items-center ">
-            <div
-              className="w-full"
-              onMouseEnter={() => setPublishHover(true)}
-              onMouseLeave={() => setPublishHover(false)}
-            >
-              <ButtonPrimary
-                className={
-                  isPublished
-                    ? 'font-thin w-full dark:bg-neutral-800 bg-neutral-200 text-gray-600 hover:text-gray-50 dark:text-neutral-400 '
-                    : 'font-thin w-full'
-                }
-                onClick={handlePublish}
-                disabled={disabled.publish}
+          {user?.role === 'admin' && (
+            <div className="flex space-x-3 justify-between mb-3 pr-3 pl-3 flex-wrap items-center ">
+              <div
+                className="w-full"
+                onMouseEnter={() => setPublishHover(true)}
+                onMouseLeave={() => setPublishHover(false)}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-neutral-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+                <ButtonPrimary
+                  className={
+                    isPublished
+                      ? 'font-thin w-full dark:bg-neutral-800 bg-neutral-200 text-gray-600 hover:text-gray-50 dark:text-neutral-400 '
+                      : 'font-thin w-full'
+                  }
+                  onClick={handlePublish}
+                  disabled={disabled.publish}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-                <span className="ml-1 text-sm">
-                  {isPublished
-                    ? publishHover
-                      ? 'Unpublish'
-                      : 'Published'
-                    : 'Publish'}
-                </span>
-              </ButtonPrimary>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-neutral-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <span className="ml-1 text-sm">
+                    {isPublished
+                      ? publishHover
+                        ? 'Unpublish'
+                        : 'Published'
+                      : 'Publish'}
+                  </span>
+                </ButtonPrimary>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>
