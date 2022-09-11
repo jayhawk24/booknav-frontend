@@ -191,21 +191,6 @@ const AddListing: FC<Props> = ({ isEdit }) => {
               }
             />
           </FormItem>
-          <FormItem label="Hourly">
-            <Input
-              type="number"
-              min={0}
-              max={99999}
-              placeholder="Enter Price"
-              value={price?.hourly?.toString()}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setPrice({
-                  ...price,
-                  hourly: parseInt(e.target.value),
-                })
-              }
-            />
-          </FormItem>
         </div>
       </div>
       <ButtonPrimary

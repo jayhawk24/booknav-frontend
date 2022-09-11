@@ -13,6 +13,7 @@ export interface GuestsInputProps {
   className?: string
   buttonSubmitHref?: string
   hasButtonSubmit?: boolean
+  maxGuests?: number
 }
 
 const GuestsInput: FC<GuestsInputProps> = ({
@@ -22,46 +23,29 @@ const GuestsInput: FC<GuestsInputProps> = ({
   className = '[ nc-flex-1 ]',
   buttonSubmitHref = '/listing-stay-map',
   hasButtonSubmit = true,
+  maxGuests = 10,
 }) => {
   const [guestAdultsInputValue, setGuestAdultsInputValue] = useState(
     defaultValue.guestAdults || 0,
   )
-  const [guestChildrenInputValue, setGuestChildrenInputValue] = useState(
-    defaultValue.guestChildren || 0,
-  )
-  const [guestInfantsInputValue, setGuestInfantsInputValue] = useState(
-    defaultValue.guestInfants || 0,
-  )
 
   useEffect(() => {
     setGuestAdultsInputValue(defaultValue.guestAdults || 0)
-    setGuestChildrenInputValue(defaultValue.guestChildren || 0)
-    setGuestInfantsInputValue(defaultValue.guestInfants || 0)
   }, [defaultValue])
 
   const handleChangeData = (value: number, type: keyof GuestsObject) => {
     const newValue = {
       guestAdults: guestAdultsInputValue,
-      guestChildren: guestChildrenInputValue,
-      guestInfants: guestInfantsInputValue,
     }
     if (type === 'guestAdults') {
       setGuestAdultsInputValue(value)
       newValue.guestAdults = value
     }
-    if (type === 'guestChildren') {
-      setGuestChildrenInputValue(value)
-      newValue.guestChildren = value
-    }
-    if (type === 'guestInfants') {
-      setGuestInfantsInputValue(value)
-      newValue.guestInfants = value
-    }
+
     onChange && onChange(newValue)
   }
 
-  const totalGuests =
-    guestChildrenInputValue + guestAdultsInputValue + guestInfantsInputValue
+  const totalGuests = guestAdultsInputValue
 
   return (
     <Popover className={`flex relative ${className}`}>
@@ -107,8 +91,6 @@ const GuestsInput: FC<GuestsInputProps> = ({
                 <ClearDataButton
                   onClick={() => {
                     setGuestAdultsInputValue(0)
-                    setGuestChildrenInputValue(0)
-                    setGuestInfantsInputValue(0)
                   }}
                 />
               )}
@@ -135,27 +117,10 @@ const GuestsInput: FC<GuestsInputProps> = ({
                 className="w-full"
                 defaultValue={guestAdultsInputValue}
                 onChange={value => handleChangeData(value, 'guestAdults')}
-                max={10}
+                max={maxGuests}
                 min={1}
-                label="Adults"
-                desc="Ages 13 or above"
-              />
-              <NcInputNumber
-                className="w-full mt-6"
-                defaultValue={guestChildrenInputValue}
-                onChange={value => handleChangeData(value, 'guestChildren')}
-                max={4}
-                label="Children"
-                desc="Ages 2–12"
-              />
-
-              <NcInputNumber
-                className="w-full mt-6"
-                defaultValue={guestInfantsInputValue}
-                onChange={value => handleChangeData(value, 'guestInfants')}
-                max={4}
-                label="Infants"
-                desc="Ages 0–2"
+                // label="Adults"
+                // desc="Ages 13 or above"
               />
             </Popover.Panel>
           </Transition>

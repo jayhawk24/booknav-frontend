@@ -31,7 +31,7 @@ export type Price = {
   // _id: string
   ghatToGhat?: number
   crossRiver?: number
-  hourly?: number
+  // hourly?: number
 }
 
 export type Naav = {
