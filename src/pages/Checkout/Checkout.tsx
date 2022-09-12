@@ -50,7 +50,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
   const renderSidebar = () => {
     return (
       <div className="w-full flex flex-col sm:rounded-2xl lg:border border-neutral-200 dark:border-neutral-700 space-y-6 sm:space-y-8 px-0 sm:p-6 xl:p-8">
-        <div className="flex flex-col sm:flex-row sm:items-center">
+        <div className="hidden flex-col sm:flex-row sm:items-center ">
           <div className="flex-shrink-0 w-full sm:w-40">
             <div className=" aspect-w-4 aspect-h-3 sm:aspect-h-4 rounded-2xl overflow-hidden">
               <NcImage src={naav?.pictures?.[0]} />
@@ -105,7 +105,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
         <div>
           <div>
             <h3 className="text-2xl font-semibold">Your trip</h3>
-            <NcModal
+            {/* <NcModal
               renderTrigger={openModal => (
                 <span
                   onClick={() => openModal()}
@@ -116,7 +116,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
               )}
               renderContent={renderSidebar}
               modalTitle="Booking details"
-            />
+            /> */}
           </div>
           <div className="mt-6 border border-neutral-200 dark:border-neutral-700 rounded-3xl flex flex-col sm:flex-row divide-y sm:divide-x sm:divide-y-0 divide-neutral-200 dark:divide-neutral-700">
             {renderModalSelectDate &&
@@ -216,6 +216,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
               </div>
             </div>
           </div>
+          {renderSidebar()}
         </div>
 
         <div>
@@ -315,7 +316,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
     <div className={`nc-CheckOutPage ${className}`} data-nc-id="CheckOutPage">
       <main className="container mt-11 mb-24 lg:mb-32 flex flex-col-reverse lg:flex-row">
         <div className="w-full lg:w-3/5 xl:w-2/3 lg:pr-10 ">{renderMain()}</div>
-        <div className="hidden lg:block flex-grow">{renderSidebar()}</div>
+        {/* <div className="hidden lg:block flex-grow">{renderSidebar()}</div> */}
       </main>
     </div>
   )
