@@ -98,7 +98,7 @@ const DateSingleInput: FC<ExperiencesDateSingleInputProps> = ({
 
   return (
     <div className={`relative flex ${className}`} style={{ flex: '1 0 0%' }}>
-      <div className="absolute inset-x-0 bottom-0">
+      <div className="absolute inset-x-10 bottom-0">
         <div className="nc-SetYourAvailabilityData">
           <SingleDatePicker
             date={startDate}

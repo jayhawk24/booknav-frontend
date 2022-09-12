@@ -1,6 +1,6 @@
 import { Popover, Tab, Transition } from '@headlessui/react'
 import { ChevronDownIcon, PencilAltIcon } from '@heroicons/react/outline'
-import React, { FC, Fragment, useState } from 'react'
+import React, { FC, Fragment, ReactNode, useState } from 'react'
 import visaPng from 'images/vis.png'
 import mastercardPng from 'images/mastercard.svg'
 import Input from 'components/shared/Input/Input'
@@ -10,8 +10,8 @@ import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import NcImage from 'components/shared/NcImage'
 import StartRating from 'components/StarRating/StarRating'
 import NcModal from 'components/shared/NcModal/NcModal'
-import ModalSelectDate from 'components/ModalSelectDate/ModalSelectDate'
-import moment from 'moment'
+// import ModalSelectDate from 'components/ModalSelectDate/ModalSelectDate'
+import moment, { Moment } from 'moment'
 import { GuestsObject } from 'components/GuestsInput/GuestsInput'
 import GuestsInput from 'components/HeroSearchForm/GuestsInput'
 import { useParams } from 'react-router-dom'
@@ -20,15 +20,24 @@ import averageRating from 'utils/averageRating'
 
 export interface CheckOutPageProps {
   className?: string
+  renderModalSelectDate?: (
+    renderProp: (p: {
+      defaultValue?: moment.Moment | null
+      openModal: () => void
+    }) => React.ReactNode,
+  ) => JSX.Element
+  date?: Moment | null
+  time?: number
 }
 
 const priceTypes = ['ghatToGhat', 'crossRiver']
 
-const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
-  const [rangeDates, setRangeDates] = useState<moment.Moment | null>(
-    moment().add(1, 'days'),
-  )
-  const [dateFocused, setDateFocused] = useState(true)
+const CheckOutPage: FC<CheckOutPageProps> = ({
+  className = '',
+  renderModalSelectDate,
+  date,
+  time,
+}) => {
   const [guests, setGuests] = useState<GuestsObject>({
     guestAdults: 2,
     guestChildren: 1,
@@ -110,13 +119,8 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
             />
           </div>
           <div className="mt-6 border border-neutral-200 dark:border-neutral-700 rounded-3xl flex flex-col sm:flex-row divide-y sm:divide-x sm:divide-y-0 divide-neutral-200 dark:divide-neutral-700">
-            <ModalSelectDate
-              defaultValue={rangeDates}
-              dateValue={rangeDates}
-              setDateValue={setRangeDates}
-              dateFocused={dateFocused}
-              setDateFocused={setDateFocused}
-              renderChildren={({ openModal }) => (
+            {renderModalSelectDate &&
+              renderModalSelectDate(({ openModal }) => (
                 <button
                   onClick={openModal}
                   className="text-left flex-1 p-5 flex justify-between space-x-5 "
@@ -125,13 +129,19 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
                   <div className="flex flex-col">
                     <span className="text-sm text-neutral-400">Date</span>
                     <span className="mt-1.5 text-lg font-semibold">
-                      {moment(rangeDates).format('MMM DD, YYYY')}
+                      {moment(date).format('MMM DD, YYYY')}
+                      <span>
+                        {' '}
+                        {moment()
+                          .startOf('day')
+                          .add(time, 'hours')
+                          .format('LT')}
+                      </span>
                     </span>
                   </div>
                   <PencilAltIcon className="w-6 h-6 text-neutral-6000 dark:text-neutral-400" />
                 </button>
-              )}
-            />
+              ))}
             <div className="flex justify-between py-2">
               <GuestsInput
                 className="nc-ListingStayDetailPage__guestsInput flex-1"

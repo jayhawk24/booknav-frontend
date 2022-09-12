@@ -1,8 +1,8 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, ReactNode, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/solid'
 import { GuestsObject } from 'components/GuestsInput/GuestsInput'
-import moment from 'moment'
+import moment, { Moment } from 'moment'
 import CheckOutPage from 'pages/Checkout/Checkout'
 
 type ModalReserveMobileProps = {
@@ -12,9 +12,21 @@ type ModalReserveMobileProps = {
   onChangeDate: (date: moment.Moment) => void
   defaultGuests: GuestsObject
   defaultDate: moment.Moment | null
+  renderModalSelectDate: (
+    renderProp: (p: {
+      defaultValue?: moment.Moment | null
+      openModal: () => void
+    }) => React.ReactNode,
+  ) => JSX.Element
+  time: number
 }
 
-const ModalReserveMobile = ({ renderChildren }: ModalReserveMobileProps) => {
+const ModalReserveMobile = ({
+  renderChildren,
+  renderModalSelectDate,
+  defaultDate,
+  time,
+}: ModalReserveMobileProps) => {
   const [showModal, setShowModal] = useState(false)
 
   // FOR RESET ALL DATA WHEN CLICK CLEAR BUTTON
@@ -68,7 +80,11 @@ const ModalReserveMobile = ({ renderChildren }: ModalReserveMobileProps) => {
 
                     <div className="flex-1 pt-12 py-1 flex flex-col ">
                       <div className="flex-1 bg-white dark:bg-neutral-900">
-                        <CheckOutPage />
+                        <CheckOutPage
+                          renderModalSelectDate={renderModalSelectDate}
+                          date={defaultDate}
+                          time={time}
+                        />
                       </div>
                     </div>
                   </>
