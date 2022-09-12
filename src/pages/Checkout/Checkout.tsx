@@ -1,6 +1,6 @@
 import { Popover, Tab, Transition } from '@headlessui/react'
 import { ChevronDownIcon, PencilAltIcon } from '@heroicons/react/outline'
-import React, { FC, Fragment, useState } from 'react'
+import React, { FC, Fragment, ReactNode, useState } from 'react'
 import visaPng from 'images/vis.png'
 import mastercardPng from 'images/mastercard.svg'
 import Input from 'components/shared/Input/Input'
@@ -9,39 +9,67 @@ import Textarea from 'components/shared/Textarea'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import NcImage from 'components/shared/NcImage'
 import StartRating from 'components/StarRating/StarRating'
-import NcModal from 'components/shared/NcModal/NcModal'
-import ModalSelectDate from 'components/ModalSelectDate/ModalSelectDate'
-import moment from 'moment'
-import { GuestsObject } from 'components/GuestsInput/GuestsInput'
+import moment, { Moment } from 'moment'
 import GuestsInput from 'components/HeroSearchForm/GuestsInput'
 import { useParams } from 'react-router-dom'
 import useNaav from 'hooks/useNaav'
 import averageRating from 'utils/averageRating'
+import { Price } from 'services/addBoat'
+import toast from 'react-hot-toast'
+import { addBooking } from 'services/booking'
 
 export interface CheckOutPageProps {
   className?: string
+  renderModalSelectDate?: (
+    renderProp: (p: {
+      defaultValue?: moment.Moment | null
+      openModal: () => void
+    }) => React.ReactNode,
+  ) => JSX.Element
+  date?: Moment | null
+  time?: number
+  selctedPriceType?: keyof Price
 }
 
 const priceTypes = ['ghatToGhat', 'crossRiver']
 
-const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
-  const [rangeDates, setRangeDates] = useState<moment.Moment | null>(
-    moment().add(1, 'days'),
-  )
-  const [dateFocused, setDateFocused] = useState(true)
-  const [guests, setGuests] = useState<GuestsObject>({
-    guestAdults: 2,
-    guestChildren: 1,
-    guestInfants: 1,
-  })
-  const [priceType, setPriceType] = useState('ghatToGhat')
+const CheckOutPage: FC<CheckOutPageProps> = ({
+  className = '',
+  renderModalSelectDate,
+  date,
+  time,
+  selctedPriceType = 'ghatToGhat',
+}) => {
+  const [guests, setGuests] = useState(2)
+  const [priceType, setPriceType] = useState(selctedPriceType)
   const { naavId } = useParams<{ naavId: string }>()
   const { data: naav } = useNaav({ naavId })
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleBook = () => {
+    setIsLoading(true)
+    toast
+      .promise(
+        addBooking({
+          naav: naavId,
+          rideType: priceType,
+          startTime:
+            moment(date).startOf('day').add(time, 'hours').format() || '',
+          guests,
+        }),
+        {
+          loading: 'Booking...',
+          success: 'Booking successful',
+          error: error => error.response.data.message,
+        },
+      )
+      .finally(() => setIsLoading(false))
+  }
 
   const renderSidebar = () => {
     return (
-      <div className="w-full flex flex-col sm:rounded-2xl lg:border border-neutral-200 dark:border-neutral-700 space-y-6 sm:space-y-8 px-0 sm:p-6 xl:p-8">
-        <div className="flex flex-col sm:flex-row sm:items-center">
+      <div className="w-full flex flex-col rounded-2xl border border-neutral-200 dark:border-neutral-700 space-y-6 p-2 xl:p-8 mt-2">
+        <div className="hidden flex-col sm:flex-row sm:items-center ">
           <div className="flex-shrink-0 w-full sm:w-40">
             <div className=" aspect-w-4 aspect-h-3 sm:aspect-h-4 rounded-2xl overflow-hidden">
               <NcImage src={naav?.pictures?.[0]} />
@@ -57,7 +85,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
               </span>
             </div>
             <span className="block  text-sm text-neutral-500 dark:text-neutral-400">
-              {naav?.ghat?.title} · {guests.guestAdults} guests
+              {naav?.ghat?.title} · {guests} guests
             </span>
             <div className="w-10 border-b border-neutral-200  dark:border-neutral-700"></div>
             <StartRating
@@ -67,10 +95,10 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
           </div>
         </div>
         <div className="flex flex-col space-y-4">
-          <h3 className="text-2xl font-semibold">Price detail</h3>
+          <h3 className="text-xl font-semibold">Price detail</h3>
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
-            <span>₹{naav?.price?.ghatToGhat} x 1 ride</span>
-            <span>₹{naav?.price?.ghatToGhat}</span>
+            <span>₹{naav?.price?.[priceType]} x 1 ride</span>
+            <span>₹{naav?.price?.[priceType]}</span>
           </div>
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
             <span>Service charge</span>
@@ -79,7 +107,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
           <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
           <div className="flex justify-between font-semibold">
             <span>Total</span>
-            <span>₹{naav?.price?.ghatToGhat}</span>
+            <span>₹{naav?.price?.[priceType]}</span>
           </div>
         </div>
       </div>
@@ -96,7 +124,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
         <div>
           <div>
             <h3 className="text-2xl font-semibold">Your trip</h3>
-            <NcModal
+            {/* <NcModal
               renderTrigger={openModal => (
                 <span
                   onClick={() => openModal()}
@@ -107,16 +135,11 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
               )}
               renderContent={renderSidebar}
               modalTitle="Booking details"
-            />
+            /> */}
           </div>
           <div className="mt-6 border border-neutral-200 dark:border-neutral-700 rounded-3xl flex flex-col sm:flex-row divide-y sm:divide-x sm:divide-y-0 divide-neutral-200 dark:divide-neutral-700">
-            <ModalSelectDate
-              defaultValue={rangeDates}
-              dateValue={rangeDates}
-              setDateValue={setRangeDates}
-              dateFocused={dateFocused}
-              setDateFocused={setDateFocused}
-              renderChildren={({ openModal }) => (
+            {renderModalSelectDate &&
+              renderModalSelectDate(({ openModal }) => (
                 <button
                   onClick={openModal}
                   className="text-left flex-1 p-5 flex justify-between space-x-5 "
@@ -125,13 +148,19 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
                   <div className="flex flex-col">
                     <span className="text-sm text-neutral-400">Date</span>
                     <span className="mt-1.5 text-lg font-semibold">
-                      {moment(rangeDates).format('MMM DD, YYYY')}
+                      {moment(date).format('MMM DD, YYYY')}
+                      <span>
+                        {' '}
+                        {moment()
+                          .startOf('day')
+                          .add(time, 'hours')
+                          .format('LT')}
+                      </span>
                     </span>
                   </div>
                   <PencilAltIcon className="w-6 h-6 text-neutral-6000 dark:text-neutral-400" />
                 </button>
-              )}
-            />
+              ))}
             <div className="flex justify-between py-2">
               <GuestsInput
                 className="nc-ListingStayDetailPage__guestsInput flex-1"
@@ -184,7 +213,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
                                   key={item}
                                   onClick={e => {
                                     e.preventDefault()
-                                    setPriceType(item)
+                                    setPriceType(item as keyof Price)
                                     close()
                                   }}
                                   className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
@@ -206,6 +235,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
               </div>
             </div>
           </div>
+          {renderSidebar()}
         </div>
 
         <div>
@@ -293,7 +323,9 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
               </Tab.Panels>
             </Tab.Group>
             <div className="pt-8">
-              <ButtonPrimary href={'/pay-done'}>Confirm and pay</ButtonPrimary>
+              <ButtonPrimary loading={isLoading} onClick={handleBook}>
+                Confirm and pay
+              </ButtonPrimary>
             </div>
           </div>
         </div>
@@ -305,7 +337,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = '' }) => {
     <div className={`nc-CheckOutPage ${className}`} data-nc-id="CheckOutPage">
       <main className="container mt-11 mb-24 lg:mb-32 flex flex-col-reverse lg:flex-row">
         <div className="w-full lg:w-3/5 xl:w-2/3 lg:pr-10 ">{renderMain()}</div>
-        <div className="hidden lg:block flex-grow">{renderSidebar()}</div>
+        {/* <div className="hidden lg:block flex-grow">{renderSidebar()}</div> */}
       </main>
     </div>
   )

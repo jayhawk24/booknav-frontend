@@ -4,18 +4,21 @@ import React, { FC, Fragment, useState } from 'react'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import { XIcon } from '@heroicons/react/solid'
 import DateSingleInput from 'components/shared/DateSingleInput/DateSingleInput'
+import TimePicker from 'components/TimePicker'
 
 interface ModalSelectDateProps {
   onClose?: () => void
   defaultValue: moment.Moment | null
   renderChildren?: (p: {
-    defaultValue: moment.Moment | null
+    defaultValue?: moment.Moment | null
     openModal: () => void
   }) => React.ReactNode
   dateFocused: boolean
   setDateFocused: (focused: boolean) => void
   dateValue: moment.Moment | null
   setDateValue: (date: moment.Moment | null) => void
+  time: number
+  setTime: (time: number) => void
 }
 
 const ModalSelectDate: FC<ModalSelectDateProps> = ({
@@ -25,6 +28,8 @@ const ModalSelectDate: FC<ModalSelectDateProps> = ({
   dateFocused,
   setDateFocused,
   renderChildren,
+  time,
+  setTime,
 }) => {
   const [showModal, setShowModal] = useState(false)
   // FOR RESET ALL DATA WHEN CLICK CLEAR BUTTON
@@ -91,6 +96,7 @@ const ModalSelectDate: FC<ModalSelectDateProps> = ({
                           setDateFocused(focus)
                         }}
                       />
+                      <TimePicker time={time} setTime={setTime} />
                     </div>
                     <div className="px-4 py-3 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-700 flex justify-between dark:text-neutral-200">
                       <button

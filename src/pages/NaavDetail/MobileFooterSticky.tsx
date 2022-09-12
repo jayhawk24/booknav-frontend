@@ -19,13 +19,32 @@ const MobileFooterSticky: FC<Props> = () => {
   )
   const { naavId } = useParams<{ naavId: string }>()
   const { data: naav } = useNaav({ naavId })
-  const [dateFocused, setDateFocused] = useState<boolean>(true)
+  const [dateFocused, setDateFocused] = useState<boolean>(false)
+  const [time, setTime] = useState(0)
 
   const [guestsState, setGuestsState] = useState<GuestsObject>({
     guestAdults: 0,
     guestChildren: 0,
     guestInfants: 0,
   })
+
+  const renderModalSelectDate = (
+    renderProp: (p: {
+      defaultValue?: moment.Moment | null
+      openModal: () => void
+    }) => React.ReactNode,
+  ) => (
+    <ModalSelectDate
+      defaultValue={selectedDate}
+      dateFocused={dateFocused}
+      setDateValue={setSelectedDate}
+      setDateFocused={setDateFocused}
+      dateValue={selectedDate}
+      time={time}
+      setTime={setTime}
+      renderChildren={renderProp}
+    />
+  )
 
   return (
     <div className="block lg:hidden fixed bottom-0 inset-x-0 py-2 sm:py-3 bg-white dark:bg-neutral-800 border-t border-neutral-200 dark:border-neutral-6000 z-20">
@@ -37,27 +56,26 @@ const MobileFooterSticky: FC<Props> = () => {
               /ride
             </span>
           </span>
-          <ModalSelectDate
-            defaultValue={selectedDate}
-            dateFocused={dateFocused}
-            setDateValue={setSelectedDate}
-            setDateFocused={setDateFocused}
-            dateValue={selectedDate}
-            renderChildren={({ openModal }) => (
-              <span
-                onClick={openModal}
-                className="block text-sm underline font-medium cursor-pointer text-right"
-              >
-                {moment(selectedDate).format('MMM DD')}
+          {renderModalSelectDate(({ openModal }) => (
+            <span
+              onClick={openModal}
+              className="block text-sm underline font-medium cursor-pointer text-right"
+            >
+              {moment(selectedDate).format('MMM DD')}
+              <span>
+                {' '}
+                {moment().startOf('day').add(time, 'hours').format('LT')}
               </span>
-            )}
-          />
+            </span>
+          ))}
         </div>
         <ModalReserveMobile
           defaultGuests={guestsState}
           defaultDate={selectedDate}
           onChangeDate={setSelectedDate}
           onChangeGuests={setGuestsState}
+          time={time}
+          renderModalSelectDate={renderModalSelectDate}
           renderChildren={({ openModal }) => (
             <ButtonPrimary
               sizeClass="px-5 sm:px-7 py-3 !rounded-2xl"
