@@ -310,11 +310,7 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
           <GuestsInput
             className="nc-ListingStayDetailPage__guestsInput flex-1"
             fieldClassName="p-3"
-            defaultValue={{
-              guestAdults: 1,
-              guestChildren: 2,
-              guestInfants: 0,
-            }}
+            defaultValue={2}
             hasButtonSubmit={false}
           />
         </form>

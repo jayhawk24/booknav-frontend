@@ -10,12 +10,13 @@ import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import NcImage from 'components/shared/NcImage'
 import StartRating from 'components/StarRating/StarRating'
 import moment, { Moment } from 'moment'
-import { GuestsObject } from 'components/GuestsInput/GuestsInput'
 import GuestsInput from 'components/HeroSearchForm/GuestsInput'
 import { useParams } from 'react-router-dom'
 import useNaav from 'hooks/useNaav'
 import averageRating from 'utils/averageRating'
 import { Price } from 'services/addBoat'
+import toast from 'react-hot-toast'
+import { addBooking } from 'services/booking'
 
 export interface CheckOutPageProps {
   className?: string
@@ -39,14 +40,31 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
   time,
   selctedPriceType = 'ghatToGhat',
 }) => {
-  const [guests, setGuests] = useState<GuestsObject>({
-    guestAdults: 2,
-    guestChildren: 1,
-    guestInfants: 1,
-  })
+  const [guests, setGuests] = useState(2)
   const [priceType, setPriceType] = useState(selctedPriceType)
   const { naavId } = useParams<{ naavId: string }>()
   const { data: naav } = useNaav({ naavId })
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleBook = () => {
+    setIsLoading(true)
+    toast
+      .promise(
+        addBooking({
+          naav: naavId,
+          rideType: priceType,
+          startTime:
+            moment(date).startOf('day').add(time, 'hours').format() || '',
+          guests,
+        }),
+        {
+          loading: 'Booking...',
+          success: 'Booking successful',
+          error: error => error.response.data.message,
+        },
+      )
+      .finally(() => setIsLoading(false))
+  }
 
   const renderSidebar = () => {
     return (
@@ -67,7 +85,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
               </span>
             </div>
             <span className="block  text-sm text-neutral-500 dark:text-neutral-400">
-              {naav?.ghat?.title} · {guests.guestAdults} guests
+              {naav?.ghat?.title} · {guests} guests
             </span>
             <div className="w-10 border-b border-neutral-200  dark:border-neutral-700"></div>
             <StartRating
@@ -305,7 +323,9 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
               </Tab.Panels>
             </Tab.Group>
             <div className="pt-8">
-              <ButtonPrimary href={'/pay-done'}>Confirm and pay</ButtonPrimary>
+              <ButtonPrimary loading={isLoading} onClick={handleBook}>
+                Confirm and pay
+              </ButtonPrimary>
             </div>
           </div>
         </div>

@@ -4,11 +4,10 @@ import NcInputNumber from 'components/NcInputNumber/NcInputNumber'
 import { FC } from 'react'
 import ClearDataButton from './ClearDataButton'
 import ButtonSubmit from './ButtonSubmit'
-import { GuestsObject } from 'components/GuestsInput/GuestsInput'
 
 export interface GuestsInputProps {
-  defaultValue: GuestsObject
-  onChange?: (data: GuestsObject) => void
+  defaultValue: number
+  onChange?: (data: number) => void
   fieldClassName?: string
   className?: string
   buttonSubmitHref?: string
@@ -26,23 +25,15 @@ const GuestsInput: FC<GuestsInputProps> = ({
   maxGuests = 10,
 }) => {
   const [guestAdultsInputValue, setGuestAdultsInputValue] = useState(
-    defaultValue.guestAdults || 0,
+    defaultValue || 0,
   )
 
   useEffect(() => {
-    setGuestAdultsInputValue(defaultValue.guestAdults || 0)
+    setGuestAdultsInputValue(defaultValue || 0)
   }, [defaultValue])
 
-  const handleChangeData = (value: number, type: keyof GuestsObject) => {
-    const newValue = {
-      guestAdults: guestAdultsInputValue,
-    }
-    if (type === 'guestAdults') {
-      setGuestAdultsInputValue(value)
-      newValue.guestAdults = value
-    }
-
-    onChange && onChange(newValue)
+  const handleChangeData = (value: number) => {
+    onChange && onChange(value)
   }
 
   const totalGuests = guestAdultsInputValue
@@ -116,7 +107,7 @@ const GuestsInput: FC<GuestsInputProps> = ({
               <NcInputNumber
                 className="w-full"
                 defaultValue={guestAdultsInputValue}
-                onChange={value => handleChangeData(value, 'guestAdults')}
+                onChange={value => handleChangeData(value)}
                 max={maxGuests}
                 min={1}
                 // label="Adults"
