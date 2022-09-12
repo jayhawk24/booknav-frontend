@@ -9,14 +9,13 @@ import Textarea from 'components/shared/Textarea'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import NcImage from 'components/shared/NcImage'
 import StartRating from 'components/StarRating/StarRating'
-import NcModal from 'components/shared/NcModal/NcModal'
-// import ModalSelectDate from 'components/ModalSelectDate/ModalSelectDate'
 import moment, { Moment } from 'moment'
 import { GuestsObject } from 'components/GuestsInput/GuestsInput'
 import GuestsInput from 'components/HeroSearchForm/GuestsInput'
 import { useParams } from 'react-router-dom'
 import useNaav from 'hooks/useNaav'
 import averageRating from 'utils/averageRating'
+import { Price } from 'services/addBoat'
 
 export interface CheckOutPageProps {
   className?: string
@@ -28,6 +27,7 @@ export interface CheckOutPageProps {
   ) => JSX.Element
   date?: Moment | null
   time?: number
+  selctedPriceType?: keyof Price
 }
 
 const priceTypes = ['ghatToGhat', 'crossRiver']
@@ -37,19 +37,20 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
   renderModalSelectDate,
   date,
   time,
+  selctedPriceType = 'ghatToGhat',
 }) => {
   const [guests, setGuests] = useState<GuestsObject>({
     guestAdults: 2,
     guestChildren: 1,
     guestInfants: 1,
   })
-  const [priceType, setPriceType] = useState('ghatToGhat')
+  const [priceType, setPriceType] = useState(selctedPriceType)
   const { naavId } = useParams<{ naavId: string }>()
   const { data: naav } = useNaav({ naavId })
 
   const renderSidebar = () => {
     return (
-      <div className="w-full flex flex-col sm:rounded-2xl lg:border border-neutral-200 dark:border-neutral-700 space-y-6 sm:space-y-8 px-0 sm:p-6 xl:p-8">
+      <div className="w-full flex flex-col rounded-2xl border border-neutral-200 dark:border-neutral-700 space-y-6 p-2 xl:p-8 mt-2">
         <div className="hidden flex-col sm:flex-row sm:items-center ">
           <div className="flex-shrink-0 w-full sm:w-40">
             <div className=" aspect-w-4 aspect-h-3 sm:aspect-h-4 rounded-2xl overflow-hidden">
@@ -76,10 +77,10 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
           </div>
         </div>
         <div className="flex flex-col space-y-4">
-          <h3 className="text-2xl font-semibold">Price detail</h3>
+          <h3 className="text-xl font-semibold">Price detail</h3>
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
-            <span>₹{naav?.price?.ghatToGhat} x 1 ride</span>
-            <span>₹{naav?.price?.ghatToGhat}</span>
+            <span>₹{naav?.price?.[priceType]} x 1 ride</span>
+            <span>₹{naav?.price?.[priceType]}</span>
           </div>
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
             <span>Service charge</span>
@@ -88,7 +89,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
           <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
           <div className="flex justify-between font-semibold">
             <span>Total</span>
-            <span>₹{naav?.price?.ghatToGhat}</span>
+            <span>₹{naav?.price?.[priceType]}</span>
           </div>
         </div>
       </div>
@@ -194,7 +195,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
                                   key={item}
                                   onClick={e => {
                                     e.preventDefault()
-                                    setPriceType(item)
+                                    setPriceType(item as keyof Price)
                                     close()
                                   }}
                                   className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
