@@ -17,6 +17,7 @@ import averageRating from 'utils/averageRating'
 import { Price } from 'services/addBoat'
 import toast from 'react-hot-toast'
 import { addBooking } from 'services/booking'
+import { useQueryClient } from 'react-query'
 
 export interface CheckOutPageProps {
   className?: string
@@ -46,6 +47,8 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
   const { data: naav } = useNaav({ naavId })
   const [isLoading, setIsLoading] = useState(false)
 
+  const queryClient = useQueryClient()
+
   const handleBook = () => {
     setIsLoading(true)
     toast
@@ -63,6 +66,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
           error: error => error.response.data.message,
         },
       )
+      .then(() => queryClient.invalidateQueries('getBookings'))
       .finally(() => setIsLoading(false))
   }
 
@@ -169,7 +173,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
                 hasButtonSubmit={false}
                 maxGuests={naav?.capacity}
               />
-              <div className="mr-1 my-1 sm:mr-4 border border-neutral-200 dark:border-neutral-700 rounded-full">
+              <div className="mr-1 my-1 sm:mr-4 border border-neutral-200 dark:border-neutral-700 rounded-full flex items-center">
                 <Popover className="relative">
                   {({ open, close }) => (
                     <>

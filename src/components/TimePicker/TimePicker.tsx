@@ -92,7 +92,7 @@ const TimePicker: FC<TimePicker> = ({
                     max={max}
                     defaultValue={time}
                     allowCross={false}
-                    step={1}
+                    step={0.5}
                     onChange={handleChange}
                   />
                 </div>
