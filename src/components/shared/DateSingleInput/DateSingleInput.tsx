@@ -15,6 +15,7 @@ export interface ExperiencesDateSingleInputProps {
   label?: string
   anchorDirection?: AnchorDirectionShape
   disableDates?: moment.Moment[]
+  renderCalendarInfo?: () => React.ReactNode
 }
 
 const DateSingleInput: FC<ExperiencesDateSingleInputProps> = ({
@@ -27,6 +28,7 @@ const DateSingleInput: FC<ExperiencesDateSingleInputProps> = ({
   label = 'Add Date',
   fieldClassName = '[ nc-hero-field-padding ]',
   disableDates,
+  renderCalendarInfo,
 }) => {
   const [focusedInput, setFocusedInput] = useState(defaultFocus)
   const [startDate, setStartDate] = useState(defaultValue)
@@ -118,6 +120,7 @@ const DateSingleInput: FC<ExperiencesDateSingleInputProps> = ({
                 ? disableDates.some(day2 => isSameDay(day1, day2))
                 : false
             }
+            renderCalendarInfo={renderCalendarInfo}
           />
         </div>
       </div>
