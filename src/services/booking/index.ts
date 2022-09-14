@@ -19,6 +19,8 @@ export interface Booking {
   amount: number
   startTime: string
   endTime: string
+  status: string
+  createdAt: string
   __v: number
 }
 
