@@ -120,7 +120,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
               <NcImage src={naav?.pictures?.[0]} />
             </div>
           </div>
-          <div className="py-5 sm:px-5 space-y-3">
+          <div className=" hidden py-5 sm:px-5 space-y-3">
             <div>
               <span className="text-sm text-neutral-500 dark:text-neutral-400 line-clamp-1">
                 {naav?.title}
@@ -163,7 +163,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
     return (
       <div className="w-full flex flex-col sm:rounded-2xl sm:border border-neutral-200 dark:border-neutral-700 space-y-8 px-0 sm:p-6 xl:p-8 dark:text-neutral-200">
         <h2 className="text-3xl lg:text-4xl font-semibold">
-          Confirm and payment
+          Confirm and Payment
         </h2>
         {/* <div className="border-b border-neutral-200 dark:border-neutral-700"></div> */}
         <div>
@@ -281,11 +281,9 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
           </div>
         </div>
 
-        <div className="pt-8">
-          <ButtonPrimary loading={isLoading} onClick={handleBook}>
-            Confirm and pay
-          </ButtonPrimary>
-        </div>
+        <ButtonPrimary loading={isLoading} onClick={handleBook}>
+          Confirm and Pay
+        </ButtonPrimary>
       </div>
     )
   }
