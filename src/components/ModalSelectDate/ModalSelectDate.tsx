@@ -1,10 +1,13 @@
 import { Dialog, Transition } from '@headlessui/react'
 import moment from 'moment'
-import React, { FC, Fragment, useState } from 'react'
+import React, { FC, Fragment, RefObject, useState } from 'react'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import { XIcon } from '@heroicons/react/solid'
 import DateSingleInput from 'components/shared/DateSingleInput/DateSingleInput'
 import TimePicker from 'components/TimePicker'
+import { useQuery } from 'react-query'
+import { getBookings } from 'services/booking'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 interface ModalSelectDateProps {
   onClose?: () => void
@@ -34,19 +37,51 @@ const ModalSelectDate: FC<ModalSelectDateProps> = ({
   const [showModal, setShowModal] = useState(false)
   // FOR RESET ALL DATA WHEN CLICK CLEAR BUTTON
   //
+
+  const [animateRef] = useAutoAnimate()
+
+  const { data: bookings } = useQuery(
+    ['getBookings', dateValue],
+    () => getBookings({ startTime: dateValue?.startOf('day').toISOString() }),
+    { staleTime: 24 * 60 * 60 * 1000 },
+  )
   function closeModal() {
     setShowModal(false)
   }
-
   function openModal() {
     setShowModal(true)
   }
-
   const renderButtonOpenModal = () => {
     return renderChildren ? (
       renderChildren({ defaultValue, openModal })
     ) : (
       <button onClick={openModal}>Select Date</button>
+    )
+  }
+
+  const renderCalendarInfo = () => {
+    if (!bookings || bookings?.length === 0) return null
+    return (
+      <div className="px-4 pb-4">
+        <div className="w-full flex flex-col rounded-2xl border border-neutral-200 dark:border-neutral-700 space-y-6 p-2">
+          <h3 className="text-sm font-semibold">
+            Booked slots for {dateValue?.format('DD MMMM YYYY')}
+          </h3>
+          <div className="flex flex-col space-y-2">
+            {bookings?.map(booking => (
+              <div className="flex flex-row" key={booking._id}>
+                <span className="text-sm">
+                  {moment(booking.startTime).format('hh:mm A')}
+                </span>
+                -
+                <span className="text-sm">
+                  {moment(booking.endTime).format('hh:mm A')}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     )
   }
 
@@ -63,10 +98,10 @@ const ModalSelectDate: FC<ModalSelectDateProps> = ({
             <div className="flex h-full">
               <Transition.Child
                 as={Fragment}
-                enter="ease-out transition-transform"
+                enter="ease-out transition-transform duration-200"
                 enterFrom="opacity-0 translate-y-52"
                 enterTo="opacity-100 translate-y-0"
-                leave="ease-in transition-transform"
+                leave="ease-in transition-transform duration-150"
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-52"
               >
@@ -80,7 +115,10 @@ const ModalSelectDate: FC<ModalSelectDateProps> = ({
                         <XIcon className="w-5 h-5 text-black dark:text-white" />
                       </button>
                     </div>
-                    <div className="pt-12 p-1 flex flex-col dark:text-neutral-200">
+                    <div
+                      ref={animateRef as RefObject<HTMLDivElement>}
+                      className="pt-12 p-1 flex flex-col dark:text-neutral-200"
+                    >
                       <div className="p-5 ">
                         <span className="block font-semibold text-xl sm:text-2xl">
                           When&apos;s your trip?
@@ -95,9 +133,11 @@ const ModalSelectDate: FC<ModalSelectDateProps> = ({
                         onFocusChange={(focus: boolean) => {
                           setDateFocused(focus)
                         }}
+                        renderCalendarInfo={renderCalendarInfo}
                       />
                       <TimePicker time={time} setTime={setTime} />
                     </div>
+
                     <div className="px-4 py-3 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-700 flex justify-between dark:text-neutral-200">
                       <button
                         type="button"

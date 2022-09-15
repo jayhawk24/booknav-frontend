@@ -12,13 +12,11 @@ export default function useNaav({ naavId, query }: useNaavParams) {
     () => getNaav(naavId),
     { staleTime: 60 * 60 * 1000 * 24 },
   )
-  const isLoggedIn = isSuccess && isFetched
   return {
     data,
     error,
     isLoading,
     isSuccess,
-    isLoggedIn,
     isFetched,
   }
 }

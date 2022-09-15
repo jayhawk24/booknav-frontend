@@ -1,11 +1,6 @@
-import { Popover, Tab, Transition } from '@headlessui/react'
+import { Popover, Transition } from '@headlessui/react'
 import { ChevronDownIcon, PencilAltIcon } from '@heroicons/react/outline'
 import React, { FC, Fragment, ReactNode, useState } from 'react'
-import visaPng from 'images/vis.png'
-import mastercardPng from 'images/mastercard.svg'
-import Input from 'components/shared/Input/Input'
-import Label from 'components/shared/Label'
-import Textarea from 'components/shared/Textarea'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import NcImage from 'components/shared/NcImage'
 import StartRating from 'components/StarRating/StarRating'
@@ -16,7 +11,13 @@ import useNaav from 'hooks/useNaav'
 import averageRating from 'utils/averageRating'
 import { Price } from 'services/addBoat'
 import toast from 'react-hot-toast'
-import { addBooking } from 'services/booking'
+import {
+  addBooking,
+  Order,
+  RazorpayResponse,
+  verifyPayment,
+} from 'services/booking'
+import useUser from 'hooks/useUser'
 
 export interface CheckOutPageProps {
   className?: string
@@ -42,9 +43,51 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
 }) => {
   const [guests, setGuests] = useState(2)
   const [priceType, setPriceType] = useState(selctedPriceType)
+
+  const { data: user } = useUser()
   const { naavId } = useParams<{ naavId: string }>()
   const { data: naav } = useNaav({ naavId })
   const [isLoading, setIsLoading] = useState(false)
+
+  const initPayment = (data: Order) => {
+    const options = {
+      key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+      amount: data.amount * 100,
+      currency: 'INR',
+      name: naav?.title,
+      description: `Booking on ${naav?.ghat?.title}`,
+      image: 'https://example.com/your_logo',
+      order_id: data.id,
+      handler: function (response: RazorpayResponse) {
+        toast.promise(
+          verifyPayment({
+            ...response,
+            naav: naavId,
+            rideType: priceType,
+            startTime:
+              moment(date).startOf('day').add(time, 'hours').format() || '',
+            guests,
+            amount: data.amount,
+          }),
+          {
+            loading: 'Verifying Payment',
+            success: response => response.data.message,
+            error: 'Payment Failed',
+          },
+        )
+      },
+      theme: {
+        color: '#3730a3',
+      },
+      prefill: {
+        name: user?.title,
+        contact: user?.phone,
+      },
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const rzp1 = new (window as any).Razorpay(options)
+    rzp1.open()
+  }
 
   const handleBook = () => {
     setIsLoading(true)
@@ -63,19 +106,21 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
           error: error => error.response.data.message,
         },
       )
+      .then(response => initPayment(response))
+      // .then(() => queryClient.invalidateQueries('getBookings'))
       .finally(() => setIsLoading(false))
   }
 
   const renderSidebar = () => {
     return (
-      <div className="w-full flex flex-col rounded-2xl border border-neutral-200 dark:border-neutral-700 space-y-6 p-2 xl:p-8 mt-2">
-        <div className="hidden flex-col sm:flex-row sm:items-center ">
+      <div className="w-full flex flex-col rounded-2xl border border-neutral-200 dark:border-neutral-700 space-y-6 p-2 xl:p-8">
+        <div className="flex flex-col sm:flex-row sm:items-center ">
           <div className="flex-shrink-0 w-full sm:w-40">
             <div className=" aspect-w-4 aspect-h-3 sm:aspect-h-4 rounded-2xl overflow-hidden">
               <NcImage src={naav?.pictures?.[0]} />
             </div>
           </div>
-          <div className="py-5 sm:px-5 space-y-3">
+          <div className=" hidden py-5 sm:px-5 space-y-3">
             <div>
               <span className="text-sm text-neutral-500 dark:text-neutral-400 line-clamp-1">
                 {naav?.title}
@@ -118,13 +163,12 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
     return (
       <div className="w-full flex flex-col sm:rounded-2xl sm:border border-neutral-200 dark:border-neutral-700 space-y-8 px-0 sm:p-6 xl:p-8 dark:text-neutral-200">
         <h2 className="text-3xl lg:text-4xl font-semibold">
-          Confirm and payment
+          Confirm and Payment
         </h2>
-        <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
+        {/* <div className="border-b border-neutral-200 dark:border-neutral-700"></div> */}
         <div>
-          <div>
-            <h3 className="text-2xl font-semibold">Your trip</h3>
-            {/* <NcModal
+          {/* <h3 className="text-2xl font-semibold">Your trip</h3> */}
+          {/* <NcModal
               renderTrigger={openModal => (
                 <span
                   onClick={() => openModal()}
@@ -136,7 +180,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
               renderContent={renderSidebar}
               modalTitle="Booking details"
             /> */}
-          </div>
+          {renderSidebar()}
           <div className="mt-6 border border-neutral-200 dark:border-neutral-700 rounded-3xl flex flex-col sm:flex-row divide-y sm:divide-x sm:divide-y-0 divide-neutral-200 dark:divide-neutral-700">
             {renderModalSelectDate &&
               renderModalSelectDate(({ openModal }) => (
@@ -169,7 +213,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
                 hasButtonSubmit={false}
                 maxGuests={naav?.capacity}
               />
-              <div className="mr-1 my-1 sm:mr-4 border border-neutral-200 dark:border-neutral-700 rounded-full">
+              <div className="mr-1 my-1 sm:mr-4 border border-neutral-200 dark:border-neutral-700 rounded-full flex items-center">
                 <Popover className="relative">
                   {({ open, close }) => (
                     <>
@@ -235,100 +279,11 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
               </div>
             </div>
           </div>
-          {renderSidebar()}
         </div>
 
-        <div>
-          <h3 className="text-2xl font-semibold">Pay with</h3>
-          <div className="w-14 border-b border-neutral-200 dark:border-neutral-700 my-5"></div>
-
-          <div className="mt-6">
-            <Tab.Group>
-              <Tab.List className="flex my-5">
-                <Tab as={Fragment}>
-                  {({ selected }) => (
-                    <button
-                      className={`px-4 py-1.5 sm:px-6 sm:py-2.5 rounded-full focus:outline-none ${
-                        selected
-                          ? 'bg-neutral-800 dark:bg-neutral-300 text-white dark:text-neutral-900'
-                          : 'text-neutral-6000 dark:text-neutral-400'
-                      }`}
-                    >
-                      Paypal
-                    </button>
-                  )}
-                </Tab>
-                <Tab as={Fragment}>
-                  {({ selected }) => (
-                    <button
-                      className={`px-4 py-1.5 sm:px-6 sm:py-2.5  rounded-full flex items-center justify-center focus:outline-none  ${
-                        selected
-                          ? 'bg-neutral-800 dark:bg-neutral-300 text-white dark:text-neutral-900'
-                          : ' text-neutral-6000 dark:text-neutral-400'
-                      }`}
-                    >
-                      <span className="mr-2.5">Credit card</span>
-                      <img className="w-8" src={visaPng} alt="" />
-                      <img className="w-8" src={mastercardPng} alt="" />
-                    </button>
-                  )}
-                </Tab>
-              </Tab.List>
-
-              <Tab.Panels>
-                <Tab.Panel className="space-y-5">
-                  <div className="space-y-1">
-                    <Label>Card number </Label>
-                    <Input defaultValue="111 112 222 999" />
-                  </div>
-                  <div className="space-y-1">
-                    <Label>Card holder </Label>
-                    <Input defaultValue="JOHN DOE" />
-                  </div>
-                  <div className="flex space-x-5  ">
-                    <div className="flex-1 space-y-1">
-                      <Label>Expiration date </Label>
-                      <Input type="date" defaultValue="MM/YY" />
-                    </div>
-                    <div className="flex-1 space-y-1">
-                      <Label>CVC </Label>
-                      <Input />
-                    </div>
-                  </div>
-                  <div className="space-y-1">
-                    <Label>Messager for author </Label>
-                    <Textarea placeholder="..." />
-                    <span className="text-sm text-neutral-500 block">
-                      Write a few sentences about yourself.
-                    </span>
-                  </div>
-                </Tab.Panel>
-                <Tab.Panel className="space-y-5">
-                  <div className="space-y-1">
-                    <Label>Email </Label>
-                    <Input type="email" defaultValue="example@gmail.com" />
-                  </div>
-                  <div className="space-y-1">
-                    <Label>Password </Label>
-                    <Input type="password" defaultValue="***" />
-                  </div>
-                  <div className="space-y-1">
-                    <Label>Messager for author </Label>
-                    <Textarea placeholder="..." />
-                    <span className="text-sm text-neutral-500 block">
-                      Write a few sentences about yourself.
-                    </span>
-                  </div>
-                </Tab.Panel>
-              </Tab.Panels>
-            </Tab.Group>
-            <div className="pt-8">
-              <ButtonPrimary loading={isLoading} onClick={handleBook}>
-                Confirm and pay
-              </ButtonPrimary>
-            </div>
-          </div>
-        </div>
+        <ButtonPrimary loading={isLoading} onClick={handleBook}>
+          Confirm and Pay
+        </ButtonPrimary>
       </div>
     )
   }
