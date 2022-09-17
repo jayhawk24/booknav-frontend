@@ -9,8 +9,9 @@ export interface BankInfo {
   _id?: string
 }
 export default class BankService {
-  static getBank(): Promise<BankInfo[]> {
-    return requestClient.get('/bank')
+  static async getBank(): Promise<BankInfo[]> {
+    const { data } = await requestClient.get('/bank')
+    return data
   }
 
   static addBank(data: BankInfo): Promise<BankInfo> {
