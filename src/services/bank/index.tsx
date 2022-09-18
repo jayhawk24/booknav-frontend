@@ -18,7 +18,10 @@ export default class BankService {
     return requestClient.post('/bank', data)
   }
 
-  static updateBank(_id: string): Promise<BankInfo> {
-    return requestClient.put(`/bank/${_id}`)
+  static updateBank(
+    data: BankInfo,
+    _id: string | undefined,
+  ): Promise<BankInfo> {
+    return requestClient.put(`/bank/${_id}`, data)
   }
 }

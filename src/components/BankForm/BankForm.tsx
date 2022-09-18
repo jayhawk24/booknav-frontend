@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Formik } from 'formik'
 import Label from 'components/shared/Label'
 import InputWithHelper from 'components/shared/InputWithHelper'
@@ -6,7 +6,6 @@ import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import toast from 'react-hot-toast'
 import BankService, { BankInfo } from 'services/bank'
 import { useQuery } from 'react-query'
-import * as Yup from 'yup'
 import { LoginSchema } from './BankFormValidation'
 
 const BankForm: React.FC = () => {
@@ -20,25 +19,38 @@ const BankForm: React.FC = () => {
     bankName: bank?.[0]?.bankName || '',
     ifscCode: bank?.[0]?.ifscCode || '',
   }
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = (values: BankInfo, actions: any) => {
+  const handleSubmit = (values: BankInfo) => {
     const data = {
       accountName: values.accountName,
       accountNumber: values.accountNumber,
       bankName: values.bankName,
       ifscCode: values.ifscCode,
     }
+    setIsLoading(true)
 
-    toast
-      .promise(BankService.addBank(data), {
-        loading: 'Adding Bank data',
-        success: 'Bank added successfully.',
-        error: 'Error adding, please try again',
-      })
-      .then(() => {
-        console.log(actions)
-        actions.setSubmitting(false)
-      })
+    if (!bank) {
+      toast
+        .promise(BankService.addBank(data), {
+          loading: 'Adding Bank data',
+          success: 'Bank added successfully.',
+          error: 'Error adding, please try again',
+        })
+        .finally(() => {
+          setIsLoading(false)
+        })
+    } else {
+      toast
+        .promise(BankService.updateBank(data, bank?.[0]._id), {
+          loading: 'Updating...',
+          success: 'Updated.',
+          error: 'Error, please try again',
+        })
+        .finally(() => {
+          setIsLoading(false)
+        })
+    }
   }
 
   return (
@@ -103,7 +115,9 @@ const BankForm: React.FC = () => {
                 ) : null}
               </div>
               <div className="pt-2 pb-5">
-                <ButtonPrimary type="submit">Save</ButtonPrimary>
+                <ButtonPrimary type="submit" loading={isLoading}>
+                  Save
+                </ButtonPrimary>
               </div>
             </div>
           </form>
