@@ -111,9 +111,11 @@ const Account: FC<AccountPageProps> = ({ className = '' }) => {
           </div>
         </form>
       </div>
-      <div className="container mt-24 lg:mb-32" style={{ minHeight: '60vh' }}>
-        <BankForm />
-      </div>
+      {user?.role === 'naavik' && (
+        <div className="container mt-24 lg:mb-32" style={{ minHeight: '60vh' }}>
+          <BankForm />
+        </div>
+      )}
     </div>
   )
 }

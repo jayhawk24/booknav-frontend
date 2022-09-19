@@ -55,7 +55,7 @@ const BankForm: React.FC = () => {
 
   return (
     <div className="w-full">
-      Bank Details:
+      <h2 className="text-2xl font-semibold">Bank Details:</h2>
       <Formik
         enableReinitialize={true}
         initialValues={initialValues}
@@ -115,7 +115,11 @@ const BankForm: React.FC = () => {
                 ) : null}
               </div>
               <div className="pt-2 pb-5">
-                <ButtonPrimary type="submit" loading={isLoading}>
+                <ButtonPrimary
+                  type="submit"
+                  className="w-1/3"
+                  loading={isLoading}
+                >
                   Save
                 </ButtonPrimary>
               </div>
