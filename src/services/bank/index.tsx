@@ -18,6 +18,11 @@ export default class BankService {
     return requestClient.post('/bank', data)
   }
 
+  static async getBankId(_id: string): Promise<BankInfo[]> {
+    const { data } = await requestClient.get(`/bank/${_id}`)
+    return [data]
+  }
+
   static updateBank(
     data: BankInfo,
     _id: string | undefined,

@@ -17,7 +17,7 @@ const NaavDetail = lazy(() => import('pages/NaavDetail'))
 const Search = lazy(() => import('pages/Search'))
 const Bookings = lazy(() => import('pages/Bookings'))
 const BankList = lazy(() => import('pages/BankList/BankList'))
-
+const EditBank = lazy(() => import('pages/EditBank/EditBank'))
 export const protectedRoutes = [
   {
     path: '/', // this is temporary component
@@ -107,6 +107,12 @@ export const protectedRoutes = [
     name: 'bank-list',
     path: '/banklist',
     component: BankList,
+    exact: true,
+  },
+  {
+    name: 'edit-bank',
+    path: '/banklist/:bankId',
+    component: EditBank,
     exact: true,
   },
 ]

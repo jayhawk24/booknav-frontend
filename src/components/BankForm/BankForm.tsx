@@ -8,10 +8,19 @@ import BankService, { BankInfo } from 'services/bank'
 import { useQuery } from 'react-query'
 import { LoginSchema } from './BankFormValidation'
 
-const BankForm: React.FC = () => {
-  const { data: bank } = useQuery('getBank', async () => {
-    const data = await BankService.getBank()
-    return data
+type BankFormProps = {
+  bankId?: string
+}
+
+const BankForm: React.FC<BankFormProps> = ({ bankId }) => {
+  const { data: bank } = useQuery(['getBank', bankId], async () => {
+    if (!bankId) {
+      const data = await BankService.getBank()
+      return data
+    } else {
+      const data = await BankService.getBankId(bankId)
+      return data
+    }
   })
   const initialValues = {
     accountName: bank?.[0]?.accountName || '',

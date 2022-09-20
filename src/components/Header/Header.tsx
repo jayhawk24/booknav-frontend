@@ -69,6 +69,8 @@ const Header = () => {
         return 'Add Naav'
       case '/bookings':
         return 'My Bookings'
+      case '/banklist':
+        return 'Bank List'
       default:
         'Booknaav'
         break

@@ -3,12 +3,9 @@ import useBank from 'hooks/useBank'
 import React from 'react'
 import { useQuery, useQueryClient } from 'react-query'
 import { Link } from 'react-router-dom'
-import BankService from 'services/bank'
 
 const BankList: React.FC = () => {
   const { data } = useBank()
-
-  console.log(data)
 
   const queryClient = useQueryClient()
 
@@ -17,8 +14,11 @@ const BankList: React.FC = () => {
       <div className="w-full text-center">
         <div className="flex flex-col">
           <div className="w-full">
-            <div className="border-b border-gray-200 shadow">
-              <table className="divide-y divide-gray-300 overflow-x-auto">
+            <div
+              className="border-b border-gray-200 shadow
+            overflow-y-hidden overflow-x-scroll"
+            >
+              <table className="divide-y divide-gray-300">
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-6 py-2 text-xs text-gray-500">S.no.</th>
@@ -68,11 +68,11 @@ const BankList: React.FC = () => {
                       <td className="px-6 py-4">
                         <Button className="px-4 py-1 text-sm text-blue-600 bg-blue-200 rounded-full">
                           {' '}
-                          Edit
+                          <Link to={`/banklist/${item._id}`}>Edit</Link>
                         </Button>
                       </td>
                       <td className="px-6 py-4">
-                        <Button className="px-4 py-1 text-sm text-blue-600 bg-blue-200 rounded-full">
+                        <Button className="px-4 py-1 text-red-600 bg-red-200 rounded-full">
                           {' '}
                           Delete
                         </Button>
