@@ -6,7 +6,7 @@ const EditBank = () => {
   const { bankId } = useParams<{ bankId: string }>()
 
   return (
-    <div>
+    <div className="container mb-24 lg:mb-32" style={{ minHeight: '60vh' }}>
       <BankForm bankId={bankId} />
     </div>
   )

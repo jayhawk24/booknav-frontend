@@ -23,6 +23,10 @@ export default class BankService {
     return [data]
   }
 
+  static deleteBank(_id: string): Promise<BankInfo> {
+    return requestClient.delete(`/bank/${_id}`)
+  }
+
   static updateBank(
     data: BankInfo,
     _id: string | undefined,

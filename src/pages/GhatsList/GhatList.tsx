@@ -34,8 +34,11 @@ const GhatList = () => {
         </ButtonSecondary>
         <div className="flex flex-col">
           <div className="w-full">
-            <div className="border-b border-gray-200 shadow">
-              <table className="divide-y divide-gray-300 overflow-x-auto">
+            <div
+              className="border-b border-gray-200 shadow
+            overflow-y-hidden overflow-x-scroll"
+            >
+              <table className="divide-y divide-gray-300">
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-6 py-2 text-xs text-gray-500">S.no.</th>

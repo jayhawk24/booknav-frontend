@@ -1,13 +1,30 @@
 import Button from 'components/shared/Buttons/Button'
+import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
+import NcModal from 'components/shared/NcModal/NcModal'
 import useBank from 'hooks/useBank'
 import React from 'react'
 import { useQuery, useQueryClient } from 'react-query'
 import { Link } from 'react-router-dom'
+import BankService from 'services/bank'
 
 const BankList: React.FC = () => {
   const { data } = useBank()
 
   const queryClient = useQueryClient()
+  const handleDelete = (_id: string) => {
+    BankService.deleteBank(_id).then(() =>
+      queryClient.invalidateQueries('getBank'),
+    )
+  }
+
+  const renderModal = (_id: string) => {
+    return (
+      <div className="flex items-center justify-between">
+        <h3>Are you sure you want to delete?</h3>
+        <ButtonSecondary onClick={() => handleDelete(_id)}>Yes</ButtonSecondary>
+      </div>
+    )
+  }
 
   return (
     <div className="container mb-24 lg:mb-32" style={{ minHeight: '60vh' }}>
@@ -72,10 +89,18 @@ const BankList: React.FC = () => {
                         </Button>
                       </td>
                       <td className="px-6 py-4">
-                        <Button className="px-4 py-1 text-red-600 bg-red-200 rounded-full">
-                          {' '}
-                          Delete
-                        </Button>
+                        <NcModal
+                          modalTitle={'Delete Bank'}
+                          renderTrigger={openModal => (
+                            <Button
+                              className="px-4 py-1 text-red-600 bg-red-200 rounded-full"
+                              onClick={() => openModal()}
+                            >
+                              Delete
+                            </Button>
+                          )}
+                          renderContent={() => renderModal(item._id as string)}
+                        />
                       </td>
                     </tr>
                   </tbody>
