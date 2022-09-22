@@ -4,6 +4,7 @@ export type OtpResponse = {
   data: {
     phone: string
     hash: string
+    otp?: string
   }
 }
 
