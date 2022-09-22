@@ -1,5 +1,4 @@
 import BankForm from 'components/BankForm/BankForm'
-import React from 'react'
 import { useParams } from 'react-router-dom'
 
 const EditBank = () => {

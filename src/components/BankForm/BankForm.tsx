@@ -5,7 +5,7 @@ import InputWithHelper from 'components/shared/InputWithHelper'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import toast from 'react-hot-toast'
 import BankService, { BankInfo } from 'services/bank'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import { LoginSchema } from './BankFormValidation'
 
 type BankFormProps = {
@@ -29,6 +29,7 @@ const BankForm: React.FC<BankFormProps> = ({ bankId }) => {
     ifscCode: bank?.[0]?.ifscCode || '',
   }
   const [isLoading, setIsLoading] = useState(false)
+  const queryClient = useQueryClient()
 
   const handleSubmit = (values: BankInfo) => {
     const data = {
@@ -57,6 +58,7 @@ const BankForm: React.FC<BankFormProps> = ({ bankId }) => {
           error: 'Error, please try again',
         })
         .finally(() => {
+          queryClient.invalidateQueries('getBank')
           setIsLoading(false)
         })
     }

@@ -3,7 +3,7 @@ import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import NcModal from 'components/shared/NcModal/NcModal'
 import useBank from 'hooks/useBank'
 import React from 'react'
-import { useQuery, useQueryClient } from 'react-query'
+import { useQueryClient } from 'react-query'
 import { Link } from 'react-router-dom'
 import BankService from 'services/bank'
 
