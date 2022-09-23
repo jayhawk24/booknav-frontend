@@ -3,6 +3,7 @@ import * as Yup from 'yup'
 export const LoginSchema = Yup.object().shape({
   accountName: Yup.string()
     .min(3, 'Must be more than 2 characters')
+    .max(40, 'Too long!')
     .required('Account name is required'),
   accountNumber: Yup.string()
     .min(6, 'Enter more than 5 number')

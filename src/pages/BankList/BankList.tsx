@@ -99,7 +99,7 @@ const BankList: React.FC = () => {
                               Delete
                             </Button>
                           )}
-                          renderContent={() => renderModal(item._id as string)}
+                          renderContent={() => renderModal(item._id)}
                         />
                       </td>
                     </tr>

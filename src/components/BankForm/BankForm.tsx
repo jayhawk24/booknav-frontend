@@ -4,9 +4,10 @@ import Label from 'components/shared/Label'
 import InputWithHelper from 'components/shared/InputWithHelper'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import toast from 'react-hot-toast'
-import BankService, { BankInfo } from 'services/bank'
+import BankService, { BankData } from 'services/bank'
 import { useQuery, useQueryClient } from 'react-query'
 import { LoginSchema } from './BankFormValidation'
+import FormError from 'components/shared/FormError'
 
 type BankFormProps = {
   bankId?: string
@@ -31,7 +32,7 @@ const BankForm: React.FC<BankFormProps> = ({ bankId }) => {
   const [isLoading, setIsLoading] = useState(false)
   const queryClient = useQueryClient()
 
-  const handleSubmit = (values: BankInfo) => {
+  const handleSubmit = (values: BankData) => {
     const data = {
       accountName: values.accountName,
       accountNumber: values.accountNumber,
@@ -57,8 +58,10 @@ const BankForm: React.FC<BankFormProps> = ({ bankId }) => {
           success: 'Updated.',
           error: 'Error, please try again',
         })
-        .finally(() => {
+        .then(() => {
           queryClient.invalidateQueries('getBank')
+        })
+        .finally(() => {
           setIsLoading(false)
         })
     }
@@ -85,7 +88,7 @@ const BankForm: React.FC<BankFormProps> = ({ bankId }) => {
                   onChange={handleChange}
                 />
                 {errors.accountName && touched.accountName ? (
-                  <p className="text-red-700">{errors.accountName}</p>
+                  <FormError text={errors.accountName} />
                 ) : null}
               </div>
               <div>
@@ -98,7 +101,7 @@ const BankForm: React.FC<BankFormProps> = ({ bankId }) => {
                   type="number"
                 />
                 {errors.accountNumber && touched.accountNumber ? (
-                  <p className="text-red-700">{errors.accountNumber}</p>
+                  <FormError text={errors.accountNumber} />
                 ) : null}
               </div>
               <div>
@@ -110,7 +113,7 @@ const BankForm: React.FC<BankFormProps> = ({ bankId }) => {
                   onChange={handleChange}
                 />
                 {errors.bankName && touched.bankName ? (
-                  <p className="text-red-700">{errors.bankName}</p>
+                  <FormError text={errors.bankName} />
                 ) : null}
               </div>
               <div>
@@ -122,7 +125,7 @@ const BankForm: React.FC<BankFormProps> = ({ bankId }) => {
                   onChange={handleChange}
                 />
                 {errors.ifscCode && touched.ifscCode ? (
-                  <p className="text-red-700">{errors.ifscCode}</p>
+                  <FormError text={errors.ifscCode} />
                 ) : null}
               </div>
               <div className="pt-2 pb-5">

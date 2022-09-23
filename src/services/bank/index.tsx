@@ -1,12 +1,16 @@
+import { UserType } from 'hooks/useUser'
 import requestClient from 'services/requestClient'
 
-export interface BankInfo {
-  user?: string
+export interface BankInfo extends BankData {
+  _id: string
+  user?: UserType
+}
+
+export type BankData = {
   accountName: string
   accountNumber: number
   bankName: string
   ifscCode: string
-  _id?: string
 }
 export default class BankService {
   static async getBank(): Promise<BankInfo[]> {
@@ -14,7 +18,7 @@ export default class BankService {
     return data
   }
 
-  static addBank(data: BankInfo): Promise<BankInfo> {
+  static addBank(data: BankData): Promise<BankData> {
     return requestClient.post('/bank', data)
   }
 
@@ -23,14 +27,12 @@ export default class BankService {
     return [data]
   }
 
-  static deleteBank(_id: string): Promise<BankInfo> {
-    return requestClient.delete(`/bank/${_id}`)
+  static async deleteBank(_id: string): Promise<BankInfo> {
+    const { data } = await requestClient.delete(`/bank/${_id}`)
+    return data
   }
 
-  static updateBank(
-    data: BankInfo,
-    _id: string | undefined,
-  ): Promise<BankInfo> {
+  static updateBank(data: BankData, _id: string): Promise<BankData> {
     return requestClient.put(`/bank/${_id}`, data)
   }
 }
