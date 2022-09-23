@@ -52,6 +52,11 @@ export interface RazorpayBody extends RazorpayResponse {
   amount: number
 }
 
+type BookingStatusBody = {
+  bookingId: string
+  status: string
+}
+
 export const addBooking = async (payload: BookingPayload): Promise<Order> => {
   const { data } = await requestClient.post('/booking/', payload)
   return data
@@ -74,4 +79,11 @@ export const verifyPayment = async (
 export const getBooking = async (bookingId: string): Promise<Booking> => {
   const { data } = await requestClient.get(`/booking/${bookingId}`)
   return data
+}
+
+export const updateBookingStatus = async ({
+  bookingId,
+  status,
+}: BookingStatusBody): Promise<GenericResponseType> => {
+  return requestClient.put(`/booking/${bookingId}`, { status })
 }
