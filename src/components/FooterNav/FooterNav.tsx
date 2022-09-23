@@ -34,7 +34,7 @@ const FooterNav = () => {
     },
     {
       name: user ? 'Account' : 'Log in',
-      link: '/account',
+      link: user ? '/account' : '/login',
       icon: UserCircleIcon,
     },
     {

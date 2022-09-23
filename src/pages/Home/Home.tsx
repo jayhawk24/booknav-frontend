@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SectionHero from 'components/SectionHero/SectionHero'
 import BackgroundSection from 'components/BackgroundSection/BackgroundSection'
 import BgGlassmorphism from 'components/BgGlassmorphism'
@@ -6,10 +6,19 @@ import SectionGridFeaturePlaces from 'components/SectionGridFeaturePlaces'
 import SectionSliderNewCategories from 'components/SectionSliderNewCategories'
 import useGhats from 'hooks/useGhats'
 import useBoatTypes from 'hooks/useBoatTypes'
+import useUser from 'hooks/useUser'
+import { subscribeUser } from 'utils/subscribeNotifications'
 
 function PageHome() {
   const { data: ghats } = useGhats()
   const { data: boatTypes } = useBoatTypes()
+  const { isLoggedIn } = useUser()
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      subscribeUser()
+    }
+  }, [isLoggedIn])
 
   return (
     <div className="nc-PageHome relative overflow-hidden">

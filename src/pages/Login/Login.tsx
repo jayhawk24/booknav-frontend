@@ -26,7 +26,8 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
     toast
       .promise(LoginService.login('+91' + phone), {
         loading: 'Sending OTP...',
-        success: 'OTP sent successfully',
+        success: response =>
+          response.data.otp ? response.data.otp : 'OTP sent successfully.',
         error: 'Error sending OTP',
       })
       .then(response =>
