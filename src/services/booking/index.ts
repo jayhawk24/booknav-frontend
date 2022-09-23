@@ -70,3 +70,8 @@ export const verifyPayment = async (
 ): Promise<GenericResponseType> => {
   return requestClient.post('/booking/verify', payload)
 }
+
+export const getBooking = async (bookingId: string): Promise<Booking> => {
+  const { data } = await requestClient.get(`/booking/${bookingId}`)
+  return data
+}
