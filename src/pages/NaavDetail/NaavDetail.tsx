@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useState } from 'react'
+import React, { FC, FormEvent, Fragment, useState } from 'react'
 import { ArrowRightIcon } from '@heroicons/react/outline'
 import LocationMarker from 'components/shared/LocationMarker'
 import CommentListing from 'components/CommentListing'
@@ -25,24 +25,35 @@ import averageRating from 'utils/averageRating'
 import AvailableDates from 'components/AvailableDates'
 import useBoatTypes from 'hooks/useBoatTypes'
 import DateSingleInput from 'components/shared/DateSingleInput/DateSingleInput'
+import toast from 'react-hot-toast'
+import { reviewNaav } from 'services/naav'
+import useUser from 'hooks/useUser'
+import { useQueryClient } from 'react-query'
 
 export interface ListingStayDetailPageProps {
   className?: string
   isPreviewMode?: boolean
+  defaultPoint?: number
 }
 
 const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
   className = '',
   isPreviewMode,
+  defaultPoint = 5,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [openFocusIndex, setOpenFocusIndex] = useState(0)
   const [selectedDate, setSelectedDate] = useState<moment.Moment | null>(
     moment().add(1, 'days'),
   )
+  const [comment, setComment] = useState('')
   const { naavId } = useParams<{ naavId: string }>()
   const { data: naav } = useNaav({ naavId })
   const { data: boatTypes } = useBoatTypes()
+  const [point, setPoint] = useState(defaultPoint)
+  const { data: user } = useUser()
+  const [isDisabled, setIsDisabled] = useState(false)
+  const queryClient = useQueryClient()
 
   const handleOpenModal = (index: number) => {
     setIsOpen(true)
@@ -50,6 +61,27 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
   }
 
   const handleCloseModal = () => setIsOpen(false)
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault()
+    const data = { comment: comment, rating: point }
+    setIsDisabled(true)
+
+    toast
+      .promise(reviewNaav(data, naavId), {
+        loading: 'Adding review.',
+        success: 'Review added.',
+        error: 'Error adding, please try again.',
+      })
+      .then(() => {
+        setComment('')
+        setPoint(defaultPoint)
+        queryClient.invalidateQueries('getNaav')
+      })
+      .finally(() => {
+        setIsDisabled(false)
+      })
+  }
 
   const renderSection1 = () => {
     return (
@@ -177,23 +209,36 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
         <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
 
         {/* Content */}
-        <div className="space-y-5">
-          <FiveStartIconForRate iconClass="w-6 h-6" className="space-x-0.5" />
-          <div className="relative">
-            <Input
-              fontClass=""
-              sizeClass="h-16 px-4 py-3"
-              rounded="rounded-3xl"
-              placeholder="Share your thoughts ..."
+        {user?.role === 'user' && (
+          <div className="space-y-5">
+            <FiveStartIconForRate
+              iconClass="w-6 h-6"
+              className="space-x-0.5"
+              point={point}
+              setPoint={setPoint}
+              defaultPoint={defaultPoint}
             />
-            <ButtonCircle
-              className="absolute right-2 top-1/2 transform -translate-y-1/2"
-              size=" w-12 h-12 "
-            >
-              <ArrowRightIcon className="w-5 h-5" />
-            </ButtonCircle>
+            <div className="relative">
+              <Input
+                fontClass=""
+                sizeClass="h-16 px-4 py-3"
+                rounded="rounded-3xl"
+                placeholder="Share your thoughts ..."
+                value={comment}
+                onChange={e => setComment(e.target.value)}
+              />
+              <ButtonCircle
+                className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                size=" w-12 h-12 "
+                type="submit"
+                disabled={isDisabled}
+                onClick={handleSubmit}
+              >
+                <ArrowRightIcon className="w-5 h-5" />
+              </ButtonCircle>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* comment */}
         <div className="divide-y divide-neutral-100 dark:divide-neutral-800">

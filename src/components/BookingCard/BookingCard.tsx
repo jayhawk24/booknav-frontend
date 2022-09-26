@@ -6,9 +6,10 @@ import Avatar from 'components/shared/Avatar'
 // import useWindowSize from 'hooks/useWindowResize'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
-import { Booking } from 'services/booking'
+import { Booking, updateBookingStatus } from 'services/booking'
 import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import useUser from 'hooks/useUser'
+import toast from 'react-hot-toast'
 
 export interface CommentListingProps {
   className?: string
@@ -18,19 +19,24 @@ export interface CommentListingProps {
   isHourly?: boolean
 }
 
-// const dateFormat = (date?: string) => {
-//   if (!date) {
-//     return ''
-//   }
-//   return moment(date).format('MMMM Do, YYYY')
-// }
-
 const BookingCard: FC<CommentListingProps> = ({
   className = '',
   booking,
   isHourly = true,
 }) => {
   const { data: user } = useUser()
+
+  const handleUpdateStatus = (status: string) => {
+    toast.promise(
+      updateBookingStatus({ bookingId: booking?._id || '', status }),
+      {
+        loading: 'Updating',
+        success: 'Updated',
+        error: 'Unable to update',
+      },
+    )
+  }
+
   const renderMobileCard = () => (
     <div
       className={`nc-CommentListing flex space-x-4 ${className}  border border-secondary-300 dark:border-secondary-900 mb-2 rounded-xl p-5`}
@@ -56,9 +62,22 @@ const BookingCard: FC<CommentListingProps> = ({
           </div>
           <div className="flex flex-col">
             {(user?.role === 'admin' || user?.role === 'naavik') && (
-              <ButtonSecondary className="mb-1">Accept</ButtonSecondary>
+              <ButtonSecondary
+                className="mb-1"
+                onClick={() => handleUpdateStatus('Confirmed')}
+              >
+                Accept
+              </ButtonSecondary>
             )}
-            <ButtonSecondary>Decline</ButtonSecondary>
+            <ButtonSecondary
+              onClick={() =>
+                handleUpdateStatus(
+                  user?.role === 'naavik' ? 'Declined' : 'Cancelled',
+                )
+              }
+            >
+              Decline
+            </ButtonSecondary>
           </div>
         </div>
         <span className="flex mt-3 text-neutral-6000 dark:text-neutral-300">

@@ -5,15 +5,18 @@ import { useState } from 'react'
 export interface FiveStartIconForRateProps {
   className?: string
   iconClass?: string
-  defaultPoint?: number
+  defaultPoint: number
+  point: number
+  setPoint: (point: number) => void
 }
 
 const FiveStartIconForRate: FC<FiveStartIconForRateProps> = ({
   className = '',
   iconClass = 'w-4 h-4',
-  defaultPoint = 5,
+  defaultPoint,
+  point,
+  setPoint,
 }) => {
-  const [point, setPoint] = useState(defaultPoint)
   const [currentHover, setCurrentHover] = useState(0)
 
   useEffect(() => {
@@ -34,7 +37,7 @@ const FiveStartIconForRate: FC<FiveStartIconForRateProps> = ({
             } ${iconClass}`}
             onMouseEnter={() => setCurrentHover(() => item)}
             onMouseLeave={() => setCurrentHover(() => 0)}
-            onClick={() => setPoint(() => item)}
+            onClick={() => setPoint(item)}
           />
         )
       })}
