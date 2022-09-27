@@ -45,6 +45,11 @@ export default function AvatarDropdown() {
             href: '/boat_types',
             icon: AnnotationIcon,
           },
+          {
+            name: 'Bank List',
+            href: '/banklist',
+            icon: UserCircleIcon,
+          },
         ]
       : []),
     ...(user?.role === 'naavik' || user?.role === 'admin'

@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios'
 import requestClient from 'services/requestClient'
 import { Naav } from 'services/addBoat'
 
@@ -10,6 +11,8 @@ export type GetNaavQuery = {
   minPrice?: string
   maxPrice?: string
 }
+
+type NaavReview = { rating: number; comment: string }
 
 export const getNaav = async (
   id: string,
@@ -48,3 +51,9 @@ export const publishNaav = async ({
   })
   return data
 }
+
+export const reviewNaav = async (
+  data: NaavReview,
+  naavId: string,
+): Promise<AxiosResponse> =>
+  await requestClient.put(`naav/${naavId}/review`, data)

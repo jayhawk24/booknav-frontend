@@ -34,6 +34,7 @@
     "add": "^2.0.6",
     "axios": "^0.26.1",
     "component": "^1.1.0",
+    "formik": "^2.2.9",
     "google-map-react": "^2.2.0",
     "moment": "^2.29.1",
     "rc-slider": "^10.0.0",
@@ -66,7 +67,8 @@
     "workbox-range-requests": "^6.5.3",
     "workbox-routing": "^6.5.3",
     "workbox-strategies": "^6.5.3",
-    "workbox-streams": "^6.5.3"
+    "workbox-streams": "^6.5.3",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",
