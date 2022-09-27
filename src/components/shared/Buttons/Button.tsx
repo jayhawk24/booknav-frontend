@@ -16,7 +16,9 @@ export interface ButtonProps {
   href?: '#' | LinkProps['to']
   //   href?: keyof LocationStates | '#' | LinkProps['to']
   targetBlank?: boolean
-  onClick?: () => void
+  onClick?: (
+    e?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>,
+  ) => void
 }
 
 const Button: FC<ButtonProps> = ({
@@ -30,7 +32,7 @@ const Button: FC<ButtonProps> = ({
   targetBlank,
   type,
   loading,
-  onClick = () => {},
+  onClick = e => {},
 }) => {
   const CLASSES =
     `nc-Button relative h-auto inline-flex items-center justify-center rounded-full transition-colors ${fontSize} ${sizeClass} ${translate} ${className} ` +
@@ -79,7 +81,7 @@ const Button: FC<ButtonProps> = ({
     <button
       disabled={disabled || loading}
       className={`${CLASSES}`}
-      onClick={onClick}
+      onClick={e => onClick(e)}
       type={type}
     >
       {loading && _renderLoading()}
