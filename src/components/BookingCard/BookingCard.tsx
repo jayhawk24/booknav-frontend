@@ -76,7 +76,7 @@ const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
           </span>
         </div>
       </Link>
-      <div className="flex flex-col absolute z-10 right-10 top-5">
+      <div className="flex flex-col absolute z-10 right-5 top-5">
         {(user?.role === 'admin' || user?.role === 'naavik') && (
           <ButtonSecondary
             className="mb-1"

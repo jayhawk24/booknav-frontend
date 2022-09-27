@@ -6,12 +6,6 @@ import toast, { Toaster } from 'react-hot-toast'
 const validRequestTypes = ['post', 'patch', 'put', 'delete']
 let prevMsg = ''
 export default function AlertDialog() {
-  // const [state, setState] = useState({
-  //   open: false,
-  //   message: '',
-  //   extraInfo: '',
-  // })
-
   const _enqueueSnackbar = (
     msg: string,
     variant: 'success' | 'error' = 'success',
@@ -30,7 +24,7 @@ export default function AlertDialog() {
       if (config.method && !validRequestTypes.includes(config.method))
         return response
       if (!response.data.message) return response
-      _enqueueSnackbar(response.data.message)
+      // _enqueueSnackbar(response.data.message)
       return response
     }
     const onErroredResponse = (err: AxiosError) => {
@@ -77,15 +71,6 @@ export default function AlertDialog() {
             _enqueueSnackbar(data.error, 'error')
             throw err
           }
-          //   const errorMsg = data.error.reduce(
-          //     (acc: string, _err: string) => `${acc} ${_err}`,
-          //     '',
-          //   )
-          // setState({
-          //   open: true,
-          //   message: 'Sorry, An error occurred',
-          //   extraInfo: errorMsg,
-          // })
           throw err
         }
       }
@@ -102,13 +87,5 @@ export default function AlertDialog() {
     )
   }, [])
 
-  // const handleClose = () => {
-  //   setState({
-  //     open: false,
-  //     message: '',
-  //     extraInfo: '',
-  //   })
-  // }
-  // Todo add dark mode support
   return <Toaster position="bottom-right" />
 }

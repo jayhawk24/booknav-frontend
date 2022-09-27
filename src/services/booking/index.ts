@@ -85,5 +85,5 @@ export const updateBookingStatus = async ({
   bookingId,
   status,
 }: BookingStatusBody): Promise<GenericResponseType> => {
-  return requestClient.put(`/booking/${bookingId}`, { status })
+  return requestClient.put(`/booking/${bookingId}/status`, { status })
 }
