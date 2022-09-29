@@ -56,7 +56,6 @@ const AddListing: FC<Props> = ({ isEdit }) => {
   const handleSumbit = () => {
     setDisabled(true)
     const formData = new FormData()
-    console.log({ boatType, ghat })
     formData.append('title', title)
     formData.append('description', description)
     formData.append('boatType', boatType)

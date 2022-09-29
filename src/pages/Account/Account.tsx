@@ -42,7 +42,6 @@ const Account: FC<AccountPageProps> = ({ className = '' }) => {
 
     const formData = new FormData()
     formData.append('title', name)
-    console.log(file)
     if (file) formData.append('picture', file)
 
     toast

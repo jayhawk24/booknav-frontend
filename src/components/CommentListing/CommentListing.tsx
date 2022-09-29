@@ -15,7 +15,7 @@ const CommentListing: FC<CommentListingProps> = ({
   hasListingTitle,
   review,
 }) => {
-  console.log(review?.rating)
+
   return (
     <div
       className={`nc-CommentListing flex space-x-4 ${className}`}
