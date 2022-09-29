@@ -22,7 +22,7 @@ const GhatForm = () => {
     const formData = new FormData()
     formData.append('title', title)
     formData.append('description', description)
-    formData.append('location', JSON.stringify({ lat: 687416, lng: 87964 }))
+    formData.append('location', JSON.stringify({ lat, lng }))
     if (file) formData.append('picture', file)
     setIsDisabled(true)
 
@@ -37,6 +37,7 @@ const GhatForm = () => {
       .then(() => {
         setDescription('')
         setTitle('')
+        setFile(null)
       })
       .finally(() => {
         setIsDisabled(false)
@@ -81,13 +82,8 @@ const GhatForm = () => {
             </div>
           </div>
           <div className="listingSection__wrap">
-            {/* HEADING */}
-
             <Label>Location</Label>
-
             <div className="w-14 border-b border-neutral-200 dark:border-neutral-700" />
-
-            {/* MAP */}
             <div className="aspect-w-5 aspect-h-3 sm:aspect-h-3">
               <div className="rounded-xl overflow-hidden">
                 <GoogleMapReact
