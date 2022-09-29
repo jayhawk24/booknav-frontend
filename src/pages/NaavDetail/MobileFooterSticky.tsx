@@ -20,7 +20,7 @@ const MobileFooterSticky: FC<Props> = () => {
   const { naavId } = useParams<{ naavId: string }>()
   const { data: naav } = useNaav({ naavId })
   const [dateFocused, setDateFocused] = useState<boolean>(false)
-  const [time, setTime] = useState(0)
+  const [time, setTime] = useState(5)
 
   const [guestsState, setGuestsState] = useState<GuestsObject>({
     guestAdults: 0,

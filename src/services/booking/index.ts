@@ -57,6 +57,11 @@ type BookingStatusBody = {
   status: string
 }
 
+type BookingVerifyResponse = {
+  message: string
+  booking: Booking
+}
+
 export const addBooking = async (payload: BookingPayload): Promise<Order> => {
   const { data } = await requestClient.post('/booking/', payload)
   return data
@@ -72,8 +77,9 @@ export const getBookings = async (query?: {
 
 export const verifyPayment = async (
   payload: RazorpayBody,
-): Promise<GenericResponseType> => {
-  return requestClient.post('/booking/verify', payload)
+): Promise<BookingVerifyResponse> => {
+  const { data } = await requestClient.post('/booking/verify', payload)
+  return data
 }
 
 export const getBooking = async (bookingId: string): Promise<Booking> => {

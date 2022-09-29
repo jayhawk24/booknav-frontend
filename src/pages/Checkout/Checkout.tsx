@@ -6,7 +6,7 @@ import NcImage from 'components/shared/NcImage'
 import StartRating from 'components/StarRating/StarRating'
 import moment, { Moment } from 'moment'
 import GuestsInput from 'components/HeroSearchForm/GuestsInput'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import useNaav from 'hooks/useNaav'
 import averageRating from 'utils/averageRating'
 import { Price } from 'services/addBoat'
@@ -49,6 +49,8 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
   const { data: naav } = useNaav({ naavId })
   const [isLoading, setIsLoading] = useState(false)
 
+  const history = useHistory()
+
   const initPayment = (data: Order) => {
     const options = {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID,
@@ -59,22 +61,24 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
       image: 'https://example.com/your_logo',
       order_id: data.id,
       handler: function (response: RazorpayResponse) {
-        toast.promise(
-          verifyPayment({
-            ...response,
-            naav: naavId,
-            rideType: priceType,
-            startTime:
-              moment(date).startOf('day').add(time, 'hours').format() || '',
-            guests,
-            amount: data.amount,
-          }),
-          {
-            loading: 'Verifying Payment',
-            success: response => response.data.message,
-            error: 'Payment Failed',
-          },
-        )
+        toast
+          .promise(
+            verifyPayment({
+              ...response,
+              naav: naavId,
+              rideType: priceType,
+              startTime:
+                moment(date).startOf('day').add(time, 'hours').format() || '',
+              guests,
+              amount: data.amount,
+            }),
+            {
+              loading: 'Verifying Payment',
+              success: 'Booking successful',
+              error: 'Payment Failed',
+            },
+          )
+          .then(response => history.push(`/booking/${response.booking._id}`))
       },
       theme: {
         color: '#3730a3',
@@ -165,21 +169,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
         <h2 className="text-3xl lg:text-4xl font-semibold">
           Confirm and Payment
         </h2>
-        {/* <div className="border-b border-neutral-200 dark:border-neutral-700"></div> */}
         <div>
-          {/* <h3 className="text-2xl font-semibold">Your trip</h3> */}
-          {/* <NcModal
-              renderTrigger={openModal => (
-                <span
-                  onClick={() => openModal()}
-                  className="block lg:hidden underline  mt-1 cursor-pointer"
-                >
-                  View booking details
-                </span>
-              )}
-              renderContent={renderSidebar}
-              modalTitle="Booking details"
-            /> */}
           {renderSidebar()}
           <div className="mt-6 border border-neutral-200 dark:border-neutral-700 rounded-3xl flex flex-col sm:flex-row divide-y sm:divide-x sm:divide-y-0 divide-neutral-200 dark:divide-neutral-700">
             {renderModalSelectDate &&
