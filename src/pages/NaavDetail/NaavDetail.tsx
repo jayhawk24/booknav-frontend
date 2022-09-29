@@ -284,6 +284,10 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
                 lat: 55.9607277,
                 lng: 36.2172614,
               }}
+              onClick={ev => {
+                console.log('latitide = ', ev.lat)
+                console.log('longitude = ', ev.lng)
+              }}
             >
               <LocationMarker lat={55.9607277} lng={36.2172614} />
             </GoogleMapReact>
