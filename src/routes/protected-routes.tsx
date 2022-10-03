@@ -5,7 +5,7 @@ const Home = lazy(() => import('pages/Home'))
 const Listings = lazy(() => import('pages/Listings/Listings'))
 const AddListing = lazy(() => import('pages/AddListing'))
 const GhatList = lazy(() => import('pages/GhatsList/GhatList'))
-const AddGhatForm = lazy(() => import('components/GhatForm/GhatForm'))
+const GhatForm = lazy(() => import('components/GhatForm/GhatForm'))
 const EditGhat = lazy(() => import('pages/EditGhat/EditGhat'))
 const EditNaav = lazy(() => import('pages/EditNaav'))
 const BoatTypeList = lazy(
@@ -56,7 +56,7 @@ export const protectedRoutes = [
   {
     name: 'ghat-form',
     path: '/ghats/add',
-    component: AddGhatForm,
+    component: GhatForm,
     exact: true,
   },
   {
