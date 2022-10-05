@@ -281,11 +281,14 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
               yesIWantToUseGoogleMapApiInternals
               defaultZoom={15}
               defaultCenter={{
-                lat: 55.9607277,
-                lng: 36.2172614,
+                lat: naav?.ghat?.location.lat || 25.3425829,
+                lng: naav?.ghat?.location.lng || 82.9702298,
               }}
             >
-              <LocationMarker lat={55.9607277} lng={36.2172614} />
+              <LocationMarker
+                lat={naav?.ghat?.location.lat || 25.3425829}
+                lng={naav?.ghat?.location.lng || 82.9702298}
+              />
             </GoogleMapReact>
           </div>
         </div>
