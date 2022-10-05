@@ -3776,7 +3776,7 @@ component-remotes@^1.1.1, component-remotes@^1.1.5, component-remotes@^1.2.0:
   integrity sha1-PQeYpR5ziZxs5VnZN2Olb8eh2IM=
   dependencies:
     co "^3"
-    cogent "git://github.com/timaschew/cogent#fix-redirects"
+    cogent "https://github.com/timaschew/cogent#fix-redirects"
     component-consoler "^2.0.0"
     component-validator "^1.0.0"
     debug "*"
