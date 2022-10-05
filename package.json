@@ -72,7 +72,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "prebuild": "echo -e '[url \"https://github.com/\"]\n insteadOf = \"git://github.com/\"' >> ~/.gitconfig",
     "build": "react-scripts build && cat src/custom-service-worker.js >> build/service-worker.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
