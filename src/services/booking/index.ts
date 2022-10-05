@@ -19,7 +19,15 @@ export interface Booking {
   amount: number
   startTime: string
   endTime: string
-  status: string
+  status:
+    | 'Cancelled'
+    | 'Declined'
+    | 'Confirmed'
+    | 'Completed'
+    | 'Ongoing'
+    | 'Refunded'
+    | 'PartiallyRefunded'
+    | 'Reserved'
   createdAt: string
   __v: number
 }

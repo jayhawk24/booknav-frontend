@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import Avatar from 'components/shared/Avatar'
 // import Badge from 'components/shared/Badge'
 // import TurncateTooltip from 'components/shared/TurncateTooltip'
@@ -10,6 +10,7 @@ import { Booking, updateBookingStatus } from 'services/booking'
 import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import useUser from 'hooks/useUser'
 import toast from 'react-hot-toast'
+import { useQueryClient } from 'react-query'
 
 export interface CommentListingProps {
   className?: string
@@ -20,23 +21,34 @@ export interface CommentListingProps {
 
 const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
   const { data: user } = useUser()
+  const [loading, setLoading] = useState(false)
+
+  const queryClient = useQueryClient()
 
   const handleUpdateStatus = (
     e:
       | React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>
       | undefined,
-    status: string,
+    status: Booking['status'],
   ) => {
     e?.stopPropagation()
-    toast.promise(
-      updateBookingStatus({ bookingId: booking?._id || '', status }),
-      {
+    setLoading(true)
+
+    toast
+      .promise(updateBookingStatus({ bookingId: booking?._id || '', status }), {
         loading: 'Updating',
         success: 'Updated',
         error: 'Unable to update',
-      },
-    )
+      })
+      .then(() => {
+        queryClient.invalidateQueries('bookings')
+      })
+      .finally(() => setLoading(false))
   }
+
+  const isAdmin = user?.role === 'admin'
+  const isNaavik = user?.role === 'naavik'
+  const isCustomer = user?.role === 'user'
 
   const renderMobileCard = () => (
     <div
@@ -77,24 +89,53 @@ const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
         </div>
       </Link>
       <div className="flex flex-col absolute z-10 right-5 top-5">
-        {(user?.role === 'admin' || user?.role === 'naavik') && (
+        {(isAdmin || isNaavik) && booking?.status === 'Reserved' && (
           <ButtonSecondary
+            loading={loading}
             className="mb-1"
             onClick={e => handleUpdateStatus(e, 'Confirmed')}
           >
             Accept
           </ButtonSecondary>
         )}
-        <ButtonSecondary
-          onClick={e =>
-            handleUpdateStatus(
-              e,
-              user?.role === 'naavik' ? 'Declined' : 'Cancelled',
-            )
-          }
-        >
-          Decline
-        </ButtonSecondary>
+        {isAdmin && booking?.status === 'Cancelled' ? (
+          <ButtonSecondary
+            loading={loading}
+            className="mb-1"
+            onClick={e => handleUpdateStatus(e, 'PartiallyRefunded')}
+          >
+            Partial Refund
+          </ButtonSecondary>
+        ) : (
+          booking?.status === 'Declined' && (
+            <ButtonSecondary
+              loading={loading}
+              className="mb-1"
+              onClick={e => handleUpdateStatus(e, 'Refunded')}
+            >
+              Refund
+            </ButtonSecondary>
+          )
+        )}
+        {(isAdmin || isCustomer) && booking?.status === 'Confirmed' && (
+          <ButtonSecondary
+            loading={loading}
+            className="mb-1"
+            onClick={e => handleUpdateStatus(e, 'Completed')}
+          >
+            Complete
+          </ButtonSecondary>
+        )}
+        {booking?.status === 'Reserved' && (
+          <ButtonSecondary
+            loading={loading}
+            onClick={e =>
+              handleUpdateStatus(e, isNaavik ? 'Declined' : 'Cancelled')
+            }
+          >
+            {isNaavik ? 'Declined' : 'Cancelled'}
+          </ButtonSecondary>
+        )}
       </div>
     </div>
   )

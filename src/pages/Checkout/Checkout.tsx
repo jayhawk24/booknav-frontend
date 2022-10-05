@@ -74,7 +74,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
             }),
             {
               loading: 'Verifying Payment',
-              success: 'Booking successful',
+              success: 'Naav available',
               error: 'Payment Failed',
             },
           )
