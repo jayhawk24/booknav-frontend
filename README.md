@@ -1,4 +1,4 @@
-## Yacht Away Frontend
+## Booknaav Frontend
 
 ## Workflow
 
