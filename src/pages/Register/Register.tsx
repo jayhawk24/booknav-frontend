@@ -10,6 +10,7 @@ import toast from 'react-hot-toast'
 import PhoneSelect from 'components/shared/PhoneSelect/PhoneSelect'
 import InputWithHelper from 'components/shared/InputWithHelper'
 import FormError from 'components/shared/FormError'
+import Checkbox from 'components/shared/Checkbox'
 
 export interface PageSignUpProps {
   className?: string
@@ -23,6 +24,7 @@ const Register: FC<PageSignUpProps> = ({ className = '' }) => {
   const [name, setName] = useState('')
   const [phoneCode, setPhoneCode] = useState('91')
   const [phone, setPhone] = useState(locationState?.phone || '')
+  const [isNaavik, setIsNaavik] = useState(false)
   const [error, setError] = useState({
     name: '',
     mobile_number: '',
@@ -36,7 +38,11 @@ const Register: FC<PageSignUpProps> = ({ className = '' }) => {
     const phoneNumber = '+' + phoneCode + phone
 
     setDisabled(true)
-    const register = RegisterService.register(name, phoneNumber, 'user')
+    const register = RegisterService.register(
+      name,
+      phoneNumber,
+      isNaavik ? 'naavik' : 'user',
+    )
 
     toast
       .promise(register, {
@@ -100,7 +106,14 @@ const Register: FC<PageSignUpProps> = ({ className = '' }) => {
               </div>
               <FormError text={error.mobile_number} />
             </div>
-
+            <div className="flex">
+              <Checkbox
+                checked={isNaavik}
+                onChange={checked => setIsNaavik(checked)}
+                className="mr-5"
+              />
+              <Label>Register as Naavik</Label>
+            </div>
             <ButtonPrimary type="submit" disabled={disabled}>
               Continue
             </ButtonPrimary>
