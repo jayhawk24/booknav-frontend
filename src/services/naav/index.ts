@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios'
 import requestClient from 'services/requestClient'
-import { Naav } from 'services/addBoat'
+import { MetaResponseType, Naav } from 'services/addBoat'
 
 type EditNaavRequest = { data: FormData; naavId: string }
 
@@ -13,6 +13,22 @@ export type GetNaavQuery = {
 }
 
 type NaavReview = { rating: number; comment: string }
+
+export function getNaavs(
+  queries?: GetNaavQuery,
+): Promise<MetaResponseType<Naav>> {
+  const query = new URLSearchParams({
+    isPublished: queries?.isPublished ? 'true' : 'false',
+  })
+
+  if (queries?.ghatId) query.set('ghatId', queries?.ghatId)
+  if (queries?.boatTypeId?.length)
+    queries.boatTypeId.map(type => query.append('boatTypeId', type))
+  if (queries?.minPrice) query.set('minPrice', queries?.minPrice)
+  if (queries?.maxPrice) query.set('maxPrice', queries?.maxPrice)
+
+  return requestClient.get(`/naav/?${query}`)
+}
 
 export const getNaav = async (
   id: string,

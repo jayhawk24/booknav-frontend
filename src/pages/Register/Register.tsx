@@ -1,6 +1,4 @@
 import React, { FC, FormEvent, useState } from 'react'
-// import facebookSvg from 'images/Facebook.svg'
-// import googleSvg from 'images/Google.svg'
 import Input from 'components/shared/Input/Input'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import { Link, useHistory, useLocation } from 'react-router-dom'
@@ -85,9 +83,6 @@ const Register: FC<PageSignUpProps> = ({ className = '' }) => {
                 helperText={error.name}
               />
             </div>
-
-            {/* ---- */}
-
             <div>
               <Label>Phone number</Label>
               <div className="flex">

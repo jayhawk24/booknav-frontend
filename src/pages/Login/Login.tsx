@@ -28,7 +28,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
         loading: 'Sending OTP...',
         success: response =>
           response.data.otp ? response.data.otp : 'OTP sent successfully.',
-        error: 'Error sending OTP',
+        error: 'Unable to send OTP.',
       })
       .then(response =>
         history.push('/otp', {

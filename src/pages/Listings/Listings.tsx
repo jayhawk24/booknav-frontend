@@ -7,16 +7,9 @@ import { Naav } from 'services/addBoat'
 import { getListings } from 'services/listings'
 
 const Listings: FC = () => {
-  const { data: listings } = useQuery(
-    'getListings',
-    async () => {
-      const { data } = await getListings()
-      return data
-    },
-    {
-      staleTime: 24 * 60 * 60 * 1000,
-    },
-  )
+  const { data: listings } = useQuery('getListings', getListings, {
+    staleTime: Infinity,
+  })
 
   return (
     <OwnerDashboardLayout>
@@ -36,6 +29,7 @@ const Listings: FC = () => {
               </p>
             </div>
           )}
+
           <div className="mt-8 grid grid-cols-1 gap-6 md:gap-7 sm:grid-cols-2">
             {listings?.map((listing: Naav) => (
               <ListingsCard key={listing._id} boat={listing} />

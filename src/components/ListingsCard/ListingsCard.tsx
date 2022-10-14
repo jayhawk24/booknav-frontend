@@ -52,7 +52,7 @@ const ListingsCard: FC<StayCardProps> = ({
         success: 'Status Updated',
         error: 'Failed to update status',
       })
-      .then(() => queryClient.invalidateQueries('getListings'))
+      .then(() => queryClient.invalidateQueries('getNaavs'))
       .finally(() =>
         setDisabled({
           ...disabled,
@@ -72,7 +72,7 @@ const ListingsCard: FC<StayCardProps> = ({
         success: 'Naav deleted',
         error: 'Failed to delete naav',
       })
-      .then(() => queryClient.invalidateQueries('getListings'))
+      .then(() => queryClient.invalidateQueries('getNaavs'))
       .finally(() =>
         setDisabled({
           ...disabled,
