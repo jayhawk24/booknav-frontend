@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import Avatar from 'components/shared/Avatar'
 // import Badge from 'components/shared/Badge'
 // import TurncateTooltip from 'components/shared/TurncateTooltip'
@@ -22,6 +22,7 @@ export interface CommentListingProps {
 const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
   const { data: user } = useUser()
   const [loading, setLoading] = useState(false)
+  const [cardColor, setCardColor] = useState('purple')
 
   const queryClient = useQueryClient()
 
@@ -50,9 +51,27 @@ const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
   const isNaavik = user?.role === 'naavik'
   const isCustomer = user?.role === 'user'
 
+  useEffect(() => {
+    if (booking?.status === 'Cancelled' || booking?.status === 'Refunded') {
+      setCardColor('secondary')
+    } else if (booking?.status === 'Declined') {
+      setCardColor('red')
+    } else if (booking?.status === 'Confirmed') {
+      setCardColor('green')
+    } else if (
+      booking?.status === 'Ongoing' ||
+      booking?.status === 'PartiallyRefunded'
+    ) {
+      setCardColor('purple')
+    } else if (booking?.status === 'Completed') {
+      setCardColor('blue')
+    }
+  }, [booking])
+  console.log(cardColor)
+
   const renderMobileCard = () => (
     <div
-      className={`nc-CommentListing  ${className}  border border-secondary-300 dark:border-secondary-900 mb-2 rounded-xl p-5 relative`}
+      className={`nc-CommentListing ${className} border border-${cardColor}-300 dark:border-secondary-900 mb-2 rounded-xl p-5 relative`}
       data-nc-id="CommentListing"
     >
       <Link to={`/booking/${booking?._id}`} className="flex space-x-4">
