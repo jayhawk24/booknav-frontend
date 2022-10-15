@@ -18,6 +18,8 @@ import {
   verifyPayment,
 } from 'services/booking'
 import useUser from 'hooks/useUser'
+import { useQuery } from 'react-query'
+import { getTax } from 'services/tax'
 
 export interface CheckOutPageProps {
   className?: string
@@ -47,6 +49,10 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
   const { data: user } = useUser()
   const { naavId } = useParams<{ naavId: string }>()
   const { data: naav } = useNaav({ naavId })
+  const { data: tax } = useQuery('getTax', getTax)
+  const serviceCharge =
+    ((naav?.price?.[priceType] || 0) * (tax?.[0].serviceChargePercent || 0)) /
+    100
   const [isLoading, setIsLoading] = useState(false)
 
   const history = useHistory()
@@ -150,13 +156,13 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
             <span>₹{naav?.price?.[priceType]}</span>
           </div>
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
-            <span>Service charge</span>
-            <span>₹0</span>
+            <span>Service charge ({tax?.[0].serviceChargePercent}%)</span>
+            <span>₹ {serviceCharge}</span>
           </div>
           <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
           <div className="flex justify-between font-semibold">
             <span>Total</span>
-            <span>₹{naav?.price?.[priceType]}</span>
+            <span>₹{(naav?.price?.[priceType] || 0) + serviceCharge}</span>
           </div>
         </div>
       </div>

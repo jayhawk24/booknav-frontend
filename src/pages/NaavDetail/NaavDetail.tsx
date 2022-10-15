@@ -28,7 +28,8 @@ import DateSingleInput from 'components/shared/DateSingleInput/DateSingleInput'
 import toast from 'react-hot-toast'
 import { reviewNaav } from 'services/naav'
 import useUser from 'hooks/useUser'
-import { useQueryClient } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
+import { getTax } from 'services/tax'
 
 export interface ListingStayDetailPageProps {
   className?: string
@@ -54,6 +55,8 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
   const { data: user } = useUser()
   const [isDisabled, setIsDisabled] = useState(false)
   const queryClient = useQueryClient()
+
+  const { data: tax } = useQuery('getTax', getTax)
 
   const handleOpenModal = (index: number) => {
     setIsOpen(true)
@@ -371,7 +374,7 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
           </div>
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
             <span>Service charge</span>
-            <span>$0</span>
+            <span>{tax?.[0].serviceChargePercent}%</span>
           </div>
           <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
           <div className="flex justify-between font-semibold">
