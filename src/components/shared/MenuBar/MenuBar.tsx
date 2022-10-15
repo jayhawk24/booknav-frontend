@@ -1,13 +1,14 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import { Transition, Dialog } from '@headlessui/react'
 import NavMobile from 'components/shared/Navigation/NavMobile'
+import { useLocation } from 'react-router-dom'
 
 const MenuBar: React.FC = () => {
   const [isVisable, setIsVisable] = useState(false)
-
-  // useEffect(() => {
-  //   setIsVisable(false)
-  // }, [window.location.pathname])
+  const { pathname } = useLocation()
+  useEffect(() => {
+    setIsVisable(false)
+  }, [pathname])
 
   const handleOpenMenu = () => setIsVisable(true)
   const handleCloseMenu = () => setIsVisable(false)
@@ -20,7 +21,7 @@ const MenuBar: React.FC = () => {
           className="fixed inset-0 z-50 overflow-y-auto"
           onClose={handleCloseMenu}
         >
-          <div className="fixed left-0 top-0 bottom-0 w-full md:w-auto z-max outline-none focus:outline-none">
+          <div className="fixed right-0 top-0 bottom-0 w-full md:w-auto z-max outline-none focus:outline-none">
             <React.Fragment>
               <Transition.Child
                 as={Fragment}

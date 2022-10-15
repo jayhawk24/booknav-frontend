@@ -29,39 +29,6 @@ export default function AvatarDropdown() {
       icon: UserCircleIcon,
     },
     {
-      name: 'Messages',
-      href: '/messages',
-      icon: AnnotationIcon,
-    },
-    ...(user?.role === 'admin'
-      ? [
-          {
-            name: 'Ghats',
-            href: '/ghats',
-            icon: HeartIcon,
-          },
-          {
-            name: 'Boat Type',
-            href: '/boat_types',
-            icon: AnnotationIcon,
-          },
-          {
-            name: 'Bank List',
-            href: '/banklist',
-            icon: UserCircleIcon,
-          },
-        ]
-      : []),
-    ...(user?.role === 'naavik' || user?.role === 'admin'
-      ? [
-          {
-            name: 'My Naav',
-            href: '/naavs',
-            icon: HeartIcon,
-          },
-        ]
-      : []),
-    {
       name: 'Bookings',
       href: '/bookings',
       icon: HomeIcon,

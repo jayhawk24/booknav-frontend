@@ -6,6 +6,7 @@ import SocialsList from 'components/shared/SocialList/SocialList'
 import SwitchDarkMode from 'components/shared/SwitchDarkMode/SwitchDarkMode'
 import { NavItemType } from './NavTypes'
 import useUser from 'hooks/useUser'
+import { Link } from 'react-router-dom'
 
 export interface NavMobileProps {
   data?: NavItemType[]
@@ -13,6 +14,41 @@ export interface NavMobileProps {
 }
 const NavMobile: React.FC<NavMobileProps> = ({ onClickClose }) => {
   const { data: user } = useUser()
+  const solutions = [
+    {
+      name: 'Account',
+      href: '/account',
+    },
+    ...(user?.role === 'admin'
+      ? [
+          {
+            name: 'Ghats',
+            href: '/ghats',
+          },
+          {
+            name: 'Boat Type',
+            href: '/boat_types',
+          },
+          {
+            name: 'Bank List',
+            href: '/banklist',
+          },
+        ]
+      : []),
+    ...(user?.role === 'naavik' || user?.role === 'admin'
+      ? [
+          {
+            name: 'My Naav',
+            href: '/naavs',
+          },
+        ]
+      : []),
+    {
+      name: 'Bookings',
+      href: '/bookings',
+    },
+  ]
+
   return (
     <div className="overflow-y-auto w-full max-w-sm h-screen py-2 transition transform shadow-lg ring-1 dark:ring-neutral-700 bg-white dark:bg-neutral-900 divide-y-2 divide-neutral-100 dark:divide-neutral-800">
       <div className="py-6 px-5">
@@ -34,6 +70,19 @@ const NavMobile: React.FC<NavMobileProps> = ({ onClickClose }) => {
           <ButtonClose onClick={onClickClose} />
         </span>
       </div>
+      <ul className="flex flex-col py-6 px-2 space-y-1">
+        <li className="text-neutral-900 dark:text-white">
+          {solutions.map((item, index) => (
+            <Link
+              className="flex w-full px-4 font-medium uppercase tracking-wide text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg"
+              to={item.href}
+              key={index}
+            >
+              <span className="py-2.5 pr-3 block w-full">{item.name}</span>
+            </Link>
+          ))}
+        </li>
+      </ul>
       <div className="flex items-center justify-between py-6 px-5 space-x-4">
         {user ? (
           <ButtonPrimary href="/add-listing/1">List your Yacht</ButtonPrimary>
