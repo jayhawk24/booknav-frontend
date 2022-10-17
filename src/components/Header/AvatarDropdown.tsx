@@ -1,11 +1,5 @@
 import { Popover, Transition } from '@headlessui/react'
-import {
-  UserCircleIcon,
-  AnnotationIcon,
-  HeartIcon,
-  HomeIcon,
-  LogoutIcon,
-} from '@heroicons/react/outline'
+import { UserCircleIcon, HomeIcon, LogoutIcon } from '@heroicons/react/outline'
 import { Fragment } from 'react'
 import Avatar from 'components/shared/Avatar'
 import useUser, { logoutUser } from 'hooks/useUser'

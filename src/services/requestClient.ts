@@ -3,8 +3,8 @@ import { clearAllTokens, getToken, setToken } from 'utils/tokenHandlers'
 
 const requestClient = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_DEV_API_URL
-    ? 'http://' + process.env.REACT_APP_BACKEND_DEV_API_URL
-    : 'https://' + process.env.REACT_APP_BACKEND_API_URL,
+    ? process.env.REACT_APP_BACKEND_DEV_API_URL
+    : process.env.REACT_APP_BACKEND_API_URL,
   headers: {
     Authorization: `${localStorage.getItem('access')}`,
   },
