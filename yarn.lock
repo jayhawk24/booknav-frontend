@@ -3551,7 +3551,7 @@ coa@^2.0.2:
 
 "cogent@https://github.com/timaschew/cogent#fix-redirects":
   version "0.4.3-fix-redirects"
-  resolved "git+ssh://git@github.com/timaschew/cogent.git#2246bd071392f5053a3a110024fd608a40a593ba"
+  resolved "https://github.com/timaschew/cogent#2246bd071392f5053a3a110024fd608a40a593ba"
   dependencies:
     debug "*"
     generator-supported "~0.0.1"
