@@ -129,23 +129,21 @@ const Header = () => {
               </div>
               <div className="flex-shrink-0 flex items-center justify-end text-neutral-700 dark:text-neutral-100 space-x-1">
                 <div className="hidden items-center xl:flex space-x-1">
-                  <Link
-                    to="/add-listing/1"
-                    className="
+                  {user?.role === 'naavik' && (
+                    <Link
+                      to="/naav/add"
+                      className="
                 text-opacity-90
                 group px-4 py-2 border border-neutral-300 hover:border-neutral-400 dark:border-neutral-700 rounded-full inline-flex items-center text-sm text-gray-700 dark:text-neutral-300 font-medium hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-                  >
-                    List your yacht
-                  </Link>
-
+                    >
+                      List Naav
+                    </Link>
+                  )}
                   <SwitchDarkMode />
-                  {/* <NotifyDropdown /> */}
                   <AvatarDropdown />
                 </div>
                 <div className="flex items-center space-x-4 xl:hidden">
-                  {/* <NotifyDropdown /> */}
                   <AvatarDropdown />
-                  {/* <MenuBar /> */}
                 </div>
               </div>
             </>

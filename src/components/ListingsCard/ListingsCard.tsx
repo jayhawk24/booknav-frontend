@@ -52,7 +52,7 @@ const ListingsCard: FC<StayCardProps> = ({
         success: 'Status Updated',
         error: 'Failed to update status',
       })
-      .then(() => queryClient.invalidateQueries('getNaavs'))
+      .then(() => queryClient.invalidateQueries('getListings'))
       .finally(() =>
         setDisabled({
           ...disabled,
@@ -175,7 +175,7 @@ const ListingsCard: FC<StayCardProps> = ({
       {renderSliderGallery()}
       <Link to={`/naav/${_id}`}>{renderContent()}</Link>
       {!hideButtons && (
-        <div className="flex justify-center mb-5">
+        <div className="flex justify-center mb-5 items-center">
           <ButtonSecondary href={`/naav/${_id}/edit/`} className="font-thin">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -211,7 +211,7 @@ const ListingsCard: FC<StayCardProps> = ({
                 <ButtonPrimary
                   className={
                     isPublished
-                      ? 'font-thin w-full dark:bg-neutral-800 bg-neutral-200 text-gray-600 hover:text-gray-50 dark:text-neutral-400 '
+                      ? 'font-thin w-full dark:bg-neutral-800 bg-neutral-200 text-gray-600 hover:text-gray-50 dark:text-neutral-400 mt-2'
                       : 'font-thin w-full'
                   }
                   onClick={handlePublish}

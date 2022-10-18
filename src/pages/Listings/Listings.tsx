@@ -29,7 +29,6 @@ const Listings: FC = () => {
               </p>
             </div>
           )}
-
           <div className="mt-8 grid grid-cols-1 gap-6 md:gap-7 sm:grid-cols-2">
             {listings?.map((listing: Naav) => (
               <ListingsCard key={listing._id} boat={listing} />

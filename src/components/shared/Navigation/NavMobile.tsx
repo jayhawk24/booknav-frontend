@@ -85,7 +85,9 @@ const NavMobile: React.FC<NavMobileProps> = ({ onClickClose }) => {
       </ul>
       <div className="flex items-center justify-between py-6 px-5 space-x-4">
         {user ? (
-          <ButtonPrimary href="/add-listing/1">List your Yacht</ButtonPrimary>
+          user.role === 'naavik' && (
+            <ButtonPrimary href="/naav/add">List Naav</ButtonPrimary>
+          )
         ) : (
           <ButtonPrimary href="/login">Login / Sign Up</ButtonPrimary>
         )}
