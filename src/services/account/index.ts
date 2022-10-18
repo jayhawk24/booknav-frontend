@@ -15,4 +15,7 @@ export default class accountService {
   static updateGeneralInfo(formData: FormData): Promise<GenericResponseType> {
     return requestClient.post('/users/update/', formData)
   }
+  static deleteAccount(): Promise<GenericResponseType> {
+    return requestClient.delete('/users/me/')
+  }
 }

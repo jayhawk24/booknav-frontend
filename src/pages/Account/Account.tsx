@@ -9,6 +9,9 @@ import accountService from 'services/account'
 import InputWithHelper from 'components/shared/InputWithHelper'
 import ImageUpload from 'components/shared/ImageUpload'
 import BankForm from 'components/BankForm/BankForm'
+import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
+import { TrashIcon } from '@heroicons/react/outline'
+import { useHistory } from 'react-router-dom'
 
 export interface AccountPageProps {
   className?: string
@@ -28,6 +31,8 @@ const Account: FC<AccountPageProps> = ({ className = '' }) => {
     city: '',
     picture: '',
   })
+
+  const history = useHistory()
 
   useEffect(() => {
     setName(user?.title || '')
@@ -58,6 +63,20 @@ const Account: FC<AccountPageProps> = ({ className = '' }) => {
         setIsDisabled(false)
         setError(error.response.data)
       })
+  }
+
+  const handleDelete = () => {
+    setIsDisabled(true)
+    toast
+      .promise(accountService.deleteAccount(), {
+        loading: 'Deleting...',
+        success: response => response.data.message,
+        error: 'Error deleting account',
+      })
+      .then(() => {
+        history.push('/logout')
+      })
+      .finally(() => setIsDisabled(false))
   }
 
   return (
@@ -101,10 +120,18 @@ const Account: FC<AccountPageProps> = ({ className = '' }) => {
                 }
               </div>
 
-              <div className="pt-2 pb-5">
-                <ButtonPrimary type="submit" disabled={isDisabled}>
-                  Update info
+              <div className="pt-2 pb-5 flex justify-between items-center ">
+                <ButtonPrimary type="submit" loading={isDisabled}>
+                  Update Info
                 </ButtonPrimary>
+                <ButtonSecondary
+                  type="submit"
+                  loading={isDisabled}
+                  onClick={handleDelete}
+                >
+                  <TrashIcon className="h-6 w-5" />
+                  Delete Account
+                </ButtonSecondary>
               </div>
             </div>
           </div>
