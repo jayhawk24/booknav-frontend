@@ -1,10 +1,10 @@
-[
-  {
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target": {
-      "namespace": "android_app",
-      "package_name": "xyz.appmaker.nuonfz",
-      "sha256_cert_fingerprints": ["1F:BE:74:EC:FC:1F:C1:BC:5E:5A:6E:5A:BA:74:00:89:5A:E5:B0:D6:67:63:30:B7:8B:79:B3:92:DE:5F:30:B3"]
-    }
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.booknaav.app.twa",
+    "sha256_cert_fingerprints": [
+      "4E:07:BF:B0:AC:29:B6:C0:4E:15:3F:3E:28:3E:42:F3:50:69:BE:CC:A9:85:9C:AD:55:67:9D:CE:90:52:CC:AC"
+    ]
   }
-]
+}]
