@@ -59,7 +59,7 @@ const Otp: FC<PageLoginProps> = ({ className = '' }: PageLoginProps) => {
       otp,
     })
       .catch(error => {
-        toast.error('Incorrect OTP')
+        toast.error(error.response.data.message)
         setOtp('')
         setErrors(error.response.data)
       })
@@ -77,7 +77,7 @@ const Otp: FC<PageLoginProps> = ({ className = '' }: PageLoginProps) => {
       .promise(LoginService.login(locationState?.phone || ''), {
         loading: 'Resending OTP...',
         success: 'OTP sent successfully',
-        error: 'Error sending OTP',
+        error: error => error.response.data.message,
       })
       .then(response => {
         locationState.hash = response.data.hash
