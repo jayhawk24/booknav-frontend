@@ -112,7 +112,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
         }),
         {
           loading: 'Booking...',
-          success: 'Booking successful',
+          success: 'Redirecting...',
           error: error => error.response.data.message,
         },
       )
@@ -171,7 +171,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
 
   const renderMain = () => {
     return (
-      <div className="w-full flex flex-col sm:rounded-2xl sm:border border-neutral-200 dark:border-neutral-700 space-y-8 px-0 sm:p-6 xl:p-8 dark:text-neutral-200">
+      <div className="w-full flex flex-col sm:rounded-2xl sm:border border-neutral-200 dark:border-neutral-700 space-y-4 px-0 sm:p-6 xl:p-8 dark:text-neutral-200">
         <h2 className="text-3xl lg:text-4xl font-semibold">
           Confirm and Payment
         </h2>
@@ -286,7 +286,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
 
   return (
     <div className={`nc-CheckOutPage ${className}`} data-nc-id="CheckOutPage">
-      <main className="container mt-11 mb-24 lg:mb-32 flex flex-col-reverse lg:flex-row">
+      <main className="container mt-2 mb-24 lg:mb-32 flex flex-col-reverse lg:flex-row">
         <div className="w-full lg:w-3/5 xl:w-2/3 lg:pr-10 ">{renderMain()}</div>
         {/* <div className="hidden lg:block flex-grow">{renderSidebar()}</div> */}
       </main>

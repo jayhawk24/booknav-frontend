@@ -28,9 +28,9 @@ const PriceRangeInput: FC<PriceRangeInputProps> = ({
   const searchParams = useSearchParams()
 
   const activeFilter =
-    'flex items-center w-64 justify-center px-4 py-2 text-sm rounded-full border border-primary-500 bg-primary-50 text-primary-700 focus:outline-none'
+    'flex items-center w-44 justify-center px-2 py-2 text-sm rounded-full border border-primary-500 bg-primary-50 text-primary-700 focus:outline-none'
   const inActiveFilter =
-    'flex items-center w-64 justify-center px-4 py-2 text-sm rounded-full border border-neutral-300 dark:border-neutral-700 focus:outline-none'
+    'flex items-center w-44 justify-center px-2 py-2 text-sm rounded-full border border-neutral-300 dark:border-neutral-700 focus:outline-none'
 
   return (
     <Popover className="flex relative [ nc-flex-1 ]">
@@ -57,7 +57,7 @@ const PriceRangeInput: FC<PriceRangeInputProps> = ({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-1"
           >
-            <Popover.Panel className="absolute left-0 lg:right-0 z-10 w-full sm:min-w-[340px] max-w-sm bg-white dark:bg-neutral-800 top-full mt-3 py-5 sm:py-6 px-4 sm:px-8 rounded-3xl shadow-xl">
+            <Popover.Panel className="absolute left-0 lg:right-0 z-10 sm:min-w-[340px] bg-white dark:bg-neutral-800 top-full mt-3 py-5 sm:py-6 px-4 sm:px-8 rounded-3xl shadow-xl">
               <div className="relative flex flex-col space-y-8">
                 <div className="space-y-5">
                   <span className="font-medium">Range Price</span>

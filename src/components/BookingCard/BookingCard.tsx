@@ -38,7 +38,7 @@ const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
       .promise(updateBookingStatus({ bookingId: booking?._id || '', status }), {
         loading: 'Updating',
         success: 'Updated',
-        error: 'Unable to update',
+        error: 'Failed to update',
       })
       .then(() => {
         queryClient.invalidateQueries('bookings')

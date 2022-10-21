@@ -63,7 +63,7 @@ const TabFilters = () => {
         searchParams.delete('maxPrice')
         setPrice(null)
       }
-      if (price === [500, 10000]) {
+      if (price?.[0] === 500 && price?.[1] === 10000) {
         searchParams.delete('minPrice')
         searchParams.delete('maxPrice')
       }
@@ -130,7 +130,7 @@ const TabFilters = () => {
                   : inActiveFilter
               }
             >
-              <span>Type of Boat</span>
+              <span className="whitespace-nowrap">Type of Boat</span>
               <i className="las la-angle-down ml-2"></i>
             </Popover.Button>
             <Transition

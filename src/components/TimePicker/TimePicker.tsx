@@ -19,7 +19,7 @@ const TimePicker: FC<TimePicker> = ({
   time,
   setTime,
   startLabel = 'Start time',
-  min = 5,
+  min = moment().hour(),
   max = 23,
   children,
 }) => {

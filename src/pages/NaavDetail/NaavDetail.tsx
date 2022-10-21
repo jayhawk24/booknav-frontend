@@ -96,10 +96,12 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
         </div>
 
         {/* 2 */}
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold">
-          {naav?.title}
-        </h2>
-
+        <div className="flex justify-between">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold">
+            {naav?.title}
+          </h2>
+          <MobileFooterSticky buttonOnly />
+        </div>
         {/* 3 */}
         <div className="flex items-center space-x-4">
           <StarRating
@@ -398,13 +400,13 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
         <header className="container 2xl:px-14 rounded-md sm:rounded-xl">
           <div className="relative grid grid-cols-3 sm:grid-cols-4 gap-1 sm:gap-2">
             <div
-              className={`col-span-2 row-span-3 sm:row-span-2 relative rounded-md sm:rounded-xl overflow-hidden cursor-pointer mb-2 min-h-full ${
+              className={`col-span-2 row-span-3 h-72 sm:row-span-2 relative rounded-md sm:rounded-xl overflow-hidden cursor-pointer min-h-full ${
                 naav?.pictures?.length === 1 && 'h-48'
               }`}
               onClick={() => handleOpenModal(0)}
             >
               <NcImage
-                containerClassName="absolute inset-0"
+                containerClassName="absolute inset-0 "
                 className="object-cover w-full h-full rounded-md sm:rounded-xl "
                 src={naav?.pictures?.[0]}
               />
@@ -415,7 +417,7 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
               ?.map((item, index) => (
                 <div
                   key={index}
-                  className={`relative rounded-md sm:rounded-xl overflow-hidden ${
+                  className={`relative rounded-md sm:rounded-xl overflow-hidden  ${
                     index >= 3 ? 'hidden sm:block' : ''
                   }`}
                 >

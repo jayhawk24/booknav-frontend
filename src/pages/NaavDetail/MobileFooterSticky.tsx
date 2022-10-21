@@ -11,16 +11,17 @@ import useNaav from 'hooks/useNaav'
 type Props = {
   selectedDate?: DateRange
   selectedGuests?: GuestsObject
+  buttonOnly?: boolean
 }
 
-const MobileFooterSticky: FC<Props> = () => {
+const MobileFooterSticky: FC<Props> = ({ buttonOnly }) => {
   const [selectedDate, setSelectedDate] = useState<moment.Moment | null>(
     moment().add(1, 'days'),
   )
   const { naavId } = useParams<{ naavId: string }>()
   const { data: naav } = useNaav({ naavId })
   const [dateFocused, setDateFocused] = useState<boolean>(false)
-  const [time, setTime] = useState(5)
+  const [time, setTime] = useState(moment().hour() + 1)
 
   const [guestsState, setGuestsState] = useState<GuestsObject>({
     guestAdults: 0,
@@ -45,6 +46,27 @@ const MobileFooterSticky: FC<Props> = () => {
       renderChildren={renderProp}
     />
   )
+
+  if (buttonOnly) {
+    return (
+      <ModalReserveMobile
+        defaultGuests={guestsState}
+        defaultDate={selectedDate}
+        onChangeDate={setSelectedDate}
+        onChangeGuests={setGuestsState}
+        time={time}
+        renderModalSelectDate={renderModalSelectDate}
+        renderChildren={({ openModal }) => (
+          <ButtonPrimary
+            sizeClass="px-5 sm:px-7 py-3 !rounded-2xl"
+            onClick={openModal}
+          >
+            Book
+          </ButtonPrimary>
+        )}
+      />
+    )
+  }
 
   return (
     <div className="block lg:hidden fixed bottom-0 inset-x-0 py-2 sm:py-3 bg-white dark:bg-neutral-800 border-t border-neutral-200 dark:border-neutral-6000 z-20">
@@ -81,7 +103,7 @@ const MobileFooterSticky: FC<Props> = () => {
               sizeClass="px-5 sm:px-7 py-3 !rounded-2xl"
               onClick={openModal}
             >
-              Reserve
+              Book
             </ButtonPrimary>
           )}
         />
