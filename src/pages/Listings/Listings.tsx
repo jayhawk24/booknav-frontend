@@ -7,9 +7,7 @@ import { Naav } from 'services/addBoat'
 import { getListings } from 'services/listings'
 
 const Listings: FC = () => {
-  const { data: listings } = useQuery('getListings', getListings, {
-    staleTime: Infinity,
-  })
+  const { data: listings } = useQuery('getListings', getListings)
 
   return (
     <OwnerDashboardLayout>
