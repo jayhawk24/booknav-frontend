@@ -60,15 +60,21 @@ const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
           <Avatar
             sizeClass="h-10 w-10 text-lg text-primary-700 dark:text-primary-500"
             radius="rounded-full"
-            userName={booking?.user?.title}
-            imgUrl={booking?.user?.picture || ''}
+            userName={
+              isNaavik ? booking?.user.title : booking?.naav.user?.title
+            }
+            imgUrl={
+              isNaavik ? booking?.user.picture : booking?.naav.user?.picture
+            }
           />
         </div>
         <div className="flex-grow">
           <div className="flex justify-between space-x-3">
             <div className="flex flex-col">
               <div className="text-sm font-semibold">
-                <span>{booking?.user?.title}</span>
+                <span>
+                  {isNaavik ? booking?.user.title : booking?.naav.user?.title}
+                </span>
               </div>
               <span className="text-sm text-neutral-500 dark:text-neutral-400 mt-0.5">
                 {moment(booking?.startTime).format('hh:mm A - Do MMMM')}
@@ -133,7 +139,7 @@ const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
               handleUpdateStatus(e, isNaavik ? 'Declined' : 'Cancelled')
             }
           >
-            {isNaavik ? 'Declined' : 'Cancelled'}
+            {isNaavik ? 'Decline' : 'Cancel'}
           </ButtonSecondary>
         )}
       </div>

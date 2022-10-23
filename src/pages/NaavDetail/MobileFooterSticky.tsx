@@ -69,7 +69,7 @@ const MobileFooterSticky: FC<Props> = ({ buttonOnly }) => {
   }
 
   return (
-    <div className="block lg:hidden fixed bottom-0 inset-x-0 py-2 sm:py-3 bg-white dark:bg-neutral-800 border-t border-neutral-200 dark:border-neutral-6000 z-20">
+    <div className="block fixed bottom-0 inset-x-0 py-2 sm:py-3 bg-white dark:bg-neutral-800 border-t border-neutral-200 dark:border-neutral-6000 z-20">
       <div className="container flex items-center justify-between">
         <div>
           <span className="block text-xl font-semibold">

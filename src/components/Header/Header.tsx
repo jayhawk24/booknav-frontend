@@ -128,7 +128,7 @@ const Header = () => {
                 </span>
               </div>
               <div className="flex-shrink-0 flex items-center justify-end text-neutral-700 dark:text-neutral-100 space-x-1">
-                <div className="hidden items-center xl:flex space-x-1">
+                <div className="items-center flex space-x-1">
                   {user?.role === 'naavik' && (
                     <Link
                       to="/naav/add"
@@ -139,10 +139,6 @@ const Header = () => {
                       List Naav
                     </Link>
                   )}
-                  <SwitchDarkMode />
-                  <AvatarDropdown />
-                </div>
-                <div className="flex items-center space-x-4 xl:hidden">
                   <AvatarDropdown />
                 </div>
               </div>

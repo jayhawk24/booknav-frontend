@@ -3,14 +3,11 @@ import { ArrowRightIcon } from '@heroicons/react/outline'
 import LocationMarker from 'components/shared/LocationMarker'
 import CommentListing from 'components/CommentListing'
 import FiveStartIconForRate from 'components/FiveStarIconForRate'
-import GuestsInput from 'components/HeroSearchForm/GuestsInput'
 import StarRating from 'components/StarRating'
 import GoogleMapReact from 'google-map-react'
-import moment from 'moment'
 import Avatar from 'components/shared/Avatar/Avatar'
 import Badge from 'components/shared/Badge/Badge'
 import ButtonCircle from 'components/shared/Buttons/ButtonCircle'
-import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import Input from 'components/shared/Input/Input'
 import NcImage from 'components/shared/NcImage/NcImage'
@@ -24,29 +21,23 @@ import useNaav from 'hooks/useNaav'
 import averageRating from 'utils/averageRating'
 import AvailableDates from 'components/AvailableDates'
 import useBoatTypes from 'hooks/useBoatTypes'
-import DateSingleInput from 'components/shared/DateSingleInput/DateSingleInput'
 import toast from 'react-hot-toast'
 import { reviewNaav } from 'services/naav'
 import useUser from 'hooks/useUser'
-import { useQuery, useQueryClient } from 'react-query'
-import { getTax } from 'services/tax'
+import { useQueryClient } from 'react-query'
 
 export interface ListingStayDetailPageProps {
   className?: string
-  isPreviewMode?: boolean
   defaultPoint?: number
 }
 
 const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
   className = '',
-  isPreviewMode,
   defaultPoint = 5,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [openFocusIndex, setOpenFocusIndex] = useState(0)
-  const [selectedDate, setSelectedDate] = useState<moment.Moment | null>(
-    moment().add(1, 'days'),
-  )
+
   const [comment, setComment] = useState('')
   const { naavId } = useParams<{ naavId: string }>()
   const { data: naav } = useNaav({ naavId })
@@ -56,7 +47,7 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
   const [isDisabled, setIsDisabled] = useState(false)
   const queryClient = useQueryClient()
 
-  const { data: tax } = useQuery('getTax', getTax)
+  const isNaavik = user?.role === 'naavik'
 
   const handleOpenModal = (index: number) => {
     setIsOpen(true)
@@ -89,20 +80,18 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
   const renderSection1 = () => {
     return (
       <div className="listingSection__wrap space-y-6">
-        {/* 1 */}
         <div className="flex justify-between items-center">
           <Badge name={naav?.boatType?.title || ''} />
           <LikeSaveBtns />
         </div>
 
-        {/* 2 */}
         <div className="flex justify-between">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold">
             {naav?.title}
           </h2>
-          <MobileFooterSticky buttonOnly />
+          {!isNaavik && <MobileFooterSticky buttonOnly />}
         </div>
-        {/* 3 */}
+
         <div className="flex items-center space-x-4">
           <StarRating
             reviewCount={naav?.reviews?.length}
@@ -335,62 +324,6 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
     )
   }
 
-  const renderSidebar = () => {
-    return (
-      <div className="listingSectionSidebar__wrap shadow-xl">
-        {/* PRICE */}
-        <div className="flex justify-between">
-          <span className="text-3xl font-semibold">
-            $119
-            <span className="ml-1 text-base font-normal text-neutral-500 dark:text-neutral-400">
-              /night
-            </span>
-          </span>
-          <StarRating />
-        </div>
-
-        {/* FORM */}
-        <form className="flex flex-col border border-neutral-200 dark:border-neutral-700 rounded-3xl ">
-          <DateSingleInput
-            className="divide-x divide-neutral-200 dark:divide-neutral-700 !grid-cols-1 sm:!grid-cols-2"
-            onChange={date => setSelectedDate(date)}
-            fieldClassName="p-3"
-            defaultValue={selectedDate}
-            anchorDirection={'right'}
-            onFocusChange={focusedInput => focusedInput}
-          />
-          <div className="w-full border-b border-neutral-200 dark:border-neutral-700"></div>
-          <GuestsInput
-            className="nc-ListingStayDetailPage__guestsInput flex-1"
-            fieldClassName="p-3"
-            defaultValue={2}
-            hasButtonSubmit={false}
-          />
-        </form>
-
-        {/* SUM */}
-        <div className="flex flex-col space-y-4">
-          <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
-            <span>$119 x 3 night</span>
-            <span>$357</span>
-          </div>
-          <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
-            <span>Service charge</span>
-            <span>{tax?.[0].serviceChargePercent}%</span>
-          </div>
-          <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
-          <div className="flex justify-between font-semibold">
-            <span>Total</span>
-            <span>$199</span>
-          </div>
-        </div>
-
-        {/* SUBMIT */}
-        <ButtonPrimary href={'/checkout'}>Book</ButtonPrimary>
-      </div>
-    )
-  }
-
   return (
     <div
       className={`ListingDetailPage nc-ListingStayDetailPage ${className}`}
@@ -398,11 +331,13 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
     >
       <>
         <header className="container 2xl:px-14 rounded-md sm:rounded-xl">
-          <div className="relative grid grid-cols-3 sm:grid-cols-4 gap-1 sm:gap-2">
+          <div
+            className={`relative grid ${
+              naav?.pictures?.length !== 1 && 'grid-cols-3'
+            } sm:grid-cols-4 gap-1 sm:gap-2`}
+          >
             <div
-              className={`col-span-2 row-span-3 h-72 sm:row-span-2 relative rounded-md sm:rounded-xl overflow-hidden cursor-pointer min-h-full ${
-                naav?.pictures?.length === 1 && 'h-48'
-              }`}
+              className="col-span-2 row-span-3 h-72 sm:row-span-2 relative rounded-md sm:rounded-xl overflow-hidden cursor-pointer min-h-full"
               onClick={() => handleOpenModal(0)}
             >
               <NcImage
@@ -479,16 +414,11 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
           {renderSection7()}
           {renderSection8()}
         </div>
-
-        {/* SIDEBAR */}
-        <div className="hidden lg:block flex-grow mt-14 lg:mt-0">
-          <div className="sticky top-28">{renderSidebar()}</div>
-        </div>
       </main>
 
-      {!isPreviewMode && <MobileFooterSticky />}
+      {!isNaavik && <MobileFooterSticky />}
 
-      {!isPreviewMode && (
+      {!isNaavik && (
         <div className="container py-24 lg:py-32">
           <div className="relative py-16">
             <BackgroundSection />
