@@ -71,7 +71,10 @@ const AddListing: FC<Props> = ({ isEdit }) => {
           success: 'Naav updated successfully',
           error: error => error.message,
         })
-        .then(() => queryClient.invalidateQueries(['getNaav', naavId]))
+        .then(() => {
+          queryClient.invalidateQueries(['getNaav', naavId])
+          setFile(null)
+        })
         .finally(() => setDisabled(false))
     } else {
       toast
