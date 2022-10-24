@@ -65,7 +65,7 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
       .promise(reviewNaav(data, naavId), {
         loading: 'Adding review.',
         success: 'Review added.',
-        error: 'Error adding, please try again.',
+        error: error => error.response.data.message,
       })
       .then(() => {
         setComment('')
@@ -198,7 +198,7 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
       <div className="listingSection__wrap">
         {/* HEADING */}
         <h2 className="text-2xl font-semibold">
-          Reviews ( {naav?.reviews?.length} reviews)
+          Reviews ({naav?.reviews?.length} reviews)
         </h2>
         <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
 

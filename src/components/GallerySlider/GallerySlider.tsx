@@ -1,14 +1,16 @@
 import Glide from '@glidejs/glide'
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import NcImage from 'components/shared/NcImage'
 import NextPrev from 'components/shared/NextPrev'
 import ncNanoId from 'utils/ncNanoId'
+import { TrashIcon } from '@heroicons/react/outline'
 
 export interface GallerySliderProps {
   className?: string
   galleryImgs: string[]
   ratioClass?: string
   uniqueID?: string
+  handleDelete?: (id: string) => Promise<void>
 }
 
 const GallerySlider: FC<GallerySliderProps> = ({
@@ -16,8 +18,17 @@ const GallerySlider: FC<GallerySliderProps> = ({
   galleryImgs,
   ratioClass = 'aspect-w-4 aspect-h-3',
   uniqueID,
+  handleDelete,
 }) => {
   const UNIQUE_CLASS = uniqueID || 'nc_glide2_gallery_' + ncNanoId()
+  const [disabled, setDisabled] = useState(false)
+
+  const onDelete = (id: string) => {
+    if (disabled) return
+    setDisabled(true)
+    if (handleDelete)
+      handleDelete(encodeURIComponent(id)).finally(() => setDisabled(false))
+  }
 
   useEffect(() => {
     new Glide(`.${UNIQUE_CLASS}`, {
@@ -50,9 +61,15 @@ const GallerySlider: FC<GallerySliderProps> = ({
         <div className="glide__track" data-glide-el="track">
           <ul className="glide__slides">
             {galleryImgs.map((item, index) => (
-              <li key={index} className="glide__slide">
+              <li key={index} className="glide__slide relative">
                 <div className={ratioClass}>
                   <NcImage src={item} />
+                  {handleDelete && (
+                    <TrashIcon
+                      onClick={() => onDelete(item)}
+                      className="absolute z-10 h-8 w-8 top-2 left-2 text-primary-800 bg-white shadow-lg cursor-pointer rounded-full p-1 "
+                    />
+                  )}
                 </div>
               </li>
             ))}

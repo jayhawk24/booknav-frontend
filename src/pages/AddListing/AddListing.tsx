@@ -11,7 +11,7 @@ import useGhats from 'hooks/useGhats'
 import useBoatTypes from 'hooks/useBoatTypes'
 import { useHistory, useParams } from 'react-router-dom'
 import { useQueryClient } from 'react-query'
-import { editNaav } from 'services/naav'
+import { deleteNaavImage, editNaav } from 'services/naav'
 import GallerySlider from 'components/GallerySlider'
 import useNaav from 'hooks/useNaav'
 
@@ -71,7 +71,7 @@ const AddListing: FC<Props> = ({ isEdit }) => {
           success: 'Naav updated successfully',
           error: error => error.message,
         })
-        .then(() => queryClient.invalidateQueries('naav'))
+        .then(() => queryClient.invalidateQueries(['getNaav', naavId]))
         .finally(() => setDisabled(false))
     } else {
       toast
@@ -81,11 +81,22 @@ const AddListing: FC<Props> = ({ isEdit }) => {
           error: error => error.response.data.message,
         })
         .then(() => {
-          queryClient.invalidateQueries('naav')
+          setFile(null)
+          queryClient.invalidateQueries(['getNaav', naavId])
           history.push('/naavs')
         })
         .finally(() => setDisabled(false))
     }
+  }
+
+  const handleDelete = async (imageId: string) => {
+    return toast
+      .promise(deleteNaavImage({ naavId, imageId }), {
+        loading: 'Deleting image...',
+        success: 'Image deleted successfully.',
+        error: error => error.response.data.message,
+      })
+      .then(() => queryClient.invalidateQueries(['getNaav', naavId]))
   }
 
   return (
@@ -95,6 +106,7 @@ const AddListing: FC<Props> = ({ isEdit }) => {
           <GallerySlider
             uniqueID={`stay-v-${naavId}`}
             galleryImgs={naav?.pictures || []}
+            handleDelete={handleDelete}
           />
         </div>
         <div className="grid grid-cols-2 items-center">

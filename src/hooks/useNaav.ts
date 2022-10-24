@@ -10,7 +10,6 @@ export default function useNaav({ naavId, query }: useNaavParams) {
   const { data, error, isLoading, isFetched, isSuccess } = useQuery(
     ['getNaav', naavId, query],
     () => getNaav(naavId),
-    { staleTime: 60 * 60 * 1000 * 24 },
   )
   return {
     data,

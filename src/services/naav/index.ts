@@ -73,3 +73,13 @@ export const reviewNaav = async (
   naavId: string,
 ): Promise<AxiosResponse> =>
   await requestClient.put(`naav/${naavId}/review`, data)
+
+export const deleteNaavImage = ({
+  naavId,
+  imageId,
+}: {
+  naavId: string
+  imageId: string
+}): Promise<AxiosResponse> => {
+  return requestClient.delete(`naav/${naavId}/image/${imageId}/`)
+}
