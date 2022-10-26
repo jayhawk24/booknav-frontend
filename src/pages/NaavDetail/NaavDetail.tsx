@@ -270,7 +270,7 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
           <div className="rounded-xl overflow-hidden">
             <GoogleMapReact
               bootstrapURLKeys={{
-                key: 'AIzaSyAGVJfZMAKYfZ71nzL_v5i3LjTTWnCYwTY',
+                key: process.env.REACT_APP_MAPS_API_KEY || '',
               }}
               yesIWantToUseGoogleMapApiInternals
               defaultZoom={15}
