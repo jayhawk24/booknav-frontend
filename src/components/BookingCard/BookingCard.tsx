@@ -52,7 +52,7 @@ const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
 
   const renderMobileCard = () => (
     <div
-      className={`nc-CommentListing  ${className}  border border-secondary-300 dark:border-secondary-900 mb-2 rounded-xl p-5 relative`}
+      className={`nc-CommentListing  ${className}  border border-secondary-300 dark:border-secondary-900 mb-2 rounded-xl p-2 relative`}
       data-nc-id="CommentListing"
     >
       <Link to={`/booking/${booking?._id}`} className="flex space-x-4">
@@ -83,22 +83,22 @@ const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
           </div>
           <span className="flex mt-3 text-neutral-6000 dark:text-neutral-300">
             <Link
-              className="flex mr-2 space-x-10 justify-between p-3 bg-secondary-100 dark:bg-secondary-900 rounded-lg font-semibold"
+              className="flex mr-2 space-x-10 justify-between p-2 bg-secondary-100 dark:bg-secondary-900 rounded-lg font-semibold"
               to={`/naav/${booking?.naav._id}/`}
             >
               {booking?.naav.title}
             </Link>
             <span className="flex items-center justify-center px-3 py-2 leading-none text-base font-medium text-secondary-500">
-              {/* rupee sign */}₹{((booking?.amount || 0) / 100).toFixed(2)}
+              ₹{((booking?.amount || 0) / 100).toFixed(2)}
             </span>
           </span>
         </div>
       </Link>
-      <div className="flex flex-col absolute z-10 right-5 top-5">
+      <div className="flex flex-col absolute z-10 right-2 top-2">
         {(isAdmin || isNaavik) && booking?.status === 'Reserved' && (
           <ButtonSecondary
             loading={loading}
-            className="mb-1"
+            className="mb-1 px-2 text-xs"
             onClick={e => handleUpdateStatus(e, 'Confirmed')}
           >
             Accept
@@ -108,7 +108,7 @@ const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
           (booking?.status === 'Cancelled' ? (
             <ButtonSecondary
               loading={loading}
-              className="mb-1"
+              className="mb-1 px-2 text-xs"
               onClick={e => handleUpdateStatus(e, 'PartiallyRefunded')}
             >
               Partial Refund
@@ -117,7 +117,7 @@ const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
             booking?.status === 'Declined' && (
               <ButtonSecondary
                 loading={loading}
-                className="mb-1"
+                className="mb-1 px-2 text-xs"
                 onClick={e => handleUpdateStatus(e, 'Refunded')}
               >
                 Refund
@@ -127,7 +127,7 @@ const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
         {(isAdmin || isCustomer) && booking?.status === 'Confirmed' && (
           <ButtonSecondary
             loading={loading}
-            className="mb-1"
+            className="mb-1 px-2 text-xs"
             onClick={e => handleUpdateStatus(e, 'Completed')}
           >
             Complete
