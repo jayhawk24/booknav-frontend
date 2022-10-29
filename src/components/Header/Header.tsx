@@ -1,13 +1,11 @@
 import React, { RefObject, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-// import Logo from 'components/shared/Logo/Logo'
 import SwitchDarkMode from 'components/shared/SwitchDarkMode/SwitchDarkMode'
 import SearchDropdown from './SearchDropdown'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import MenuBar from 'components/shared/MenuBar/MenuBar'
 import useUser from 'hooks/useUser'
-// import NotifyDropdown from './NotifyDropdown'
 import AvatarDropdown from './AvatarDropdown'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { ArrowLeftIcon } from '@heroicons/react/solid'

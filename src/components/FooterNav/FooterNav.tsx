@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
-import { HeartIcon, UserCircleIcon } from '@heroicons/react/outline'
-import { SearchCircleIcon } from '@heroicons/react/solid'
+import { UserCircleIcon } from '@heroicons/react/outline'
+import { CashIcon, SearchCircleIcon } from '@heroicons/react/solid'
 import { Link, useLocation } from 'react-router-dom'
 import MenuBar from 'components/shared/MenuBar/MenuBar'
 import isInViewport from 'utils/isInViewport'
@@ -23,24 +23,24 @@ const FooterNav = () => {
   const { data: user } = useUser()
 
   const NAV: NavItem[] = [
-    {
-      name: 'Explore',
-      link: '/',
-      icon: SearchCircleIcon,
-    },
     ...[
-      user?.role === 'naavik'
+      user?.role !== 'naavik'
         ? {
-            name: 'Bookings',
-            link: '/bookings',
-            icon: BoatSvg,
+            name: 'Explore',
+            link: '/',
+            icon: SearchCircleIcon,
           }
         : {
-            name: 'Wishlists',
-            link: '/account-savelists',
-            icon: HeartIcon,
+            name: 'Naavs',
+            link: '/naavs',
+            icon: BoatSvg,
           },
     ],
+    {
+      name: 'Bookings',
+      link: '/bookings',
+      icon: CashIcon,
+    },
     {
       name: user ? 'Account' : 'Log in',
       link: user ? '/account' : '/login',
@@ -109,7 +109,9 @@ const FooterNav = () => {
               <item.icon
                 className={`w-8 h-8 mt-2 ${active ? 'text-primary-700' : ''}`}
               />
-              <span className="text-[11px] leading-none mt-1">{item.name}</span>
+              <span className="text-[11px] leading-none mt-1 font-semibold">
+                {item.name}
+              </span>
             </Link>
           ) : (
             <div
@@ -119,7 +121,9 @@ const FooterNav = () => {
               }`}
             >
               <item.icon iconClassName="w-6 h-6" className={``} />
-              <span className="text-[11px] leading-none mt-1">{item.name}</span>
+              <span className="text-[11px] leading-none mt-1 font-semibold">
+                {item.name}
+              </span>
             </div>
           )
         })}

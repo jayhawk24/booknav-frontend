@@ -8,11 +8,18 @@ import useGhats from 'hooks/useGhats'
 import useBoatTypes from 'hooks/useBoatTypes'
 import useUser from 'hooks/useUser'
 import { subscribeUser } from 'utils/subscribeNotifications'
+import { useHistory } from 'react-router-dom'
 
 function PageHome() {
   const { data: ghats } = useGhats()
   const { data: boatTypes } = useBoatTypes()
   const { isLoggedIn } = useUser()
+  const { data: user } = useUser()
+
+  const history = useHistory()
+  if (user?.role === 'naavik') {
+    history.push('/bookings')
+  }
 
   useEffect(() => {
     if (isLoggedIn) {
