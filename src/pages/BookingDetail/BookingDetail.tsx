@@ -129,7 +129,7 @@ const BookingDetail: FC<PayPageProps> = ({ className = '' }) => {
               <span className="flex-1">Total</span>
               <span className="flex-1 font-medium text-neutral-900 dark:text-neutral-100">
                 <span className="text-lg">₹</span>
-                {booking?.amount}
+                {(booking?.amount || 0) / 100}
               </span>
             </div>
             <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">

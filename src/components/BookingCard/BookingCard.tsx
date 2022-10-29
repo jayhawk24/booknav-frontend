@@ -84,7 +84,7 @@ const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
           <span className="flex mt-3 text-neutral-6000 dark:text-neutral-300">
             <Link
               className="flex mr-2 space-x-10 justify-between p-3 bg-secondary-100 dark:bg-secondary-900 rounded-lg font-semibold"
-              to={`/yacht/${booking?.naav._id}/`}
+              to={`/naav/${booking?.naav._id}/`}
             >
               {booking?.naav.title}
             </Link>

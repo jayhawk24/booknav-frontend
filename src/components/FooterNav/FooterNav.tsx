@@ -5,6 +5,7 @@ import { Link, useLocation } from 'react-router-dom'
 import MenuBar from 'components/shared/MenuBar/MenuBar'
 import isInViewport from 'utils/isInViewport'
 import useUser from 'hooks/useUser'
+import { BoatSvg } from 'components/BoatSVG/BoatSVG'
 
 let WIN_PREV_POSITION = window.pageYOffset
 
@@ -27,11 +28,19 @@ const FooterNav = () => {
       link: '/',
       icon: SearchCircleIcon,
     },
-    {
-      name: 'Wishlists',
-      link: '/account-savelists',
-      icon: HeartIcon,
-    },
+    ...[
+      user?.role === 'naavik'
+        ? {
+            name: 'Bookings',
+            link: '/bookings',
+            icon: BoatSvg,
+          }
+        : {
+            name: 'Wishlists',
+            link: '/account-savelists',
+            icon: HeartIcon,
+          },
+    ],
     {
       name: user ? 'Account' : 'Log in',
       link: user ? '/account' : '/login',

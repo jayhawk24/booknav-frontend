@@ -32,7 +32,6 @@ function PageHome() {
             categories={ghats}
             categoryCardType={'card3'}
           />
-          {/* <SectionClientSay /> */}
         </div>
         <div className="relative py-16 mb-10">
           <BackgroundSection />
@@ -48,10 +47,6 @@ function PageHome() {
         <div className="relative py-16">
           <SectionGridFeaturePlaces />
         </div>
-        {/* <div className="relative py-16">
-          <BackgroundSection />
-          <SectionBecomeAnAuthor />
-        </div> */}
       </div>
     </div>
   )

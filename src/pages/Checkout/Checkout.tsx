@@ -60,11 +60,11 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
   const initPayment = (data: Order) => {
     const options = {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID,
-      amount: data.amount * 100,
+      amount: data.amount,
       currency: 'INR',
       name: naav?.title,
       description: `Booking on ${naav?.ghat?.title}`,
-      image: 'https://example.com/your_logo',
+      image: 'https://app.booknaav.com/icon-192x192.png',
       order_id: data.id,
       handler: function (response: RazorpayResponse) {
         toast
@@ -80,7 +80,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
             }),
             {
               loading: 'Verifying Payment',
-              success: 'Naav available',
+              success: 'Booking completed',
               error: 'Payment Failed',
             },
           )
