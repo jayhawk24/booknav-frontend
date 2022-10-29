@@ -104,25 +104,26 @@ const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
             Accept
           </ButtonSecondary>
         )}
-        {isAdmin && booking?.status === 'Cancelled' ? (
-          <ButtonSecondary
-            loading={loading}
-            className="mb-1"
-            onClick={e => handleUpdateStatus(e, 'PartiallyRefunded')}
-          >
-            Partial Refund
-          </ButtonSecondary>
-        ) : (
-          booking?.status === 'Declined' && (
+        {isAdmin &&
+          (booking?.status === 'Cancelled' ? (
             <ButtonSecondary
               loading={loading}
               className="mb-1"
-              onClick={e => handleUpdateStatus(e, 'Refunded')}
+              onClick={e => handleUpdateStatus(e, 'PartiallyRefunded')}
             >
-              Refund
+              Partial Refund
             </ButtonSecondary>
-          )
-        )}
+          ) : (
+            booking?.status === 'Declined' && (
+              <ButtonSecondary
+                loading={loading}
+                className="mb-1"
+                onClick={e => handleUpdateStatus(e, 'Refunded')}
+              >
+                Refund
+              </ButtonSecondary>
+            )
+          ))}
         {(isAdmin || isCustomer) && booking?.status === 'Confirmed' && (
           <ButtonSecondary
             loading={loading}

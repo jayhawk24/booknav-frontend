@@ -274,7 +274,7 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
               }}
               yesIWantToUseGoogleMapApiInternals
               defaultZoom={15}
-              defaultCenter={{
+              center={{
                 lat: naav?.ghat?.location.lat || 25.3425829,
                 lng: naav?.ghat?.location.lng || 82.9702298,
               }}

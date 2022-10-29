@@ -118,7 +118,7 @@ const GhatForm: React.FC<GhatFormProp> = ({ ghatId }) => {
                   }}
                   yesIWantToUseGoogleMapApiInternals
                   defaultZoom={15}
-                  defaultCenter={{
+                  center={{
                     lat: lat,
                     lng: lng,
                   }}

@@ -18,7 +18,7 @@ import {
   verifyPayment,
 } from 'services/booking'
 import useUser from 'hooks/useUser'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import { getTax } from 'services/tax'
 
 export interface CheckOutPageProps {
@@ -55,6 +55,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
     100
   const [isLoading, setIsLoading] = useState(false)
 
+  const queryClient = useQueryClient()
   const history = useHistory()
 
   const initPayment = (data: Order) => {
@@ -84,7 +85,10 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
               error: 'Payment Failed',
             },
           )
-          .then(response => history.push(`/booking/${response.booking._id}`))
+          .then(response => {
+            queryClient.invalidateQueries('bookings')
+            history.push(`/booking/${response.booking._id}`)
+          })
       },
       theme: {
         color: '#3730a3',
@@ -117,7 +121,6 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
         },
       )
       .then(response => initPayment(response))
-      // .then(() => queryClient.invalidateQueries('getBookings'))
       .finally(() => setIsLoading(false))
   }
 
