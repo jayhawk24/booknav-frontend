@@ -40,7 +40,9 @@ const SectionGridFilterCard: FC<SectionGridFilterCardProps> = ({
               <ListingsCard key={naav._id} boat={naav} hideButtons={true} />
             ))
           ) : (
-            <div className="text-md ml-4 flex mt-5">No results found</div>
+            <div className="text-md ml-4 flex mt-5 h-screen">
+              No results found
+            </div>
           )}
         </div>
       )}

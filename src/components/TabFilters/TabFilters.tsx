@@ -31,7 +31,7 @@ const TabFilters = () => {
     searchParams.get('minPrice') &&
       setPrice([
         parseInt(searchParams.get('minPrice') || '0'),
-        parseInt(searchParams.get('minPrice') || '10000'),
+        parseInt(searchParams.get('maxPrice') || '10000'),
       ])
     searchParams.get('boatTypeId') &&
       setCheckedBoatTypes(

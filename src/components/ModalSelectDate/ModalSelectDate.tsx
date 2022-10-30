@@ -8,6 +8,8 @@ import TimePicker from 'components/TimePicker'
 import { useQuery } from 'react-query'
 import { getBookings } from 'services/booking'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import RideType from 'components/RIdeType/RideType'
+import { Price } from 'services/addBoat'
 
 interface ModalSelectDateProps {
   onClose?: () => void
@@ -22,6 +24,8 @@ interface ModalSelectDateProps {
   setDateValue: (date: moment.Moment | null) => void
   time: number
   setTime: (time: number) => void
+  priceType: keyof Price
+  setPriceType: (priceType: keyof Price) => void
 }
 
 const ModalSelectDate: FC<ModalSelectDateProps> = ({
@@ -33,6 +37,8 @@ const ModalSelectDate: FC<ModalSelectDateProps> = ({
   renderChildren,
   time,
   setTime,
+  priceType,
+  setPriceType,
 }) => {
   const [showModal, setShowModal] = useState(false)
   // FOR RESET ALL DATA WHEN CLICK CLEAR BUTTON
@@ -136,6 +142,10 @@ const ModalSelectDate: FC<ModalSelectDateProps> = ({
                         renderCalendarInfo={renderCalendarInfo}
                       />
                       <TimePicker time={time} setTime={setTime} />
+                      <RideType
+                        priceType={priceType}
+                        setPriceType={setPriceType}
+                      />
                     </div>
 
                     <div className="px-4 py-3 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-700 flex justify-between dark:text-neutral-200">

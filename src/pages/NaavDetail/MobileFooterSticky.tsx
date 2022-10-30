@@ -7,6 +7,7 @@ import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import ModalReserveMobile from './ModalReserveMobile'
 import { useParams } from 'react-router-dom'
 import useNaav from 'hooks/useNaav'
+import { Price } from 'services/addBoat'
 
 type Props = {
   selectedDate?: DateRange
@@ -22,6 +23,7 @@ const MobileFooterSticky: FC<Props> = ({ buttonOnly }) => {
   const { data: naav } = useNaav({ naavId })
   const [dateFocused, setDateFocused] = useState<boolean>(false)
   const [time, setTime] = useState(moment().hour() + 1)
+  const [priceType, setPriceType] = useState<keyof Price>('ghatToGhat')
 
   const [guestsState, setGuestsState] = useState<GuestsObject>({
     guestAdults: 0,
@@ -44,6 +46,8 @@ const MobileFooterSticky: FC<Props> = ({ buttonOnly }) => {
       time={time}
       setTime={setTime}
       renderChildren={renderProp}
+      priceType={priceType}
+      setPriceType={setPriceType}
     />
   )
 
@@ -98,6 +102,7 @@ const MobileFooterSticky: FC<Props> = ({ buttonOnly }) => {
           onChangeGuests={setGuestsState}
           time={time}
           renderModalSelectDate={renderModalSelectDate}
+          selectedPriceType={priceType}
           renderChildren={({ openModal }) => (
             <ButtonPrimary
               sizeClass="px-5 sm:px-7 py-3 !rounded-2xl"

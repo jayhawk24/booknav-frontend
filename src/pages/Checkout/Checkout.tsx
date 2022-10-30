@@ -1,6 +1,5 @@
-import { Popover, Transition } from '@headlessui/react'
-import { ChevronDownIcon, PencilAltIcon } from '@heroicons/react/outline'
-import React, { FC, Fragment, ReactNode, useState } from 'react'
+import React, { FC, ReactNode, useState } from 'react'
+import { PencilAltIcon } from '@heroicons/react/outline'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import NcImage from 'components/shared/NcImage'
 import StartRating from 'components/StarRating/StarRating'
@@ -20,6 +19,7 @@ import {
 import useUser from 'hooks/useUser'
 import { useQuery, useQueryClient } from 'react-query'
 import { getTax } from 'services/tax'
+import RideType from 'components/RIdeType/RideType'
 
 export interface CheckOutPageProps {
   className?: string
@@ -33,8 +33,6 @@ export interface CheckOutPageProps {
   time?: number
   selctedPriceType?: keyof Price
 }
-
-const priceTypes = ['ghatToGhat', 'crossRiver']
 
 const CheckOutPage: FC<CheckOutPageProps> = ({
   className = '',
@@ -175,9 +173,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
   const renderMain = () => {
     return (
       <div className="w-full flex flex-col sm:rounded-2xl sm:border border-neutral-200 dark:border-neutral-700 space-y-4 px-0 sm:p-6 xl:p-8 dark:text-neutral-200">
-        <h2 className="text-3xl lg:text-4xl font-semibold">
-          Confirm and Payment
-        </h2>
+        <h2 className="text-2xl font-semibold">Confirm and Payment</h2>
         <div>
           {renderSidebar()}
           <div className="mt-6 border border-neutral-200 dark:border-neutral-700 rounded-3xl flex flex-col sm:flex-row divide-y sm:divide-x sm:divide-y-0 divide-neutral-200 dark:divide-neutral-700">
@@ -204,7 +200,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
                   <PencilAltIcon className="w-6 h-6 text-neutral-6000 dark:text-neutral-400" />
                 </button>
               ))}
-            <div className="flex justify-between py-2">
+            <div className="flex justify-between py-2 divide-x-2">
               <GuestsInput
                 className="nc-ListingStayDetailPage__guestsInput flex-1"
                 defaultValue={guests}
@@ -212,70 +208,9 @@ const CheckOutPage: FC<CheckOutPageProps> = ({
                 hasButtonSubmit={false}
                 maxGuests={naav?.capacity}
               />
-              <div className="mr-1 my-1 sm:mr-4 border border-neutral-200 dark:border-neutral-700 rounded-full flex items-center">
-                <Popover className="relative">
-                  {({ open, close }) => (
-                    <>
-                      <Popover.Button
-                        className={`
-           ${open ? '' : ''}
-            px-4 py-4 rounded-md inline-flex items-center font-medium hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 text-xs`}
-                        onClick={() => document.querySelector('html')?.click()}
-                      >
-                        <span className="text-neutral-400 font-normal">
-                          Ride Type :
-                        </span>
-                        <span className="font-semibold text-base ml-2">
-                          {`${
-                            priceType === 'ghatToGhat'
-                              ? 'Ghat To Ghat'
-                              : 'Cross River'
-                          }`}
-                        </span>
-                        <ChevronDownIcon
-                          className={`${
-                            open ? '' : 'text-opacity-70'
-                          } ml-2 h-4 w-4 group-hover:text-opacity-80 transition ease-in-out duration-150`}
-                          aria-hidden="true"
-                        />
-                      </Popover.Button>
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-200"
-                        enterFrom="opacity-0 translate-y-1"
-                        enterTo="opacity-100 translate-y-0"
-                        leave="transition ease-in duration-150"
-                        leaveFrom="opacity-100 translate-y-0"
-                        leaveTo="opacity-0 translate-y-1"
-                      >
-                        <Popover.Panel className="absolute z-10 w-screen max-w-[200px] sm:max-w-[220px] px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0 ">
-                          <div className="overflow-hidden rounded-2xl shadow-lg ring-1 ring-black/5 dark:ring-white/10 ">
-                            <div className="relative grid gap-8 bg-white dark:bg-neutral-800 p-7 ">
-                              {priceTypes?.map(item => (
-                                <div
-                                  key={item}
-                                  onClick={e => {
-                                    e.preventDefault()
-                                    setPriceType(item as keyof Price)
-                                    close()
-                                  }}
-                                  className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
-                                >
-                                  <p className="text-sm font-medium ">
-                                    {item === 'ghatToGhat'
-                                      ? 'Ghat to Ghat'
-                                      : 'Cross River'}
-                                  </p>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </Popover.Panel>
-                      </Transition>
-                    </>
-                  )}
-                </Popover>
-              </div>
+              {/* <div className="mr-1 my-1 sm:mr-4 border border-neutral-200 dark:border-neutral-700 rounded-xl flex items-center"> */}
+              <RideType priceType={priceType} setPriceType={setPriceType} />
+              {/* </div> */}
             </div>
           </div>
         </div>

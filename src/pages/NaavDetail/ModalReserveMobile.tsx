@@ -4,6 +4,7 @@ import { XIcon } from '@heroicons/react/solid'
 import { GuestsObject } from 'components/GuestsInput/GuestsInput'
 import moment, { Moment } from 'moment'
 import CheckOutPage from 'pages/Checkout/Checkout'
+import { Price } from 'services/addBoat'
 
 type ModalReserveMobileProps = {
   onClose?: () => void
@@ -19,6 +20,7 @@ type ModalReserveMobileProps = {
     }) => React.ReactNode,
   ) => JSX.Element
   time: number
+  selectedPriceType?: keyof Price
 }
 
 const ModalReserveMobile = ({
@@ -26,11 +28,10 @@ const ModalReserveMobile = ({
   renderModalSelectDate,
   defaultDate,
   time,
+  selectedPriceType,
 }: ModalReserveMobileProps) => {
   const [showModal, setShowModal] = useState(false)
 
-  // FOR RESET ALL DATA WHEN CLICK CLEAR BUTTON
-  //
   function closeModal() {
     setShowModal(false)
   }
@@ -84,6 +85,7 @@ const ModalReserveMobile = ({
                           renderModalSelectDate={renderModalSelectDate}
                           date={defaultDate}
                           time={time}
+                          selctedPriceType={selectedPriceType}
                         />
                       </div>
                     </div>
