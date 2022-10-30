@@ -15,7 +15,7 @@ const inActiveFilter =
   'flex items-center justify-center px-4 py-2 text-sm rounded-full border border-neutral-300 dark:border-neutral-700 focus:outline-none'
 
 const TabFilters = () => {
-  const [price, setPrice] = useState<number[] | null>([500, 10000])
+  const [price, setPrice] = useState<number[] | null>([50, 10000])
 
   const [ghat, setGhat] = useState<GhatType>({ _id: '', title: '' })
   const [checkedBoatTypes, setCheckedBoatTypes] = useState<
@@ -63,7 +63,7 @@ const TabFilters = () => {
         searchParams.delete('maxPrice')
         setPrice(null)
       }
-      if (price?.[0] === 500 && price?.[1] === 10000) {
+      if (price?.[0] === 50 && price?.[1] === 10000) {
         searchParams.delete('minPrice')
         searchParams.delete('maxPrice')
       }
@@ -212,7 +212,7 @@ const TabFilters = () => {
       <div className="flex space-x-4">
         {renderTabsTypeOfYacht()}
         <PriceRangeInput
-          rangePrices={price || [500, 10000]}
+          rangePrices={price || [50, 10000]}
           setRangePrices={setPrice}
           renderXClear={renderXClear}
           applyFilter={applyFilter}

@@ -57,18 +57,18 @@ const PriceRangeInput: FC<PriceRangeInputProps> = ({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-1"
           >
-            <Popover.Panel className="absolute left-0 lg:right-0 z-10 sm:min-w-[340px] bg-white dark:bg-neutral-800 top-full mt-3 py-5 sm:py-6 px-4 sm:px-8 rounded-3xl shadow-xl">
+            <Popover.Panel className="absolute -left-20 z-10 bg-white dark:bg-neutral-800 top-full mt-3 py-5 sm:py-6 px-4 sm:px-8 rounded-3xl shadow-xl">
               <div className="relative flex flex-col space-y-8">
                 <div className="space-y-5">
                   <span className="font-medium">Range Price</span>
                   <Slider
                     range
                     className="text-red-400"
-                    min={500}
+                    min={50}
                     max={10000}
                     defaultValue={[rangePrices[0], rangePrices[1]]}
                     allowCross={false}
-                    step={100}
+                    step={50}
                     onChange={handleChange}
                   />
                 </div>
