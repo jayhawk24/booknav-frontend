@@ -211,7 +211,7 @@ const ListingsCard: FC<StayCardProps> = ({
                 <ButtonPrimary
                   className={
                     isPublished
-                      ? 'font-thin w-full dark:bg-neutral-800 bg-neutral-200 text-gray-600 hover:text-gray-50 dark:text-neutral-400 mt-2'
+                      ? 'font-thin w-full dark:bg-neutral-800 bg-neutral-200  hover:text-gray-50 dark:text-neutral-400 mt-2'
                       : 'font-thin w-full'
                   }
                   onClick={handlePublish}

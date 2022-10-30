@@ -104,20 +104,23 @@ const AddListing: FC<Props> = ({ isEdit }) => {
 
   return (
     <div className="container">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-5">
-        <div className="relative rounded-xl overflow-hidden  ">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5">
+        <div className="relative rounded-xl overflow-hidden">
           <GallerySlider
             uniqueID={`stay-v-${naavId}`}
             galleryImgs={naav?.pictures || []}
             handleDelete={handleDelete}
           />
         </div>
-        <div className="grid grid-cols-2 items-center">
-          <div>
-            <ImageUpload file={file} setFile={setFile} title="Add Image" />
-          </div>
-          <div className="-ml-10">
-            <FormItem label="Title">
+        <div className="grid grid-cols-3 items-center">
+          <ImageUpload
+            file={file}
+            setFile={setFile}
+            title="Add Image"
+            sizeClass="h-24 w-24"
+          />
+          <div className="col-span-2">
+            <FormItem label="Title" className="mb-2">
               <Input
                 placeholder="Enter Title"
                 value={title}
@@ -173,7 +176,7 @@ const AddListing: FC<Props> = ({ isEdit }) => {
           />
         </FormItem>
 
-        <h1 className="text-xl font-semibold">Pricing</h1>
+        <h1 className="text-xl font-semibold mt-5">Pricing</h1>
         <div className="grid grid-cols-2 gap-2">
           <FormItem label="Ghat To Ghat">
             <Input

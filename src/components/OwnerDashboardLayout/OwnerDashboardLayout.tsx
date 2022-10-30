@@ -6,7 +6,7 @@ type Props = {
 const OwnerDashboardLayout = ({ children }: Props) => {
   return (
     <div className={`nc-AuthorPage`} data-nc-id="AuthorPage">
-      <main className="container mt-12 mb-24 lg:mb-32 flex flex-col lg:flex-row">
+      <main className="container lg:mb-32 flex flex-col lg:flex-row">
         {/* <div className="block flex-grow mb-24 lg:mb-0">
           <div className="lg:sticky lg:top-24">
             <OwnerSidebar />
