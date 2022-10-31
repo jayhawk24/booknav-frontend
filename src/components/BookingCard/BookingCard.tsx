@@ -14,12 +14,15 @@ import { useQueryClient } from 'react-query'
 
 export interface CommentListingProps {
   className?: string
-  hasListingTitle?: boolean
   booking?: Booking
-  viewAsCustomer?: boolean
+  minimal?: boolean
 }
 
-const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
+const BookingCard: FC<CommentListingProps> = ({
+  className = '',
+  booking,
+  minimal = false,
+}) => {
   const { data: user } = useUser()
   const [loading, setLoading] = useState(false)
 
@@ -48,7 +51,61 @@ const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
 
   const isAdmin = user?.role === 'admin'
   const isNaavik = user?.role === 'naavik'
+
   const isCustomer = user?.role === 'user'
+
+  const renderButtons = () => (
+    <div className={`flex flex-col absolute z-10 right-2 top-2 ${className}`}>
+      {(isAdmin || isNaavik) && booking?.status === 'Reserved' && (
+        <ButtonSecondary
+          loading={loading}
+          className="mb-1 px-2 text-xs"
+          onClick={e => handleUpdateStatus(e, 'Confirmed')}
+        >
+          Accept
+        </ButtonSecondary>
+      )}
+      {isAdmin &&
+        (booking?.status === 'Cancelled' ? (
+          <ButtonSecondary
+            loading={loading}
+            className="mb-1 px-2 text-xs"
+            onClick={e => handleUpdateStatus(e, 'PartiallyRefunded')}
+          >
+            Partial Refund
+          </ButtonSecondary>
+        ) : (
+          booking?.status === 'Declined' && (
+            <ButtonSecondary
+              loading={loading}
+              className="mb-1 px-2 text-xs"
+              onClick={e => handleUpdateStatus(e, 'Refunded')}
+            >
+              Refund
+            </ButtonSecondary>
+          )
+        ))}
+      {(isAdmin || isCustomer) && booking?.status === 'Confirmed' && (
+        <ButtonSecondary
+          loading={loading}
+          className="mb-1 px-2 text-xs"
+          onClick={e => handleUpdateStatus(e, 'Completed')}
+        >
+          Complete
+        </ButtonSecondary>
+      )}
+      {booking?.status === 'Reserved' && (
+        <ButtonSecondary
+          loading={loading}
+          onClick={e =>
+            handleUpdateStatus(e, isNaavik ? 'Declined' : 'Cancelled')
+          }
+        >
+          {isNaavik ? 'Decline' : 'Cancel'}
+        </ButtonSecondary>
+      )}
+    </div>
+  )
 
   const renderMobileCard = () => (
     <div
@@ -94,60 +151,12 @@ const BookingCard: FC<CommentListingProps> = ({ className = '', booking }) => {
           </span>
         </div>
       </Link>
-      <div className="flex flex-col absolute z-10 right-2 top-2">
-        {(isAdmin || isNaavik) && booking?.status === 'Reserved' && (
-          <ButtonSecondary
-            loading={loading}
-            className="mb-1 px-2 text-xs"
-            onClick={e => handleUpdateStatus(e, 'Confirmed')}
-          >
-            Accept
-          </ButtonSecondary>
-        )}
-        {isAdmin &&
-          (booking?.status === 'Cancelled' ? (
-            <ButtonSecondary
-              loading={loading}
-              className="mb-1 px-2 text-xs"
-              onClick={e => handleUpdateStatus(e, 'PartiallyRefunded')}
-            >
-              Partial Refund
-            </ButtonSecondary>
-          ) : (
-            booking?.status === 'Declined' && (
-              <ButtonSecondary
-                loading={loading}
-                className="mb-1 px-2 text-xs"
-                onClick={e => handleUpdateStatus(e, 'Refunded')}
-              >
-                Refund
-              </ButtonSecondary>
-            )
-          ))}
-        {(isAdmin || isCustomer) && booking?.status === 'Confirmed' && (
-          <ButtonSecondary
-            loading={loading}
-            className="mb-1 px-2 text-xs"
-            onClick={e => handleUpdateStatus(e, 'Completed')}
-          >
-            Complete
-          </ButtonSecondary>
-        )}
-        {booking?.status === 'Reserved' && (
-          <ButtonSecondary
-            loading={loading}
-            onClick={e =>
-              handleUpdateStatus(e, isNaavik ? 'Declined' : 'Cancelled')
-            }
-          >
-            {isNaavik ? 'Decline' : 'Cancel'}
-          </ButtonSecondary>
-        )}
-      </div>
+
+      {renderButtons()}
     </div>
   )
 
-  return renderMobileCard()
+  return minimal ? renderButtons() : renderMobileCard()
 }
 
 export default BookingCard

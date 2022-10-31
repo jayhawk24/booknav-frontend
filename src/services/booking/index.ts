@@ -77,6 +77,7 @@ export const addBooking = async (payload: BookingPayload): Promise<Order> => {
 
 export const getBookings = async (query?: {
   startTime?: string
+  endTime?: string
 }): Promise<Booking[]> => {
   const queryParams = new URLSearchParams(query)
   const { data } = await requestClient.get(`/booking/?${queryParams}`)

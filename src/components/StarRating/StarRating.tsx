@@ -7,7 +7,7 @@ export interface StartRatingProps {
   reviewCount?: number
 }
 
-const StartRating: FC<StartRatingProps> = ({
+const StarRating: FC<StartRatingProps> = ({
   className = '',
   point = 4.5,
   reviewCount = 112,
@@ -28,4 +28,4 @@ const StartRating: FC<StartRatingProps> = ({
   )
 }
 
-export default StartRating
+export default StarRating
