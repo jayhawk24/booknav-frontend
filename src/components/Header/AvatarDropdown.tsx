@@ -52,7 +52,7 @@ export default function AvatarDropdown() {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute z-10 w-screen max-w-[260px] px-4 mt-3 -right-4 sm:right-0 sm:px-0">
+              <Popover.Panel className="absolute z-max w-screen max-w-[260px] px-4 mt-3 -right-4 sm:right-0 sm:px-0">
                 <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-black ring-opacity-5">
                   <div className="relative grid gap-6 bg-white dark:bg-neutral-800 p-7">
                     {solutions.map((item, index) => (

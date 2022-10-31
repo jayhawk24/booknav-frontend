@@ -267,6 +267,13 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
 
         {/* MAP */}
         <div className="aspect-w-5 aspect-h-5 sm:aspect-h-3">
+          <ButtonSecondary>
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${naav?.ghat?.location.lat},${naav?.ghat?.location.lng}`}
+            >
+              Open in Google Maps
+            </a>
+          </ButtonSecondary>
           <div className="rounded-xl overflow-hidden">
             <GoogleMapReact
               bootstrapURLKeys={{
@@ -306,17 +313,15 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
           </span>
         </div>
         <div className="w-14 border-b border-neutral-200 dark:border-neutral-700" />
-        {/* CONTENT */}
         <div>
           <h4 className="text-lg font-semibold">Special Note</h4>
           <div className="prose sm:prose">
             <ul className="mt-3 text-neutral-500 dark:text-neutral-400 space-y-2">
+              <li>Reach the specified ghat 30 minutes before start time.</li>
               <li>
-                Ban and I will work together to keep the landscape and
-                environment green and clean by not littering, not using
-                stimulants and respecting people around.
+                Please carry your ID proof and booking confirmation open on the
+                app.
               </li>
-              <li>Do not sing karaoke past 11:30</li>
             </ul>
           </div>
         </div>
