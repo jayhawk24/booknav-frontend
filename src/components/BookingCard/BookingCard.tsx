@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import Avatar from 'components/shared/Avatar'
 // import Badge from 'components/shared/Badge'
 // import TurncateTooltip from 'components/shared/TurncateTooltip'
@@ -11,6 +11,7 @@ import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import useUser from 'hooks/useUser'
 import toast from 'react-hot-toast'
 import { useQueryClient } from 'react-query'
+import NcModal from 'components/shared/NcModal/NcModal'
 
 export interface CommentListingProps {
   className?: string
@@ -25,6 +26,8 @@ const BookingCard: FC<CommentListingProps> = ({
 }) => {
   const { data: user } = useUser()
   const [loading, setLoading] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+  const status = useRef<Booking['status']>('Reserved')
 
   const queryClient = useQueryClient()
 
@@ -54,56 +57,89 @@ const BookingCard: FC<CommentListingProps> = ({
 
   const isCustomer = user?.role === 'user'
 
+  const renderModal = (status: Booking['status']) => {
+    return (
+      <div className="flex items-center justify-between">
+        <h3>Are you sure?</h3>
+        <div>
+          <ButtonSecondary
+            className="mr-3"
+            onClick={e => handleUpdateStatus(e, status)}
+            loading={loading}
+          >
+            Yes
+          </ButtonSecondary>
+          <ButtonSecondary onClick={() => setShowModal(false)}>
+            No
+          </ButtonSecondary>
+        </div>
+      </div>
+    )
+  }
+
+  const statusUpdate = (bookingStatus: Booking['status']) => {
+    setShowModal(true)
+    status.current = bookingStatus
+  }
+
   const renderButtons = () => (
-    <div className={`flex flex-col absolute z-10 right-2 top-2 ${className}`}>
-      {(isAdmin || isNaavik) && booking?.status === 'Reserved' && (
-        <ButtonSecondary
-          loading={loading}
-          className="mb-1 px-2 text-xs"
-          onClick={e => handleUpdateStatus(e, 'Confirmed')}
-        >
-          Accept
-        </ButtonSecondary>
-      )}
-      {isAdmin &&
-        (booking?.status === 'Cancelled' ? (
+    <div>
+      <NcModal
+        onCloseModal={() => setShowModal(false)}
+        isOpenProp={showModal}
+        modalTitle={'Booking Status'}
+        renderContent={() => renderModal(status.current)}
+        renderTrigger={() => <></>}
+      />
+
+      <div className={`flex flex-col mt-4 ${className}`}>
+        {(isAdmin || isNaavik) && booking?.status === 'Reserved' && (
           <ButtonSecondary
             loading={loading}
             className="mb-1 px-2 text-xs"
-            onClick={e => handleUpdateStatus(e, 'PartiallyRefunded')}
+            onClick={() => statusUpdate('Confirmed')}
           >
-            Partial Refund
+            Accept
           </ButtonSecondary>
-        ) : (
-          booking?.status === 'Declined' && (
+        )}
+        {isAdmin &&
+          (booking?.status === 'Cancelled' ? (
             <ButtonSecondary
               loading={loading}
               className="mb-1 px-2 text-xs"
-              onClick={e => handleUpdateStatus(e, 'Refunded')}
+              onClick={() => statusUpdate('PartiallyRefunded')}
             >
-              Refund
+              Partial Refund
             </ButtonSecondary>
-          )
-        ))}
-      {(isAdmin || isCustomer) && booking?.status === 'Confirmed' && (
-        <ButtonSecondary
-          loading={loading}
-          className="mb-1 px-2 text-xs"
-          onClick={e => handleUpdateStatus(e, 'Completed')}
-        >
-          Complete
-        </ButtonSecondary>
-      )}
-      {booking?.status === 'Reserved' && (
-        <ButtonSecondary
-          loading={loading}
-          onClick={e =>
-            handleUpdateStatus(e, isNaavik ? 'Declined' : 'Cancelled')
-          }
-        >
-          {isNaavik ? 'Decline' : 'Cancel'}
-        </ButtonSecondary>
-      )}
+          ) : (
+            booking?.status === 'Declined' && (
+              <ButtonSecondary
+                loading={loading}
+                className="mb-1 px-2 text-xs"
+                onClick={() => statusUpdate('Refunded')}
+              >
+                Refund
+              </ButtonSecondary>
+            )
+          ))}
+        {(isAdmin || isCustomer) && booking?.status === 'Confirmed' && (
+          <ButtonSecondary
+            loading={loading}
+            className="mb-1 px-2 text-xs"
+            onClick={() => statusUpdate('Completed')}
+          >
+            Complete
+          </ButtonSecondary>
+        )}
+        {booking?.status === 'Reserved' && (
+          <ButtonSecondary
+            loading={loading}
+            onClick={() => statusUpdate(isNaavik ? 'Declined' : 'Cancelled')}
+          >
+            {isNaavik ? 'Decline' : 'Cancel'}
+          </ButtonSecondary>
+        )}
+      </div>
     </div>
   )
 
