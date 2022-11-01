@@ -22,7 +22,9 @@ const MobileFooterSticky: FC<Props> = ({ buttonOnly }) => {
   const { naavId } = useParams<{ naavId: string }>()
   const { data: naav } = useNaav({ naavId })
   const [dateFocused, setDateFocused] = useState<boolean>(false)
-  const [time, setTime] = useState(moment().hour() + 1)
+  const [time, setTime] = useState(
+    moment().hour() + 1 < 5 ? 5 : moment().hour() + 1,
+  )
   const [priceType, setPriceType] = useState<keyof Price>('ghatToGhat')
 
   const [guestsState, setGuestsState] = useState<GuestsObject>({
