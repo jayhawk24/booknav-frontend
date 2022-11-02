@@ -20,7 +20,7 @@ const FooterNav = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   //
 
-  const { data: user } = useUser()
+  const { data: user, isLoggedIn: isLogin } = useUser()
 
   const NAV: NavItem[] = [
     ...[
@@ -36,11 +36,15 @@ const FooterNav = () => {
             icon: BoatSvg,
           },
     ],
-    {
-      name: 'Bookings',
-      link: '/bookings',
-      icon: CashIcon,
-    },
+    ...(isLogin
+      ? [
+          {
+            name: 'Bookings',
+            link: '/bookings',
+            icon: CashIcon,
+          },
+        ]
+      : []),
     {
       name: user ? 'Account' : 'Log in',
       link: user ? '/account' : '/login',
