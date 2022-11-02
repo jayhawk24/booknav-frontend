@@ -2,6 +2,7 @@ import Logo from 'components/shared/Logo/Logo'
 import { CustomLink } from 'utils/types'
 import React from 'react'
 import SocialsList2 from 'components/shared/SocialList/SocialList2'
+import { Link } from 'react-router-dom'
 
 export interface WidgetFooterMenu {
   id: string
@@ -23,7 +24,10 @@ const widgetMenus: WidgetFooterMenu[] = [
         href: 'https://www.termsandconditionsgenerator.com/live.php?token=6yNhysk889kMFaQNVUr3DDr7qfimcA40',
         label: 'Terms & Conditions',
       },
-      { href: '#', label: 'Cancellation/Refund Policy' },
+      {
+        href: '#',
+        label: 'Cancellation/Refund Policy',
+      },
     ],
   },
 ]
@@ -41,7 +45,11 @@ const renderWidgetMenuItem = (menu: WidgetFooterMenu, index: number) => {
               className="text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white"
               href={item.href}
             >
-              {item.label}
+              {item.label === 'Cancellation/Refund Policy' ? (
+                <Link to="/cancel_and_refund_policy">{item.label}</Link>
+              ) : (
+                item.label
+              )}
             </a>
           </li>
         ))}

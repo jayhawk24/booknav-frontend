@@ -4,6 +4,9 @@ const Login = lazy(() => import('pages/Login'))
 const Register = lazy(() => import('pages/Register'))
 const Logout = lazy(() => import('pages/Logout'))
 const Otp = lazy(() => import('pages/Otp'))
+const CancelRefundPolicy = lazy(
+  () => import('pages/CancelRefundPolicy/CancelRefundPolicy'),
+)
 
 export const nonProtectedRoutes = [
   {
@@ -24,6 +27,11 @@ export const nonProtectedRoutes = [
   {
     path: '/otp',
     component: Otp,
+    exact: true,
+  },
+  {
+    path: '/cancel_and_refund_policy',
+    component: CancelRefundPolicy,
     exact: true,
   },
 ]
