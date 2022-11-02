@@ -14,6 +14,10 @@ import { useQueryClient } from 'react-query'
 import { deleteNaavImage, editNaav } from 'services/naav'
 import GallerySlider from 'components/GallerySlider'
 import useNaav from 'hooks/useNaav'
+import { Loader } from 'components/FallbackComponent/FallbackComponent'
+import DatesRangeInput from 'components/DatesRangeInput'
+import { DateRange } from 'components/DatesRangeInput/DatesRangeInput'
+import AvailableDates from 'components/AvailableDates'
 
 type Props = {
   isEdit?: boolean
@@ -28,11 +32,15 @@ const AddListing: FC<Props> = ({ isEdit }) => {
   const [price, setPrice] = useState<Price | null>(null)
   const [capacity, setCapacity] = useState<number | null>(null)
   const [disabled, setDisabled] = useState(false)
+  const [unavailableDates, setUnavailableDates] = useState<DateRange>({
+    startDate: null,
+    endDate: null,
+  })
 
   const { naavId } = useParams<{ naavId: string }>()
-  const { data: ghats } = useGhats()
-  const { data: boatTypes } = useBoatTypes()
-  const { data: naav } = useNaav({ naavId })
+  const { data: ghats, isLoading } = useGhats()
+  const { data: boatTypes, isLoading: isLoading2 } = useBoatTypes()
+  const { data: naav, isLoading: isLoading3 } = useNaav({ naavId })
   const queryClient = useQueryClient()
   const history = useHistory()
 
@@ -101,6 +109,13 @@ const AddListing: FC<Props> = ({ isEdit }) => {
       })
       .then(() => queryClient.invalidateQueries(['getNaav', naavId]))
   }
+
+  if (isLoading || isLoading2 || isLoading3)
+    return (
+      <div className="flex justify-center items-center">
+        <Loader />
+      </div>
+    )
 
   return (
     <div className="container">
@@ -209,14 +224,36 @@ const AddListing: FC<Props> = ({ isEdit }) => {
             />
           </FormItem>
         </div>
+        <ButtonPrimary
+          className="w-full my-5"
+          disabled={disabled}
+          onClick={handleSumbit}
+        >
+          Submit
+        </ButtonPrimary>
+        <h1 className="text-xl font-semibold mt-5">Unavailability</h1>
+        <p className="text-xs text-neutral-700">
+          Select dates when this naav is not available
+        </p>
+        <div className="flex items-center gap-4">
+          <DatesRangeInput
+            onChange={setUnavailableDates}
+            defaultValue={unavailableDates}
+            numberOfMonths={1}
+          />
+          <ButtonPrimary
+            className="w-full my-5"
+            disabled={disabled}
+            onClick={handleSumbit}
+          >
+            Add
+          </ButtonPrimary>
+        </div>
+        <div className="flex items-center flex-col">
+          <AvailableDates />
+        </div>
       </div>
-      <ButtonPrimary
-        className="w-full my-5"
-        disabled={disabled}
-        onClick={handleSumbit}
-      >
-        Submit
-      </ButtonPrimary>
+
       <div className="border-b border-neutral-200 dark:border-neutral-700 w-14 m-auto mt-3 "></div>
     </div>
   )

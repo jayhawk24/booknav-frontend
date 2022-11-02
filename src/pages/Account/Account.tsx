@@ -12,6 +12,7 @@ import BankForm from 'components/BankForm/BankForm'
 import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import { TrashIcon } from '@heroicons/react/outline'
 import { useHistory } from 'react-router-dom'
+import NcModal from 'components/shared/NcModal/NcModal'
 
 export interface AccountPageProps {
   className?: string
@@ -124,14 +125,38 @@ const Account: FC<AccountPageProps> = ({ className = '' }) => {
                 <ButtonPrimary type="submit" loading={isDisabled}>
                   Update Info
                 </ButtonPrimary>
-                <ButtonSecondary
-                  type="submit"
-                  loading={isDisabled}
-                  onClick={handleDelete}
-                >
-                  <TrashIcon className="h-6 w-5" />
-                  Delete Account
-                </ButtonSecondary>
+                <NcModal
+                  modalTitle={'Delete Bank'}
+                  renderTrigger={openModal => (
+                    <ButtonSecondary type="submit" onClick={() => openModal()}>
+                      <TrashIcon className="h-6 w-5" />
+                      Delete Account
+                    </ButtonSecondary>
+                  )}
+                  renderContent={() => (
+                    <div className="flex flex-col items-center justify-center space-y-4">
+                      <p className="text-center">
+                        Are you sure you want to delete your account? This
+                        action cannot be undone.
+                      </p>
+                      <div className="flex space-x-4">
+                        <ButtonPrimary
+                          type="submit"
+                          loading={isDisabled}
+                          onClick={() => handleDelete()}
+                        >
+                          Delete
+                        </ButtonPrimary>
+                        <ButtonSecondary
+                          type="submit"
+                          onClick={() => history.push('/account')}
+                        >
+                          No
+                        </ButtonSecondary>
+                      </div>
+                    </div>
+                  )}
+                />
               </div>
             </div>
           </div>
