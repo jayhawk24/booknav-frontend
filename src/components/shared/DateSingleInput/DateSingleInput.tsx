@@ -115,10 +115,12 @@ const DateSingleInput: FC<ExperiencesDateSingleInputProps> = ({
             keepOpenOnDateSelect
             numberOfMonths={1}
             anchorDirection={anchorDirection}
-            isDayBlocked={day1 =>
-              disableDates
-                ? disableDates.some(day2 => isSameDay(day1, day2))
-                : false
+            isDayBlocked={
+              day1 =>
+                (disableDates
+                  ? disableDates.some(day2 => isSameDay(day1, day2))
+                  : false) || day1.isAfter(moment().add(2, 'months'))
+              // disable dates after 2 months from today
             }
             renderCalendarInfo={renderCalendarInfo}
           />

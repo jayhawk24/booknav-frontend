@@ -22,9 +22,9 @@ import averageRating from 'utils/averageRating'
 import AvailableDates from 'components/AvailableDates'
 import useBoatTypes from 'hooks/useBoatTypes'
 import toast from 'react-hot-toast'
-import { reviewNaav } from 'services/naav'
+import { getUnavailability, reviewNaav } from 'services/naav'
 import useUser from 'hooks/useUser'
-import { useQueryClient } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 
 export interface ListingStayDetailPageProps {
   className?: string
@@ -46,6 +46,9 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
   const { data: user } = useUser()
   const [isDisabled, setIsDisabled] = useState(false)
   const queryClient = useQueryClient()
+  const { data: unavailability } = useQuery(['unavailability', naavId], () =>
+    getUnavailability(naavId),
+  )
 
   const isNaavik = user?.role === 'naavik'
 
@@ -187,7 +190,7 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
 
         <div className="listingSection__wrap__DayPickerRangeController flow-root">
           <div className="-mx-4 sm:mx-auto xl:mx-[-22px]">
-            <AvailableDates />
+            <AvailableDates unavailability={unavailability} />
           </div>
         </div>
       </div>

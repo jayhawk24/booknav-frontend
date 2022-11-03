@@ -10,6 +10,9 @@ import { getBookings } from 'services/booking'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import RideType from 'components/RIdeType/RideType'
 import { Price } from 'services/addBoat'
+import { useUnavailableDates } from 'hooks/useUnavailableDates'
+import { useParams } from 'react-router-dom'
+import { getUnavailability } from 'services/naav'
 
 interface ModalSelectDateProps {
   onClose?: () => void
@@ -51,6 +54,12 @@ const ModalSelectDate: FC<ModalSelectDateProps> = ({
     () => getBookings({ startTime: dateValue?.startOf('day').toISOString() }),
     { staleTime: 24 * 60 * 60 * 1000 },
   )
+  const { naavId } = useParams<{ naavId: string }>()
+  const { data: unavailability } = useQuery(['unavailability', naavId], () =>
+    getUnavailability(naavId),
+  )
+  const disabledDates = useUnavailableDates(unavailability || [])
+
   function closeModal() {
     setShowModal(false)
   }
@@ -140,6 +149,7 @@ const ModalSelectDate: FC<ModalSelectDateProps> = ({
                           setDateFocused(focus)
                         }}
                         renderCalendarInfo={renderCalendarInfo}
+                        disableDates={disabledDates}
                       />
                       <TimePicker time={time} setTime={setTime} />
                       <RideType
