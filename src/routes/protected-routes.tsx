@@ -22,6 +22,7 @@ const BookingDetail = lazy(() => import('pages/BookingDetail/BookingDetail'))
 const CancelRefundPolicy = lazy(
   () => import('pages/CancelRefundPolicy/CancelRefundPolicy'),
 )
+const PrivacyPolicy = lazy(() => import('pages/PrivacyPolicy/PrivacyPolicy'))
 
 export const protectedRoutes = [
   {
@@ -129,6 +130,12 @@ export const protectedRoutes = [
     name: 'cancel-refund-policy',
     path: '/cancel_and_refund_policy',
     component: CancelRefundPolicy,
+    exact: true,
+  },
+  {
+    name: 'privacy-policy',
+    path: '/privacy_policy',
+    component: PrivacyPolicy,
     exact: true,
   },
 ]
