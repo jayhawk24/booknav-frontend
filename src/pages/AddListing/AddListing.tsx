@@ -27,6 +27,7 @@ import AvailableDates from 'components/AvailableDates'
 import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
 import NcModal from 'components/shared/NcModal/NcModal'
 import moment from 'moment'
+import { useUnavailableDates } from 'hooks/useUnavailableDates'
 
 type Props = {
   isEdit?: boolean
@@ -53,6 +54,7 @@ const AddListing: FC<Props> = ({ isEdit }) => {
   const { data: unavailability } = useQuery(['unavailability', naavId], () =>
     getUnavailability(naavId),
   )
+  const disabledDates = useUnavailableDates(unavailability || [])
 
   const queryClient = useQueryClient()
   const history = useHistory()
@@ -290,6 +292,7 @@ const AddListing: FC<Props> = ({ isEdit }) => {
               onChange={setUnavailableDates}
               defaultValue={unavailableDates}
               numberOfMonths={1}
+              disableDates={disabledDates}
             />
           </div>
           <div className="flex flex-col justify-center">
