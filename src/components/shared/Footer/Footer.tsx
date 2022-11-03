@@ -19,7 +19,6 @@ const widgetMenus: WidgetFooterMenu[] = [
         label: 'Privacy Policy',
       },
       { href: 'https://booknaav.com/about.html', label: 'About Us' },
-      { href: '#', label: 'Contact Us' },
       {
         href: '/terms_and_conditions',
         label: 'Terms & Conditions',
@@ -40,13 +39,23 @@ const renderWidgetMenuItem = (menu: WidgetFooterMenu, index: number) => {
       <ul className="mt-5 grid grid-cols-4 gap-2 mx-5 text-xs">
         {menu.menus.map((item, index) => (
           <li key={index}>
-            <Link
-              key={index}
-              className="text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white"
-              to={item.href}
-            >
-              {item.label}
-            </Link>
+            {item.label !== 'About Us' ? (
+              <Link
+                key={index}
+                className="text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white"
+                to={item.href}
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <a
+                key={index}
+                className="text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white"
+                href={item.href}
+              >
+                {item.label}
+              </a>
+            )}
           </li>
         ))}
       </ul>
