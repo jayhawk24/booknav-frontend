@@ -1,19 +1,16 @@
 import 'react-dates/initialize'
-import { DayPickerSingleDateController } from 'react-dates'
+import { DayPickerSingleDateController, isSameDay } from 'react-dates'
 import useWindowSize from 'hooks/useWindowResize'
-// import useDateRange from 'hooks/useDateRange'
 import moment from 'moment'
-import { Naav } from 'services/addBoat'
+import { Unavailability } from 'services/naav/types'
+import { useUnavailableDates } from 'hooks/useUnavailableDates'
 
 interface Props {
-  boat?: Naav
+  unavailability?: Unavailability[]
 }
 
-const AvailableDates: React.FC<Props> = () => {
-  // const selectedDays = [
-  //   ...useDateRange(boat?.yacht_unavailability || []),
-  //   ...(boat?.booked_dates.booked_dates_by_day.map(day => moment(day)) || []),
-  // ]
+const AvailableDates = ({ unavailability }: Props) => {
+  const selectedDays = useUnavailableDates(unavailability || [])
   const windowSize = useWindowSize()
 
   const getDaySize = () => {
@@ -37,9 +34,9 @@ const AvailableDates: React.FC<Props> = () => {
         focused={true}
         onFocusChange={console.log}
         date={null}
-        // isDayHighlighted={day1 =>
-        //   selectedDays.some(day2 => isSameDay(day1, day2))
-        // }
+        isDayHighlighted={day1 =>
+          selectedDays.some(day2 => isSameDay(day1, day2))
+        }
         daySize={getDaySize()}
         numberOfMonths={windowSize.width < 1280 ? 1 : 2}
         keepOpenOnDateSelect

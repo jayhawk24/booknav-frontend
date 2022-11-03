@@ -1,5 +1,6 @@
 import { useQuery } from 'react-query'
-import { getNaav, GetNaavQuery } from 'services/naav'
+import { getNaav } from 'services/naav'
+import { GetNaavQuery } from 'services/naav/types'
 
 type useNaavParams = {
   naavId: string

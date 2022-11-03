@@ -10,14 +10,23 @@ import toast from 'react-hot-toast'
 import useGhats from 'hooks/useGhats'
 import useBoatTypes from 'hooks/useBoatTypes'
 import { useHistory, useParams } from 'react-router-dom'
-import { useQueryClient } from 'react-query'
-import { deleteNaavImage, editNaav } from 'services/naav'
+import { useQuery, useQueryClient } from 'react-query'
+import {
+  addUnavailability,
+  deleteNaavImage,
+  deleteUnavailability,
+  editNaav,
+  getUnavailability,
+} from 'services/naav'
 import GallerySlider from 'components/GallerySlider'
 import useNaav from 'hooks/useNaav'
 import { Loader } from 'components/FallbackComponent/FallbackComponent'
 import DatesRangeInput from 'components/DatesRangeInput'
 import { DateRange } from 'components/DatesRangeInput/DatesRangeInput'
 import AvailableDates from 'components/AvailableDates'
+import ButtonSecondary from 'components/shared/Buttons/ButtonSecondary'
+import NcModal from 'components/shared/NcModal/NcModal'
+import moment from 'moment'
 
 type Props = {
   isEdit?: boolean
@@ -41,6 +50,10 @@ const AddListing: FC<Props> = ({ isEdit }) => {
   const { data: ghats, isLoading } = useGhats()
   const { data: boatTypes, isLoading: isLoading2 } = useBoatTypes()
   const { data: naav, isLoading: isLoading3 } = useNaav({ naavId })
+  const { data: unavailability } = useQuery(['unavailability', naavId], () =>
+    getUnavailability(naavId),
+  )
+
   const queryClient = useQueryClient()
   const history = useHistory()
 
@@ -108,6 +121,42 @@ const AddListing: FC<Props> = ({ isEdit }) => {
         error: error => error.response.data.message,
       })
       .then(() => queryClient.invalidateQueries(['getNaav', naavId]))
+  }
+
+  const handleUnavailability = () => {
+    if (!unavailableDates.startDate || !unavailableDates.endDate) return
+
+    setDisabled(true)
+    toast
+      .promise(
+        addUnavailability({
+          naavId,
+          startDate: unavailableDates.startDate?.format() || '',
+          endDate: unavailableDates.endDate?.format() || '',
+        }),
+        {
+          loading: 'Adding unavailability...',
+          success: 'Unavailability added successfully.',
+          error: error => error.response.data.message,
+        },
+      )
+      .then(() => {
+        queryClient.invalidateQueries(['unavailability', naavId])
+        setUnavailableDates({ startDate: null, endDate: null })
+      })
+      .finally(() => setDisabled(false))
+  }
+
+  const handleDeleteUnavailability = (unavailabilityId: string) => {
+    setDisabled(true)
+    toast
+      .promise(deleteUnavailability({ naavId, unavailabilityId }), {
+        loading: 'Deleting unavailability...',
+        success: 'Unavailability deleted successfully.',
+        error: error => error.response.data.message,
+      })
+      .then(() => queryClient.invalidateQueries(['unavailability', naavId]))
+      .finally(() => setDisabled(false))
   }
 
   if (isLoading || isLoading2 || isLoading3)
@@ -226,7 +275,7 @@ const AddListing: FC<Props> = ({ isEdit }) => {
         </div>
         <ButtonPrimary
           className="w-full my-5"
-          disabled={disabled}
+          loading={disabled}
           onClick={handleSumbit}
         >
           Submit
@@ -235,22 +284,66 @@ const AddListing: FC<Props> = ({ isEdit }) => {
         <p className="text-xs text-neutral-700">
           Select dates when this naav is not available
         </p>
-        <div className="flex items-center gap-4">
-          <DatesRangeInput
-            onChange={setUnavailableDates}
-            defaultValue={unavailableDates}
-            numberOfMonths={1}
-          />
-          <ButtonPrimary
-            className="w-full my-5"
-            disabled={disabled}
-            onClick={handleSumbit}
-          >
-            Add
-          </ButtonPrimary>
+        <div className="grid grid-cols-3 grid-rows-1">
+          <div className="col-span-2">
+            <DatesRangeInput
+              onChange={setUnavailableDates}
+              defaultValue={unavailableDates}
+              numberOfMonths={1}
+            />
+          </div>
+          <div className="flex flex-col justify-center">
+            <ButtonPrimary
+              className="w-full my-5"
+              loading={disabled}
+              onClick={handleUnavailability}
+            >
+              Add
+            </ButtonPrimary>
+            {unavailability && unavailability.length > 0 && (
+              <NcModal
+                modalTitle="Delete Unavailability"
+                renderContent={() => (
+                  <div className="flex flex-col items-center">
+                    {unavailability?.map(unavailability => (
+                      <div
+                        key={unavailability._id}
+                        className="flex items-center justify-between w-full my-2"
+                      >
+                        <p className="text-sm text-neutral-700">
+                          {moment(unavailability.startTime).format(
+                            'DD MMM YYYY',
+                          )}{' '}
+                          -{' '}
+                          {moment(unavailability.endTime).format('DD MMM YYYY')}
+                        </p>
+                        <ButtonPrimary
+                          className="mr-2"
+                          loading={disabled}
+                          onClick={() =>
+                            handleDeleteUnavailability(unavailability._id)
+                          }
+                        >
+                          Delete
+                        </ButtonPrimary>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                renderTrigger={openModal => (
+                  <ButtonSecondary
+                    onClick={() => openModal()}
+                    className="w-full"
+                  >
+                    Remove
+                  </ButtonSecondary>
+                )}
+              />
+            )}
+          </div>
         </div>
         <div className="flex items-center flex-col">
-          <AvailableDates />
+          <AvailableDates unavailability={unavailability} />
         </div>
       </div>
 

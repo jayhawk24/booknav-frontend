@@ -1,5 +1,6 @@
 import { useQuery } from 'react-query'
-import { GetNaavQuery, getNaavs } from 'services/naav'
+import { getNaavs } from 'services/naav'
+import { GetNaavQuery } from 'services/naav/types'
 
 export default function usePublishedNaav(query: GetNaavQuery) {
   const { data, error, isLoading, isFetched, isSuccess } = useQuery(

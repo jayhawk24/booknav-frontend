@@ -1,16 +1,15 @@
 import { AxiosResponse } from 'axios'
 import requestClient from 'services/requestClient'
 import { MetaResponseType, Naav } from 'services/addBoat'
+import { GenericResponseType } from 'services/account'
+import {
+  AddUnavailabilityBody,
+  DeleteUnavailabilityBody,
+  GetNaavQuery,
+  Unavailability,
+} from './types'
 
 type EditNaavRequest = { data: FormData; naavId: string }
-
-export type GetNaavQuery = {
-  isPublished?: boolean | string
-  boatTypeId?: string[]
-  ghatId?: string
-  minPrice?: string
-  maxPrice?: string
-}
 
 type NaavReview = { rating: number; comment: string }
 
@@ -82,4 +81,31 @@ export const deleteNaavImage = ({
   imageId: string
 }): Promise<AxiosResponse> => {
   return requestClient.delete(`naav/${naavId}/image/${imageId}/`)
+}
+
+export const addUnavailability = async ({
+  naavId,
+  startDate,
+  endDate,
+}: AddUnavailabilityBody): Promise<GenericResponseType> => {
+  return requestClient.post(`naav/${naavId}/unavailability`, {
+    startDate,
+    endDate,
+  })
+}
+
+export const getUnavailability = async (
+  naavId: string,
+): Promise<Unavailability[]> => {
+  const { data } = await requestClient.get(`naav/${naavId}/unavailability`)
+  return data
+}
+
+export const deleteUnavailability = async ({
+  naavId,
+  unavailabilityId,
+}: DeleteUnavailabilityBody): Promise<GenericResponseType> => {
+  return requestClient.delete(
+    `naav/${naavId}/unavailability/${unavailabilityId}`,
+  )
 }
