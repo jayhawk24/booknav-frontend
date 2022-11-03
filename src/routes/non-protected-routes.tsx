@@ -8,6 +8,9 @@ const CancelRefundPolicy = lazy(
   () => import('pages/CancelRefundPolicy/CancelRefundPolicy'),
 )
 const PrivacyPolicy = lazy(() => import('pages/PrivacyPolicy/PrivacyPolicy'))
+const TermsConditions = lazy(
+  () => import('pages/TermsConditions/TermsConditions'),
+)
 
 export const nonProtectedRoutes = [
   {
@@ -38,6 +41,11 @@ export const nonProtectedRoutes = [
   {
     path: '/privacy_policy',
     component: PrivacyPolicy,
+    exact: true,
+  },
+  {
+    path: '/terms_and_conditions',
+    component: TermsConditions,
     exact: true,
   },
 ]
