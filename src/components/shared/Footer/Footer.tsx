@@ -18,7 +18,7 @@ const widgetMenus: WidgetFooterMenu[] = [
         href: '/privacy_policy',
         label: 'Privacy Policy',
       },
-      { href: '#', label: 'About Us' },
+      { href: 'https://booknaav.com/about.html', label: 'About Us' },
       { href: '#', label: 'Contact Us' },
       {
         href: 'https://www.termsandconditionsgenerator.com/live.php?token=6yNhysk889kMFaQNVUr3DDr7qfimcA40',
