@@ -19,6 +19,9 @@ const Bookings = lazy(() => import('pages/Bookings'))
 const BankList = lazy(() => import('pages/BankList/BankList'))
 const EditBank = lazy(() => import('pages/EditBank/EditBank'))
 const BookingDetail = lazy(() => import('pages/BookingDetail/BookingDetail'))
+const CancelRefundPolicy = lazy(
+  () => import('pages/CancelRefundPolicy/CancelRefundPolicy'),
+)
 
 export const protectedRoutes = [
   {
@@ -121,5 +124,11 @@ export const protectedRoutes = [
     name: 'booking',
     path: '/booking/:bookingId',
     component: BookingDetail,
+  },
+  {
+    name: 'cancel-refund-policy',
+    path: '/cancel_and_refund_policy',
+    component: CancelRefundPolicy,
+    exact: true,
   },
 ]
