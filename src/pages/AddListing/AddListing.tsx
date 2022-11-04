@@ -41,6 +41,9 @@ const AddListing: FC<Props> = ({ isEdit }) => {
   const [file, setFile] = useState<File | null>(null)
   const [price, setPrice] = useState<Price | null>(null)
   const [capacity, setCapacity] = useState<number | null>(null)
+  const [startTime, setStartTime] = useState<string | null>(null)
+  const [endTime, setEndTime] = useState<string | null>(null)
+
   const [disabled, setDisabled] = useState(false)
   const [unavailableDates, setUnavailableDates] = useState<DateRange>({
     startDate: null,
@@ -61,14 +64,18 @@ const AddListing: FC<Props> = ({ isEdit }) => {
 
   useEffect(() => {
     if (isEdit && naavId) {
+      console.log(naav)
       setTitle(naav?.title || '')
       setDescription(naav?.description || '')
       setBoatType(naav?.boatType?._id || '')
       setGhat(naav?.ghat?._id || '')
       setPrice(naav?.price || null)
       setCapacity(naav?.capacity || null)
+      setStartTime(naav?.startTime || null)
+      setEndTime(naav?.endTime || null)
     }
   }, [naav])
+
   useEffect(() => {
     if (ghats && boatTypes) {
       setGhat(ghats[0]._id)
@@ -77,6 +84,11 @@ const AddListing: FC<Props> = ({ isEdit }) => {
   }, [ghats, boatTypes])
 
   const handleSumbit = () => {
+    if (!validateTime(startTime || '') || !validateTime(endTime || '')) {
+      toast.error('Invalid time')
+      return
+    }
+
     setDisabled(true)
     const formData = new FormData()
     formData.append('title', title)
@@ -85,6 +97,8 @@ const AddListing: FC<Props> = ({ isEdit }) => {
     formData.append('ghat', ghat)
     formData.append('price', JSON.stringify(price) || '')
     formData.append('capacity', capacity?.toString() || '')
+    formData.append('startTime', startTime?.toString() || '')
+    formData.append('endTime', endTime?.toString() || '')
     if (file) formData.append('picture', file)
 
     if (isEdit) {
@@ -161,6 +175,11 @@ const AddListing: FC<Props> = ({ isEdit }) => {
       .finally(() => setDisabled(false))
   }
 
+  const validateTime = (time: string) => {
+    const regex = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/
+    return time.match(regex)
+  }
+
   if (isLoading || isLoading2 || isLoading3)
     return (
       <div className="flex justify-center items-center">
@@ -217,30 +236,52 @@ const AddListing: FC<Props> = ({ isEdit }) => {
             ))}
           </Select>
         </FormItem>
+        <div className="grid grid-cols-2 gap-2 w-full">
+          <FormItem label="Ghat">
+            <Select value={ghat} onChange={e => setGhat(e.target.value)}>
+              <option disabled>Select ghat</option>
+              {ghats?.map(ghat => (
+                <option key={ghat._id} value={ghat._id}>
+                  {ghat.title}
+                </option>
+              ))}
+            </Select>
+          </FormItem>
 
-        <FormItem label="Ghat">
-          <Select value={ghat} onChange={e => setGhat(e.target.value)}>
-            <option disabled>Select ghat</option>
-            {ghats?.map(ghat => (
-              <option key={ghat._id} value={ghat._id}>
-                {ghat.title}
-              </option>
-            ))}
-          </Select>
-        </FormItem>
+          <FormItem label="Capacity">
+            <Input
+              type="number"
+              min={1}
+              max={500}
+              placeholder="Authorized Capacity"
+              value={capacity?.toString()}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setCapacity(parseInt(e.target.value))
+              }
+            />
+          </FormItem>
+        </div>
 
-        <FormItem label="Capacity">
-          <Input
-            type="number"
-            min={1}
-            max={500}
-            placeholder="Authorized Capacity"
-            value={capacity?.toString()}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setCapacity(parseInt(e.target.value))
-            }
-          />
-        </FormItem>
+        <div className="grid grid-cols-2 gap-2 w-full">
+          <FormItem label="Start Time">
+            <Input
+              placeholder="Time"
+              value={startTime?.toString()}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setStartTime(e.target.value)
+              }}
+            />
+          </FormItem>
+          <FormItem label="End Time">
+            <Input
+              placeholder="Time"
+              value={endTime?.toString()}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setEndTime(e.target.value)
+              }}
+            />
+          </FormItem>
+        </div>
 
         <h1 className="text-xl font-semibold mt-5">Pricing</h1>
         <div className="grid grid-cols-2 gap-2">

@@ -44,6 +44,8 @@ export type Naav = {
   isPublished?: boolean
   reviews?: Review[]
   user?: UserType
+  startTime?: string
+  endTime?: string
 }
 
 export type Review = {
