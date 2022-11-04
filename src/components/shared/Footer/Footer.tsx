@@ -15,17 +15,16 @@ const widgetMenus: WidgetFooterMenu[] = [
     title: '',
     menus: [
       {
-        href: 'https://www.privacypolicygenerator.info/live.php?token=7WkcWeAQ5ooMWqgqYW3NrUlkqgLrxuhT',
+        href: '/privacy_policy',
         label: 'Privacy Policy',
       },
       { href: 'https://booknaav.com/about.html', label: 'About Us' },
-      { href: '#', label: 'Contact Us' },
       {
-        href: 'https://www.termsandconditionsgenerator.com/live.php?token=6yNhysk889kMFaQNVUr3DDr7qfimcA40',
+        href: '/terms_and_conditions',
         label: 'Terms & Conditions',
       },
       {
-        href: '#',
+        href: '/cancel_and_refund_policy',
         label: 'Cancellation/Refund Policy',
       },
     ],
@@ -40,17 +39,23 @@ const renderWidgetMenuItem = (menu: WidgetFooterMenu, index: number) => {
       <ul className="mt-5 grid grid-cols-4 gap-2 mx-5 text-xs">
         {menu.menus.map((item, index) => (
           <li key={index}>
-            <a
-              key={index}
-              className="text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white"
-              href={item.href}
-            >
-              {item.label === 'Cancellation/Refund Policy' ? (
-                <Link to="/cancel_and_refund_policy">{item.label}</Link>
-              ) : (
-                item.label
-              )}
-            </a>
+            {item.label !== 'About Us' ? (
+              <Link
+                key={index}
+                className="text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white"
+                to={item.href}
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <a
+                key={index}
+                className="text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white"
+                href={item.href}
+              >
+                {item.label}
+              </a>
+            )}
           </li>
         ))}
       </ul>
