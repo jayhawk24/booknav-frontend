@@ -106,7 +106,7 @@ const AddListing: FC<Props> = ({ isEdit }) => {
         .promise(editNaav({ naavId, data: formData }), {
           loading: 'Updating naav...',
           success: 'Naav updated successfully',
-          error: error => error.message,
+          error: error => error.response.data.message,
         })
         .then(() => {
           queryClient.invalidateQueries(['getNaav', naavId])
