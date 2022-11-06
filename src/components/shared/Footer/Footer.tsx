@@ -23,6 +23,7 @@ const widgetMenus: WidgetFooterMenu[] = [
         href: '/terms_and_conditions',
         label: 'Terms & Conditions',
       },
+      { href: '#', label: '' },
       {
         href: '/cancel_and_refund_policy',
         label: 'Cancellation/Refund Policy',
