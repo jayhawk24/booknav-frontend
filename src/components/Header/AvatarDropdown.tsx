@@ -4,6 +4,7 @@ import { Fragment } from 'react'
 import Avatar from 'components/shared/Avatar'
 import useUser, { logoutUser } from 'hooks/useUser'
 import { NavLink } from 'react-router-dom'
+import { BoatSvg } from 'components/BoatSVG/BoatSVG'
 
 const solutionsFoot = [
   {
@@ -27,7 +28,17 @@ export default function AvatarDropdown() {
       href: '/bookings',
       icon: HomeIcon,
     },
+    ...(user?.role === 'naavik'
+      ? [
+          {
+            name: 'Naavs',
+            href: '/naavs',
+            icon: BoatSvg,
+          },
+        ]
+      : []),
   ]
+
   return (
     <div className="AvatarDropdown">
       <Popover className="relative">
@@ -58,7 +69,7 @@ export default function AvatarDropdown() {
                     {solutions.map((item, index) => (
                       <NavLink
                         key={index}
-                        to={item.href}
+                        to={item.href || ''}
                         className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                         onClick={() => {
                           item.name === 'Logout' && logoutUser()
