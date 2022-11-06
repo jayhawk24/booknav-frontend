@@ -17,12 +17,14 @@ export interface CommentListingProps {
   className?: string
   booking?: Booking
   minimal?: boolean
+  closeModal?: () => void
 }
 
 const BookingCard: FC<CommentListingProps> = ({
   className = '',
   booking,
   minimal = false,
+  closeModal,
 }) => {
   const { data: user } = useUser()
   const [loading, setLoading] = useState(false)
@@ -48,6 +50,8 @@ const BookingCard: FC<CommentListingProps> = ({
       })
       .then(() => {
         queryClient.invalidateQueries('bookings')
+        closeModal && closeModal()
+        setShowModal(false)
       })
       .finally(() => setLoading(false))
   }
@@ -69,7 +73,12 @@ const BookingCard: FC<CommentListingProps> = ({
           >
             Yes
           </ButtonSecondary>
-          <ButtonSecondary onClick={() => setShowModal(false)}>
+          <ButtonSecondary
+            onClick={() => {
+              setShowModal(false)
+              closeModal && closeModal()
+            }}
+          >
             No
           </ButtonSecondary>
         </div>

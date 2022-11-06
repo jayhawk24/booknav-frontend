@@ -104,12 +104,18 @@ const Bookings = () => {
             </div>
           )}
         </div>
+
         <NcModal
           modalTitle="New Booking"
           isOpenProp={openModal}
           onCloseModal={() => setOpenModal(false)}
           renderTrigger={() => <></>}
-          renderContent={() => <BookingModal booking={modalBooking} />}
+          renderContent={() => (
+            <BookingModal
+              booking={modalBooking}
+              closeModal={() => setOpenModal(false)}
+            />
+          )}
         />
       </div>
     </div>

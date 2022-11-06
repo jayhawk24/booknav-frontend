@@ -41,8 +41,8 @@ const AddListing: FC<Props> = ({ isEdit }) => {
   const [file, setFile] = useState<File | null>(null)
   const [price, setPrice] = useState<Price | null>(null)
   const [capacity, setCapacity] = useState<number | null>(null)
-  const [startTime, setStartTime] = useState<string | null>(null)
-  const [endTime, setEndTime] = useState<string | null>(null)
+  const [startTime, setStartTime] = useState<string | null>('8:00')
+  const [endTime, setEndTime] = useState<string | null>('20:00')
 
   const [disabled, setDisabled] = useState(false)
   const [unavailableDates, setUnavailableDates] = useState<DateRange>({

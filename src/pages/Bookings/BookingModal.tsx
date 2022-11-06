@@ -11,9 +11,10 @@ import averageRating from 'utils/averageRating'
 
 type Props = {
   booking?: Booking
+  closeModal?: () => void
 }
 
-const BookingModal = ({ booking }: Props) => {
+const BookingModal = ({ booking, closeModal }: Props) => {
   const { data: user } = useUser()
 
   return (
@@ -93,13 +94,18 @@ const BookingModal = ({ booking }: Props) => {
             <div className="flex flex-col">
               <span className="text-sm text-neutral-400">Date</span>
               <span className="mt-1.5 text-lg font-semibold">
-                {moment(booking?.startTime).format('DD-MM-YYYY hh:mm a')}
+                {moment(booking?.startTime).format('DD, MMM hh:mm a')}
               </span>
             </div>
           </div>
         </div>
         <div className="ml-2">
-          <BookingCard booking={booking} minimal={true} className="relative" />
+          <BookingCard
+            booking={booking}
+            minimal={true}
+            className="relative"
+            closeModal={closeModal}
+          />
         </div>
       </div>
     </div>
