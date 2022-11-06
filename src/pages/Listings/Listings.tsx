@@ -23,6 +23,11 @@ const Listings: FC = () => {
       <div className="flex justify-end">
         <ButtonSecondary href="/naav/add">New Boat</ButtonSecondary>
       </div>
+      <div className="text-xs">
+        <span className="text-sm font-semibold">Note: </span>
+        Verification charge of ₹50 / 5 naavs to publish it on the website will
+        be applicable.
+      </div>
       <div>
         {listings?.length === 0 && (
           <div className="text-center w-full">
