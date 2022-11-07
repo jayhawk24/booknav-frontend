@@ -38,7 +38,6 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
       )
       .catch(error => {
         if (error?.response?.status === 406) {
-          toast.error(error.response.data.message)
           return history.push('/register', {
             phone,
           })
