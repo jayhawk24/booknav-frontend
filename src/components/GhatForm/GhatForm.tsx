@@ -46,7 +46,7 @@ const GhatForm: React.FC<GhatFormProp> = ({ ghatId }) => {
     if (file) formData.append('picture', file)
     setIsLoading(true)
 
-    if (!title) {
+    if (!ghat?._id) {
       toast
         .promise(GhatService.addGhat(formData), {
           loading: 'Adding Ghat',
