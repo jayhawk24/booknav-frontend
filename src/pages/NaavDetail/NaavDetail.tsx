@@ -25,6 +25,7 @@ import toast from 'react-hot-toast'
 import { getUnavailability, reviewNaav } from 'services/naav'
 import useUser from 'hooks/useUser'
 import { useQuery, useQueryClient } from 'react-query'
+import NcModal from 'components/shared/NcModal/NcModal'
 
 export interface ListingStayDetailPageProps {
   className?: string
@@ -58,6 +59,19 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
   }
 
   const handleCloseModal = () => setIsOpen(false)
+
+  const renderModal = () => {
+    return (
+      <div
+        className="flex flex-col items-center justify-between
+      overflow-x-hidden overflow-y-scroll"
+      >
+        {naav?.reviews?.map(item => (
+          <CommentListing className="py-8" key={item._id} review={item} />
+        ))}
+      </div>
+    )
+  }
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault()
@@ -244,13 +258,20 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
             .map(item => (
               <CommentListing className="py-8" key={item._id} review={item} />
             ))}
-          {naav?.reviews && naav?.reviews?.length > 3 && (
-            <div className="pt-8">
-              <ButtonSecondary>
-                View more {naav?.reviews?.length - 3} reviews
-              </ButtonSecondary>
-            </div>
-          )}
+          <NcModal
+            modalTitle={'All Review'}
+            renderTrigger={openModal =>
+              naav?.reviews &&
+              naav?.reviews?.length > 3 && (
+                <div className="pt-8">
+                  <ButtonSecondary onClick={() => openModal()}>
+                    View more {naav?.reviews?.length - 3} reviews
+                  </ButtonSecondary>
+                </div>
+              )
+            }
+            renderContent={() => renderModal()}
+          />
         </div>
       </div>
     )
