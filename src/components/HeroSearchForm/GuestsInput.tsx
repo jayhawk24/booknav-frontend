@@ -7,22 +7,22 @@ import ButtonSubmit from './ButtonSubmit'
 
 export interface GuestsInputProps {
   defaultValue: number
+  buttonSubmitHref?: string
   onChange?: (data: number) => void
   fieldClassName?: string
   className?: string
-  buttonSubmitHref?: string
   hasButtonSubmit?: boolean
   maxGuests?: number
 }
 
 const GuestsInput: FC<GuestsInputProps> = ({
   defaultValue,
+  buttonSubmitHref = '/search',
   onChange,
   fieldClassName = '[ nc-hero-field-padding ]',
   className = '[ nc-flex-1 ]',
-  buttonSubmitHref = '/listing-stay-map',
   hasButtonSubmit = true,
-  maxGuests = 10,
+  maxGuests,
 }) => {
   const [guestAdultsInputValue, setGuestAdultsInputValue] = useState(
     defaultValue || 0,
@@ -68,7 +68,7 @@ const GuestsInput: FC<GuestsInputProps> = ({
                 </svg>
               </div>
               <div className="flex-grow">
-                <span className="block xl:text-lg font-semibold">
+                <span className="block xl:text-lg font-semibold whitespace-nowrap">
                   {totalGuests || ''} Guests
                 </span>
                 <span className="block mt-1 text-sm text-neutral-400 leading-none font-light">
@@ -110,8 +110,6 @@ const GuestsInput: FC<GuestsInputProps> = ({
                 onChange={value => handleChangeData(value)}
                 max={maxGuests}
                 min={1}
-                // label="Adults"
-                // desc="Ages 13 or above"
               />
             </Popover.Panel>
           </Transition>

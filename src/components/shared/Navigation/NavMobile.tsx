@@ -7,6 +7,7 @@ import SwitchDarkMode from 'components/shared/SwitchDarkMode/SwitchDarkMode'
 import { NavItemType } from './NavTypes'
 import useUser from 'hooks/useUser'
 import { Link } from 'react-router-dom'
+import { useOutsideFn } from 'hooks/useOutsideFn'
 
 export interface NavMobileProps {
   data?: NavItemType[]
@@ -14,6 +15,26 @@ export interface NavMobileProps {
 }
 const NavMobile: React.FC<NavMobileProps> = ({ onClickClose }) => {
   const { data: user } = useUser()
+  const divRef = React.useRef<HTMLDivElement>(null)
+  useOutsideFn(divRef, onClickClose)
+
+  const touchStartRef = React.useRef(0)
+  const touchEndRef = React.useRef(0)
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchStartRef.current = e.targetTouches[0].clientX
+  }
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchEndRef.current = e.targetTouches[0].clientX
+  }
+
+  const handleTouchEnd = () => {
+    console.log(touchStartRef.current, touchEndRef.current)
+    if (touchStartRef.current - touchEndRef.current > 150) {
+      onClickClose?.()
+    }
+  }
+
   const solutions = [
     {
       name: 'Account',
@@ -50,7 +71,13 @@ const NavMobile: React.FC<NavMobileProps> = ({ onClickClose }) => {
   ]
 
   return (
-    <div className="overflow-y-auto w-full max-w-sm h-screen py-2 transition transform shadow-lg ring-1 dark:ring-neutral-700 bg-white dark:bg-neutral-900 divide-y-2 divide-neutral-100 dark:divide-neutral-800">
+    <div
+      ref={divRef}
+      className="overflow-y-auto w-80 max-w-sm h-screen py-2 transition transform shadow-lg ring-1 dark:ring-neutral-700 bg-white dark:bg-neutral-900 divide-y-2 divide-neutral-100 dark:divide-neutral-800"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className="py-6 px-5">
         <Logo />
         <div className="flex flex-col mt-5 text-neutral-700 dark:text-neutral-300 text-sm">

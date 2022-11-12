@@ -25,6 +25,7 @@ export function getNaavs(
     queries.boatTypeId.map(type => query.append('boatTypeId', type))
   if (queries?.minPrice) query.set('minPrice', queries?.minPrice)
   if (queries?.maxPrice) query.set('maxPrice', queries?.maxPrice)
+  if (queries?.guests) query.set('guests', queries?.guests)
 
   return requestClient.get(`/naav/?${query}`)
 }

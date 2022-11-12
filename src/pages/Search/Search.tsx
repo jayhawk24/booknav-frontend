@@ -19,6 +19,7 @@ const Search: FC<SearchPageProps> = ({ className = '' }) => {
     isPublished: searchParams.get('isPublished') || true,
     minPrice: searchParams.get('minPrice') || '0',
     maxPrice: searchParams.get('maxPrice') || '10000',
+    guests: searchParams.get('guests') || '2',
   }
 
   const { data: boats, isLoading } = usePublishedNaav(queries)
