@@ -25,7 +25,11 @@ import toast from 'react-hot-toast'
 import { getUnavailability, reviewNaav } from 'services/naav'
 import useUser from 'hooks/useUser'
 import { useQuery, useQueryClient } from 'react-query'
+<<<<<<< HEAD
 import NcModal from 'components/shared/NcModal/NcModal'
+=======
+import { Loader } from 'components/FallbackComponent/FallbackComponent'
+>>>>>>> fd2bbf5f4bf63cc7a9a5648af546464f71073828
 
 export interface ListingStayDetailPageProps {
   className?: string
@@ -41,7 +45,7 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
 
   const [comment, setComment] = useState('')
   const { naavId } = useParams<{ naavId: string }>()
-  const { data: naav } = useNaav({ naavId })
+  const { data: naav, isLoading } = useNaav({ naavId })
   const { data: boatTypes } = useBoatTypes()
   const [point, setPoint] = useState(defaultPoint)
   const { data: user } = useUser()
@@ -352,6 +356,13 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
       </div>
     )
   }
+
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader />
+      </div>
+    )
 
   return (
     <div

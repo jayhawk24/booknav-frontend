@@ -10,6 +10,7 @@ export type GetNaavQuery = {
   ghatId?: string
   minPrice?: string
   maxPrice?: string
+  guests?: string
 }
 
 export type Unavailability = {
