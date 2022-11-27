@@ -11,6 +11,9 @@ const PrivacyPolicy = lazy(() => import('pages/PrivacyPolicy/PrivacyPolicy'))
 const TermsConditions = lazy(
   () => import('pages/TermsConditions/TermsConditions'),
 )
+const Home = lazy(() => import('pages/Home'))
+const NaavDetail = lazy(() => import('pages/NaavDetail'))
+const Search = lazy(() => import('pages/Search'))
 
 export const nonProtectedRoutes = [
   {
@@ -18,6 +21,23 @@ export const nonProtectedRoutes = [
     component: Login,
     exact: true,
   },
+  {
+    path: '/',
+    component: Home,
+    exact: true,
+  },
+  {
+    name: 'search',
+    path: '/search',
+    component: Search,
+  },
+  {
+    name: 'naav-sigle',
+    path: '/naav/:naavId',
+    component: NaavDetail,
+    exact: true,
+  },
+
   {
     path: '/logout',
     component: Logout,

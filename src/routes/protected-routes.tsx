@@ -29,7 +29,7 @@ const TermsConditions = lazy(
 
 export const protectedRoutes = [
   {
-    path: '/', // this is temporary component
+    path: '/',
     component: Home,
     exact: true,
   },

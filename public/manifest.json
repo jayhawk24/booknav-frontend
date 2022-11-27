@@ -3,7 +3,7 @@
   "background_color": "#3730a3",
   "display": "standalone",
   "scope": "/",
-  "start_url": "/login",
+  "start_url": "/",
   "name": "Booknaav",
   "short_name": "Booknaav",
   "icons": [

@@ -5,9 +5,10 @@ import moment from 'moment'
 import React, { FC, useState } from 'react'
 import ButtonPrimary from 'components/shared/Buttons/ButtonPrimary'
 import ModalReserveMobile from './ModalReserveMobile'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import useNaav from 'hooks/useNaav'
 import { Price } from 'services/addBoat'
+import useUser from 'hooks/useUser'
 
 type Props = {
   selectedDate?: DateRange
@@ -19,8 +20,11 @@ const MobileFooterSticky: FC<Props> = ({ buttonOnly }) => {
   const [selectedDate, setSelectedDate] = useState<moment.Moment | null>(
     moment().add(1, 'days'),
   )
+  const history = useHistory()
   const { naavId } = useParams<{ naavId: string }>()
   const { data: naav } = useNaav({ naavId })
+  const { data: user } = useUser()
+
   const [dateFocused, setDateFocused] = useState<boolean>(false)
   const [time, setTime] = useState(
     moment().hour() + 1 < 5 ? 5 : moment().hour() + 1,
@@ -32,6 +36,12 @@ const MobileFooterSticky: FC<Props> = ({ buttonOnly }) => {
     guestChildren: 0,
     guestInfants: 0,
   })
+
+  const handleBook = (openModal: () => void) => {
+    if (!user) {
+      history.push('/login')
+    } else openModal()
+  }
 
   const renderModalSelectDate = (
     renderProp: (p: {
@@ -65,7 +75,7 @@ const MobileFooterSticky: FC<Props> = ({ buttonOnly }) => {
         renderChildren={({ openModal }) => (
           <ButtonPrimary
             sizeClass="px-5 sm:px-7 py-3 !rounded-2xl"
-            onClick={openModal}
+            onClick={() => handleBook(openModal)}
           >
             Book
           </ButtonPrimary>
@@ -108,7 +118,7 @@ const MobileFooterSticky: FC<Props> = ({ buttonOnly }) => {
           renderChildren={({ openModal }) => (
             <ButtonPrimary
               sizeClass="px-5 sm:px-7 py-3 !rounded-2xl"
-              onClick={openModal}
+              onClick={() => handleBook(openModal)}
             >
               Book
             </ButtonPrimary>
