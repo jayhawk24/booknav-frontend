@@ -38,7 +38,7 @@ const Checkbox: FC<CheckboxProps> = ({
           htmlFor={name}
           className="ml-3.5 flex flex-col flex-1 justify-center "
         >
-          <span className=" text-neutral-900 dark:text-neutral-100">
+          <span className="text-neutral-900 dark:text-neutral-100">
             {label}
           </span>
           {subLabel && (

@@ -33,7 +33,7 @@ const PriceRangeInput: FC<PriceRangeInputProps> = ({
     'flex items-center w-44 justify-center px-2 py-2 text-sm rounded-full border border-neutral-300 dark:border-neutral-700 focus:outline-none'
 
   return (
-    <Popover className="flex relative [ nc-flex-1 ]">
+    <Popover className="flex relative h-10 mr-2 mt-2">
       {({ close }) => (
         <>
           <Popover.Button
@@ -57,7 +57,7 @@ const PriceRangeInput: FC<PriceRangeInputProps> = ({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-1"
           >
-            <Popover.Panel className="absolute -left-20 z-10 bg-white dark:bg-neutral-800 top-full mt-3 py-5 sm:py-6 px-4 sm:px-8 rounded-3xl shadow-xl">
+            <Popover.Panel className="absolute z-10 bg-white dark:bg-neutral-800 top-full mt-3 py-5 sm:py-6 px-4 sm:px-8 rounded-3xl shadow-xl">
               <div className="relative flex flex-col space-y-8">
                 <div className="space-y-5">
                   <span className="font-medium">Range Price</span>
@@ -117,7 +117,7 @@ const PriceRangeInput: FC<PriceRangeInputProps> = ({
                     </div>
                   </div>
                 </div>
-                <div className="p-5 bg-neutral-50 dark:bg-neutral-900 dark:border-t dark:border-neutral-800 flex items-center justify-between">
+                <div className="p-5 bg-neutral-50 dark:bg-neutral-900 dark:border-t dark:border-neutral-800 flex items-center justify-between rounded-lg">
                   <ButtonThird
                     sizeClass="px-4 py-2 sm:px-5"
                     onClick={() => {

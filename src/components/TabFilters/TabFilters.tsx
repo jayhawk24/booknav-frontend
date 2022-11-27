@@ -9,6 +9,7 @@ import useBoatTypes from 'hooks/useBoatTypes'
 import ButtonThird from 'components/shared/Buttons/ButtonThird'
 import PriceRangeInput from './PriceRangeInput'
 import NcInputNumber from 'components/NcInputNumber/NcInputNumber'
+import { useIsOverflow } from 'hooks/useIsOverflow'
 
 const activeFilter =
   'flex items-center justify-center px-4 py-2 mr-2 mt-2 text-sm rounded-full border border-primary-500 bg-primary-50 text-primary-700 focus:outline-none'
@@ -22,7 +23,10 @@ const TabFilters = () => {
   const [checkedBoatTypes, setCheckedBoatTypes] = useState<
     { _id: string; title?: string; value: boolean }[]
   >([])
-  const [guests, setGuests] = useState<number>(0)
+  const [guests, setGuests] = useState<number>(2)
+
+  const ref = React.useRef<HTMLDivElement | null>(null)
+  const isOverflow = useIsOverflow(ref)
 
   const { data: boatTypes } = useBoatTypes()
   const location = useLocation()
@@ -46,6 +50,8 @@ const TabFilters = () => {
         _id: searchParams.get('ghatId') || '',
         title: '',
       })
+    searchParams.get('guests') &&
+      setGuests(parseInt(searchParams.get('guests') || '0'))
   }, [])
 
   const applyFilter = (type: string, clear?: boolean) => {
@@ -68,6 +74,13 @@ const TabFilters = () => {
       if (price?.[0] === 50 && price?.[1] === 10000) {
         searchParams.delete('minPrice')
         searchParams.delete('maxPrice')
+      }
+    }
+    if (type === 'guests') {
+      searchParams.set('guests', guests?.toString() || '')
+      if (clear) {
+        searchParams.delete('guests')
+        setGuests(2)
       }
     }
     history.push(`${location.pathname}?${searchParams.toString()}`)
@@ -121,7 +134,7 @@ const TabFilters = () => {
   }
 
   return (
-    <div className="flex flex-wrap">
+    <div className="flex flex-wrap items-center ">
       <Popover className="relative">
         {({ close }) => (
           <>
@@ -144,12 +157,13 @@ const TabFilters = () => {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute z-10 w-64 max-w-sm px-4 mt-3 left-0 sm:px-0 lg:max-w-md">
+              <Popover.Panel className="absolute z-10 w-screen max-w-sm px-4 mt-3 left-0 sm:px-0 lg:max-w-md">
                 <div className="overflow-hidden rounded-2xl shadow-xl bg-white dark:bg-neutral-900 border border-secondary-300 dark:border-secondary-900">
                   <div className="relative grid grid-cols-2 px-5 py-6 gap-5 ">
                     {boatTypes?.map(item => (
                       <div key={item.title} className="">
                         <Checkbox
+                          className="whitespace-nowrap"
                           name={item.title}
                           label={item.title}
                           checked={checkedBoatTypes.some(type => {
@@ -212,7 +226,7 @@ const TabFilters = () => {
         renderXClear={renderXClear}
         applyFilter={applyFilter}
       />
-      <Popover className="relative">
+      <Popover className="relative" ref={ref}>
         {({ close }) => (
           <>
             <Popover.Button
@@ -222,7 +236,7 @@ const TabFilters = () => {
                   : inActiveFilter
               }
             >
-              <span className="whitespace-nowrap">Guests</span>
+              <span className="whitespace-nowrap"> {guests} Guests</span>
               <i className="las la-angle-down ml-2"></i>
             </Popover.Button>
             <Transition
@@ -234,7 +248,11 @@ const TabFilters = () => {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute z-10 px-4 mt-3 left-0 sm:px-0 lg:max-w-md">
+              <Popover.Panel
+                className={`absolute z-10 px-4 mt-3 ${
+                  isOverflow ? '-left-20' : 'left-0'
+                }  sm:px-0 lg:max-w-md`}
+              >
                 <div className="overflow-hidden rounded-2xl shadow-xl bg-white dark:bg-neutral-900 border border-secondary-300 dark:border-secondary-900">
                   <div className="relative px-5 py-6">
                     <NcInputNumber
@@ -247,7 +265,7 @@ const TabFilters = () => {
                   <div className="p-5 bg-neutral-50 dark:bg-neutral-900 dark:border-t dark:border-neutral-800 flex items-center justify-between">
                     <ButtonThird
                       onClick={() => {
-                        setGuests(999)
+                        setGuests(2)
                         applyFilter('guests', true)
                         close()
                       }}
@@ -257,7 +275,7 @@ const TabFilters = () => {
                     </ButtonThird>
                     <ButtonPrimary
                       onClick={() => {
-                        applyFilter('boatType')
+                        applyFilter('guests')
                         close()
                       }}
                       sizeClass="px-4 py-2 sm:px-5"

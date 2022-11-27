@@ -40,7 +40,7 @@ const Header = () => {
       case '/':
         return (
           <div>
-            {`Hi ${user?.title},`}
+            {`Hi ${user?.title ? user.title : ''},`}
             <p>
               Find Best Boats
               {`\u{1F44D}`}
