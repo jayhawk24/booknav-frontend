@@ -128,7 +128,7 @@ const PriceRangeInput: FC<PriceRangeInputProps> = ({
                     Clear
                   </ButtonThird>
                   <ButtonPrimary
-                    sizeClass="px-4 py-2 sm:px-5"
+                    sizeClass="px-4 py-2 sm:px-5 ml-5"
                     onClick={() => {
                       applyFilter('price')
                       close()
