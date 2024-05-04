@@ -14,6 +14,7 @@ const TermsConditions = lazy(
 const Home = lazy(() => import('pages/Home'))
 const NaavDetail = lazy(() => import('pages/NaavDetail'))
 const Search = lazy(() => import('pages/Search'))
+const DeleteData = lazy(() => import('pages/DeleteData/DeleteData'))
 
 export const nonProtectedRoutes = [
   {
@@ -68,4 +69,9 @@ export const nonProtectedRoutes = [
     component: TermsConditions,
     exact: true,
   },
+  {
+    path: "/delete_data",
+    component: DeleteData,
+    exact: true
+  }
 ]
